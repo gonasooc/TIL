@@ -22,30 +22,30 @@
     
 1. **문제 분석하기**
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/bf3503d0-0f08-44c2-ae28-c41d3cf6450b/Untitled.png)
+    ![Untitled](../assets/c41d3cf6450b.png)
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/37eaa8d5-d477-4157-961a-b1449e5d76b4/Untitled.png)
+    ![Untitled](../assets/b1449e5d76b4.png)
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8fd2a52b-9ed7-43e6-b5f3-fd9dd0c976d3/Untitled.png)
+    ![Untitled](../assets/fd9dd0c976d3.png)
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/43c936c0-0c67-4e61-8396-baa8cd840d93/Untitled.png)
+    ![Untitled](../assets/baa8cd840d93.png)
     
 2. **도구 준비하기**
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f05791ff-cb2d-489e-a5e2-14a6aed2bdae/Untitled.png)
+    ![Untitled](../assets/14a6aed2bdae.png)
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1aba4ed7-5d9d-4e31-89dd-e0f69527801c/Untitled.png)
+    ![Untitled](../assets/e0f69527801c.png)
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/85ddb711-d69f-4708-bd14-268b1a52f818/Untitled.png)
+    ![Untitled](../assets/268b1a52f818.png)
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/667fe4e8-5767-4949-926b-92e2fc6a32cd/Untitled.png)
+    ![Untitled](../assets/92e2fc6a32cd.png)
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/151693b2-4417-4f1d-882a-6c71ac3726a6/Untitled.png)
+    ![Untitled](../assets/6c71ac3726a6.png)
     
 3. **개선하기**
     - key, value를 명확하게 하기 위해 dl, dt, dd 사용 → 접근성 뿐만 아니라 개발자가 보기에도 가독성, 생산성 증가
         
-        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e348f87a-f770-40fe-ad4e-43b6839aa568/Untitled.png)
+        ![Untitled](../assets/43b6839aa568.png)
         
 
 # **우리는 오늘도 성장합니다 - 인프랩 프론트엔드 업무 프로세스 변천사, 장우현**
@@ -56,7 +56,7 @@
 
 1. **주기적으로 진행률을 측정, 기록하자! (with. 랠릿) - 스스로 진행률 측정하기(랠릿)**
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c4471c41-f370-4b0f-8c8e-ee468c891772/Untitled.png)
+    ![Untitled](../assets/ee468c891772.png)
     
     - 명확한 작업 목록, 수시로 공유되는 진행률, 문서를 통한 소통으로 보이나,
     - 검증없이 개발자 스스로 작성한 진행률 → 미구현된 기능, 버그, 미반영된 디자인
@@ -64,7 +64,7 @@
 
 1. **QA는 스프린트별로! - QA 기반으로 진행률 점검하기**
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a5f37987-090a-473e-9245-af8e135d1b68/Untitled.png)
+    ![Untitled](../assets/af8e135d1b68.png)
     
     - 객관적이고 투명한 진행상황, 예측 가능성 상승, 책임감과 오너쉽, 꼼꼼한 회고를 통한 성장
     
@@ -73,11 +73,11 @@
 
 1. **1년 차: 나무가 자랄 수 없는 콘크리트 바닥 - 2018년 개발 공부 시작, 첫 개발자 취업/퇴사**
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c1cd5b75-c5cf-4c3d-930d-32f2ec6ea78c/Untitled.png)
+    ![Untitled](../assets/32f2ec6ea78c.png)
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6bda1a73-3e6b-4de3-8bb1-a66c78b14486/Untitled.png)
+    ![Untitled](../assets/a66c78b14486.png)
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/99745112-7429-4a2a-84b5-be2a6ea2bc62/Untitled.png)
+    ![Untitled](../assets/be2a6ea2bc62.png)
     
 
 1. 2년 차: 본격 서비스 개발자 - 2019~2020년 줌인터넷 포털개발팀
