@@ -151,7 +151,7 @@ N방향 통신의 문제점 - 데이터가 바꼈을 때 그로 인한 버그를
 
 - 웹 서비스에서의 클라이언트와 서버와의 HTTP 통신 구조
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9c972916-878d-42c1-8f53-8182324a971f/Untitled.png](../../assets/8182324a971f.png)
+![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9c972916-878d-42c1-8f53-8182324a971f/Untitled.png](../assets/8182324a971f.png)
 
 - axios에서 호출 전 후의 this를 이해하기 위한 추천 아티클
 
@@ -356,7 +356,7 @@ export default {
 - <template>안에는 하나의 root div만 존재할 수 있음
 - eslint message
     
-    ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a3d11794-713b-45a8-a2f6-38082c4d5bad/_.png](../../assets/38082c4d5bad.png)
+    ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a3d11794-713b-45a8-a2f6-38082c4d5bad/_.png](../assets/38082c4d5bad.png)
     
     - vue-cli 싱글 파일 컴포넌트 형식에서는 아래처럼 data를 선언할 수 없음
     
