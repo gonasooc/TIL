@@ -1,0 +1,6 @@
+- 빌드 결과물 삭제.
+- Pug를 HTML로 변환하면서 minify
+- SCSS를 CSS로 변환하면서 prefix도 자동으로 붙이고, minify 까지
+- ES6+의 JS를 old style JS로 변환하면서 번들링으로 하나의 js로 합쳐준 후, minify, uglify 적용
+- 이미지 압축
+- Gulp 는 스스로를 Stream 기반의 Build System 이라고 소개하고 있습니다. 요청 후 한번에 결과를 받는 것이 아니라 이벤트로 중간중간 전달받는 방식을 stream이라고 하는데, 이 stream 을 기반으로 하고 있기 때문에 가장 node.js 의 강점을 잘 살리고 있고 실제로 작업 속도도 비교적 더 빠른 것으로 알려져 있습니다.
