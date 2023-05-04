@@ -1,17 +1,17 @@
-### Part 1 : 블로그 제작 & 기초 문법
+# Part 1 : 블로그 제작 & 기초 문법
 
-**React 배우기 전에 쓰는 이유부터 알아야**
+## **React 배우기 전에 쓰는 이유부터 알아야**
 
 - Single Page Application
 - html 재사용성 좋음
 - 동일한 문법으로 앱개발 가능(React Native)
 
-**리액트 React 설치와 개발환경 셋팅**
+## **리액트 React 설치와 개발환경 셋팅**
 
 - public 폴더: static 파일 모아놓는 곳
 - src 폴더: 코드 짜는 곳
 
-**리액트에서 레이아웃 만들 때 쓰는 JSX 문법 3개**
+## **리액트에서 레이아웃 만들 때 쓰는 JSX 문법 3개**
 
 - react는 jsx 사용 → .js파일에서 쓰는 html 대용품
 - 리액트에서 <div>를 만들기 위해선 React.createElement(’div’, null, ‘Hello World) 같은 걸로 작성 → 그걸 편리하게 작성하기 위해서 나온 게 JSX
@@ -21,7 +21,7 @@
     - style은 object 형태로 중괄호 안에 작성 ex) style={{스타일명: ‘값’}}, 하이픈(-)은 js에서 뺄셈으로 인식되기 때문에 camelCase로 작성 ex) font-size(X), fontSize(O)
     
 
-****중요한 데이터는 변수말고 state에 담습니다****
+## ****중요한 데이터는 변수말고 state에 담습니다****
 
 - return () 안에는 병렬로 태그 2개 이상 기입금지 ex) 하나의 div 안에 모든 태그 요소들이 들어가 있어야 함, #.vue 파일 안에서 html 선언하는 것과 동일
 - state 생성법
@@ -42,14 +42,14 @@
 - Q. 왜 state 써야함? → state를 쓰는 이유는 해당 데이터가 변동됐을 때 html 자동 재랜더링하기 위함 → state 쓰던 html은 자동 재랜더링됨
 - Q. state 언제 써야함? → 변동시 자동으로 html에 반영되게 만들고 싶으면 state 사용 → 가급적 변동될 일이 없는 거의 정적인 데이터는 굳이 state 사용하지 않아도 됨
 
-****버튼에 기능개발을 해보자 & 리액트 state변경하는 법****
+## ****버튼에 기능개발을 해보자 & 리액트 state변경하는 법****
 
 - 터미널에 warning 메세지를 신경 쓰이면 최상단에 `/* *eslint-disable* */` 추가해주면 경고 메세지 미출력
 - JSX에서 event handler 처리할 때는 역시 하이픈(-) 없이 camelCase로 작성
 - **onClick={} 안엔 함수 이름을 넣어야 함**
 - **state는 등호로 변경할 수 없음 → state변경함수(새로운state) 형식으로 변경**
 
-**array, object state 변경하는 법**
+## **array, object state 변경하는 법**
 
 - 확장성이 없는 방법
     
@@ -149,7 +149,7 @@
         ```
         
 
-**Component : 많은 div들을 한 단어로 줄이고 싶으면**
+## **Component : 많은 div들을 한 단어로 줄이고 싶으면**
 
 - html 길어지면 가독성이 떨어지기 때문에 component를 통해서 좀 더 가독성 있게 표현할 수 있음
 - **컴포넌트 만드는 법**
@@ -176,7 +176,7 @@
     - 장점이라면, const로 만들어놓으면 실수로 수정했을 때 바로 확인 가능
     
 
-**리액트 환경에서 동적인 UI 만드는 법 (모달창만들기)**
+## **리액트 환경에서 동적인 UI 만드는 법 (모달창만들기)**
 
 - 동적인 UI 만드는 step
     1. html, css를 통해 미리 디자인된 요소 완성
@@ -203,7 +203,7 @@
         
     
 
-**map : 많은 div들을 반복문으로 줄이고 싶은 충동이 들 때**
+## **map : 많은 div들을 반복문으로 줄이고 싶은 충동이 들 때**
 
 - 모든 array 자료형 뒤에는 map()을 붙일 수 있음
 - map 함수 안에서 callback 함수를 받음
@@ -253,7 +253,7 @@
     ```
     
 
-**자식이 부모의 state 가져다쓰고 싶을 때는 props**
+## **자식이 부모의 state 가져다쓰고 싶을 때는 props**
 
 - JavaScript에서는 다른 함수에 있는 변수를 맘대로 가져다 쓸 수가 없음, 변수의 범위가 함수이기 때문
 - #항상 props를 선언할 때는 부모와 자식 구조를 먼저 떠올려보고 접근하면 좋음
@@ -273,7 +273,7 @@
 
 - 컴포넌트가 많아지면 props를 별도로 선언해줘야 해당 state를 활용할 수 있기 때문에 귀찮아짐
 
-**props를 응용한 상세페이지 만들기**
+## **props를 응용한 상세페이지 만들기**
 
 - *state 만드는 곳은 state 사용하는 컴포넌트들 최상위 컴포넌트에 선언하는 것이 좋음 → 자식 요소에서 부모 요소로 props를 사용할 수 없기 때문 → 생각 귀찮으면 App에 만드는 것이 좋음
 
@@ -311,7 +311,7 @@ function Modal(props) {
 }
 ```
 
-**input 1 : 사용자가 입력한 글 다루기**
+## **input 1 : 사용자가 입력한 글 다루기**
 
 - 클릭이벤트는 상위html로 퍼짐(이벤트 버블링) #Vue는 `click.stop`으로 해당 버블링을 막음 → React나 순수 js에서는 `event.stopPropagation()` 을 통해서 버블링 막을 수 있음
 - 사용자가 입력한 글을 변수에 저장하기 위해선 역시 비슷하게 state로 다루면 됨 -> `let [입력값, 입력값변경] = useState('');` 선언하고 event.target.value를 해당 변수에 state변경함수를 통해서 담아줌
@@ -325,11 +325,11 @@ function Modal(props) {
     ```
     
 
-**input 다루기 2 : 블로그 글발행 기능 만들기**
+## **input 다루기 2 : 블로그 글발행 기능 만들기**
 
 - #값을 뒤에 담고 싶으면 `array.push()` / 앞에 담고 싶으면 `array.unshift()`
 
-**class를 이용한 옛날 React 문법**
+## **class를 이용한 옛날 React 문법**
 
 - class 문법으로도 컴포넌트 생성 가능(단, 최근에는 function으로 거의 생성)
 - class 문법은 변수와 함수를 많이 보관 가능한 일종의 보관함 개념으로 이해하면 편함
@@ -357,7 +357,7 @@ function Modal(props) {
     ```
     
 
-**만든 리액트 사이트 build & Github Pages로 배포해보기**
+## **만든 리액트 사이트 build & Github Pages로 배포해보기**
 
 - #기본적으로 react는 build할 때 파일의 경로가 절대경로로 잡혀 있음
 - #static 파일들을 상대 경로롤 인지할 수 있게 빌드를 해줘야 함
@@ -374,13 +374,13 @@ function Modal(props) {
     [https://velog.io/@aejin24/React-상대경로-build](https://velog.io/@aejin24/React-%EC%83%81%EB%8C%80%EA%B2%BD%EB%A1%9C-build)
     
 
-### Part 2 : 쇼핑몰 프로젝트
+# Part 2 : 쇼핑몰 프로젝트
 
-**새로운 프로젝트 생성 & Bootstrap 사용하기**
+## **새로운 프로젝트 생성 & Bootstrap 사용하기**
 
 - bootstrap 사용, 해당 컴포넌트 사용하기 위해선 import 해줘야 함
 
-**이미지 넣는 법 & public 폴더 이용하기**
+## **이미지 넣는 법 & public 폴더 이용하기**
 
 - css파일에서 src폴더의 이미지 넣을 땐 ./이미지경로
 - html에서 src폴더의 이미지 넣을 땐 `import 작명 from ‘이미지경로’` ex) `import bg from './img/bg.png';`
@@ -408,7 +408,7 @@ function Modal(props) {
     [Using the Public Folder | Create React App](https://create-react-app.dev/docs/using-the-public-folder/)
     
 
-**코드 길어지면 import export 하면 됩니다**
+## **코드 길어지면 import export 하면 됩니다**
 
 - 선언된 정적인 자료는 긴 경우에 변수로 바로 선언하면 코드가 너무 길어지기 때문에, 해당 자료는 별도의 js 파일에 저장하고 `import/export` 문법으로 가져올 수 있음
 - 해당 별도의 js 파일에서 `export` 먼저 하고, 그 다음에 가져다 쓸 곳에서 `import`
@@ -437,7 +437,7 @@ function Modal(props) {
     ```
     
 
-**리액트 라우터 1 : 셋팅이랑 기본 라우팅**
+## **리액트 라우터 1 : 셋팅이랑 기본 라우팅**
 
 - 기존 html 환경에서 페이지 나누는 법(프레임워크 없이)
     1. html 파일 만들어서 상세페이지 내용 채움
@@ -507,7 +507,7 @@ function Modal(props) {
         ```
         
     
-    **리액트 라우터 2 : navigate, nested routes, outlet**
+    ## **리액트 라우터 2 : navigate, nested routes, outlet**
     
     - React의 폴더 구조 → 비슷한 파일끼리 폴더로 잘 묶는 게 끝..
     1. 페이지 이동 도와주는 `useNavigate()` → 페이지 이동기능을 만들고 싶으면 사용
@@ -562,7 +562,7 @@ function Modal(props) {
     - 단, 페이지간의 차이가 별로 없고 유사한 페이지가 필요할 때
     
 
-**리액트 라우터 3 : URL 파라미터로 상세페이지 100개 만들기**
+## **리액트 라우터 3 : URL 파라미터로 상세페이지 100개 만들기**
 
 - 상세 페이지 같이 별도의 값으로 각각 페이지를 그려주는 곳에는 :url parameter를 사용할 수 있음
     
@@ -572,7 +572,7 @@ function Modal(props) {
     
 - parameter는 여러 개 선언 가능
 
-**styled-components 쓰면 CSS 파일 없어도 되는데**
+## **styled-components 쓰면 CSS 파일 없어도 되는데**
 
 - `npm install styled-components`
 - 기본 React 환경에서는 JSX 내에서 엘레먼트를 선언하고 css 파일로 가서 스타일을 입혀야 함 → styled-components 사용하면 JSX 내에서 전부 선언 가능
@@ -630,7 +630,7 @@ function Modal(props) {
 
 [카카오웹툰은 CSS를 어떻게 작성하고 있을까? | 카카오엔터테인먼트 FE 기술블로그](https://fe-developers.kakaoent.com/2022/220210-css-in-kakaowebtoon/)
 
-**Lifecycle과 useEffect 1**
+## **Lifecycle과 useEffect 1**
 
 - **컴포넌트의 Lifecycle**
     - 페이지에 장착되기도 하고 (mount)
@@ -677,7 +677,7 @@ function Modal(props) {
 - **왜 이름이 Effect임?**
     - 프로그래밍 언어 중에 Side Effect → 함수의 핵심 기능과 상관없는 부가기능
 
-**Lifecycle과 useEffect 2**
+## **Lifecycle과 useEffect 2**
 
 - **useEffect와 dependency array**
 - **useEffect 끝에 dependency array를 설정해주게 되면 해당 변수가 변경될 때마다 다시 랜더링이 된다는 점을 조금 더 명시적으로 사용 가능함**
@@ -768,7 +768,7 @@ function Modal(props) {
         
     
 
-**리액트에서 서버와 통신하려면 ajax 1**
+## **리액트에서 서버와 통신하려면 ajax 1**
 
 - 브라우저 내에서 GET/POST 요청을 하게 되면 새로고침이 필연적인데, 새로고침 없이 데이터를 호출하고 싶다면 ajax를 사용 → 새로고침 없이도 요청 가능
 - ajax 쓰려면 옵션 3개 중 택1
@@ -791,7 +791,7 @@ function Modal(props) {
 }}>더보기</button>
 ```
 
-**리액트에서 서버와 통신하려면 ajax 2 : post, fetch**
+## **리액트에서 서버와 통신하려면 ajax 2 : post, fetch**
 
 - **동시에 ajax 요청 여러 개 하려면,**
     
@@ -822,7 +822,7 @@ function Modal(props) {
         ```
         
 
-**리액트에서 탭 UI 만들기**
+## **리액트에서 탭 UI 만들기**
 
 - JSX 안에선 if문을 쓸 수 없기 때문에 컴포넌트로 빼고 바깥에서 if문 적용
     
@@ -866,7 +866,7 @@ function Modal(props) {
     ```
     
 
-**멋있게 컴포넌트 전환 애니메이션 주는 법 (transition)**
+## **멋있게 컴포넌트 전환 애니메이션 주는 법 (transition)**
 
 1. 애니메이션 동작 전 className 만들기
 2. 애니메이션 동작 후 className 만들기
@@ -895,7 +895,7 @@ function TabContent({탭}) {
   }
 ```
 
-**props 싫으면 Context API 써도 됩니다**
+## **props 싫으면 Context API 써도 됩니다**
 
 - props 전송은 부모 → 자식만 가능, 고로 조부모에서 자식으로 내리려면 부모를 거쳐야 함 → 컴포넌트가 중첩될 수록 props 내리는 일이 쉽지 않음
 - **props 싫으면,**
@@ -910,7 +910,7 @@ function TabContent({탭}) {
     2. 해당 컴포넌트를 다른 페이지에서 재사용한다고 했을 때 혼란함이 있을 수 있음
     
 
-**장바구니 페이지 만들기 & Redux 1 : Redux Toolkit 설치**
+## **장바구니 페이지 만들기 & Redux 1 : Redux Toolkit 설치**
 
 - Q. 장바구니 state가 App, Detail, Cart에 필요하면 어디 만들어야 함? → 물론 Cart.js에 만들어도 되지만 전체 서비스 곳곳에서 필요하다면 최상위 컴포넌트에서 만들어야 함
 - Redux 사용하면 컴포넌트들이 props 없이 state 공유 가능
@@ -925,7 +925,7 @@ function TabContent({탭}) {
     2. index.js 가서 <Provider store={store}> 쓰기
     
 
-**Redux 2 : store에 state 보관하고 쓰는 법**
+## **Redux 2 : store에 state 보관하고 쓰는 법**
 
 - Redux 쓰는 이유 → 컴포넌트간 state 공유 편해짐(props 전송 필요 없음)
 - redux에서 생성되는 state 하나를 slice라고 부름
@@ -951,7 +951,7 @@ function TabContent({탭}) {
     `let **state **= *useSelector*((*state*) **=> **{ *return* state **})`
     
 
-**Redux 3 : store의 state 변경하는 법**
+## **Redux 3 : store의 state 변경하는 법**
 
 - state 수정해주는 함수 만들고 →  원할 때 그 함수 실행해달라고 store.js에 요청
 - Redux의 state 변경 방법
@@ -979,7 +979,7 @@ export let { changeName } = user.actions
 import { changeName } from "./../store.js"
 ```
 
-**Redux 4 : state가 object/array일 경우 변경하는 법**
+## **Redux 4 : state가 object/array일 경우 변경하는 법**
 
 ```jsx
 let user = createSlice({ // createSlice를 통해 slice 하나 생성 후,
@@ -1013,7 +1013,7 @@ let user = createSlice({ // createSlice를 통해 slice 하나 생성 후,
     ```
     
 
-**Redux 5 : 장바구니 기능 만들기 숙제 & 응용문제**
+## **Redux 5 : 장바구니 기능 만들기 숙제 & 응용문제**
 
 ```jsx
 let cartList = createSlice({ // createSlice를 통해 slice 하나 생성 후,
@@ -1046,3 +1046,193 @@ let cartList = createSlice({ // createSlice를 통해 slice 하나 생성 후,
 
 - [x]  장바구니 삭제 기능
 - [ ]  장바구니에 해당 아이템 있을 시 추가하는 게 아니라 수량만 추가되는 기능
+
+
+## **리액트에서 자주쓰는 if문 작성패턴 5개**
+
+### 컴포넌트 안에서 쓰는 if/else
+
+- 우리가 자주 쓰던 자바스크립트 if문은 return () 안의 JSX 내에서는 사용 불가능
+- 그래서 return + html에 포함된 JSX 전체를 뱉어주는 형식으로 IF문을 작성해서 사용함
+    
+    ```jsx
+    function Component() {
+      if ( true ) {
+        return <p>참이면 보여줄 HTML</p>;
+      } else {
+        return null;
+      }
+    }
+    ```
+    
+- (참고) else 생략 가능 → 어차피 function 안에서는 return을 만나면 return 밑에 있는 코드는 실행되지 않기 때문에 가능
+    
+    ```jsx
+    function Component() {
+      if ( true ) {
+        return <p>참이면 보여줄 HTML</p>;
+      }
+      return null;
+    }
+    ```
+    
+- else가 필요 없는 경우도 많으니 깔끔한 코드를 위해 생략해보는 것이 필요
+- if -> else if -> else 이렇게 구성된 조건문도 if 두개로 축약가능
+
+### JSX안에서 쓰는 삼항연산자
+
+- ternary operator
+- 조건문 ? 조건문 참일때 실행할 코드 : 거짓일 때 실행할 코드
+    
+    ```jsx
+    function Component() {
+      return (
+        <div>
+          {
+            1 === 1
+            ? <p>참이면 보여줄 HTML</p>
+            : null
+          }
+        </div>
+      )
+    }
+    ```
+    
+- 삼항연산자는 if와는 다르게 JSX 안에서도 실행가능하며 조건을 간단히 주고 싶을 때 사용
+- 중첩 사용 가능(가독성이 떨어지는 경우엔 안 쓰는 게 좋음)
+    
+    ```jsx
+    function Component() {
+      return (
+        <div>
+          {
+            1 === 1
+            ? <p>참이면 보여줄 HTML</p>
+            : ( 2 === 2
+                ? <p>안녕</p>
+                : <p>반갑</p>
+              )
+          }
+        </div>
+      )
+    }
+    ```
+    
+
+### && 연산자로 if 역할 대신하기
+
+- "그냥 왼쪽 오른쪽 둘다 true면 전체를 true로 바꿔주세요~" 라고 쓰고싶을 때 사용
+    
+    ```jsx
+    true && false; // false
+    true && true; // true
+    ```
+    
+- 자바스크립트는 && 기호로 비교할 때 true와 false를 넣는게 아니라 자료형을 넣으면,
+    
+    ```jsx
+    // 이해가 잘 안 가면 "자바스크립트는 그냥 &&로 연결된 값들 중에 처음 등장하는 falsy 값을 찾아주고 그게 아니면 마지막값을 남겨준다"라고 외우고 차후에 이해
+    true && '안녕'; // '안녕'
+    false && '안녕'; // false
+    true && false && '안녕'; // false
+    ```
+    
+- 이걸 리액트에서 약간 exploit 하면 if문을 조금 더 간략하게 쓸 수 있음
+- "만약에 이 변수가 참이면 <p></p>를 이 자리에 뱉고 참이 아니면 null 뱉고" 이런 상황에서 자주 쓸 수 있는 간단한 조건문
+    
+    ```jsx
+    function Component() {
+      return (
+        <div>
+          {
+            1 === 1
+            ? <p>참이면 보여줄 HTML</p>
+            : null
+          }
+        </div>
+      )
+    }
+    
+    function Component() {
+      return (
+        <div>
+          { 1 === 1 && <p>참이면 보여줄 HTML</p> }
+        </div>
+      )
+    }
+    ```
+    
+
+### switch / case 조건문
+
+- if문이 중첩해서 여러개 달려있는 경우에 가끔 사용
+- 장점은 if문 연달아쓸 때 코드가 약간 줄어들 수 있는데 조건식란에서 변수하나만 검사할 수 있다는게 단점
+    
+    ```jsx
+    function Component2(){
+      var user = 'seller';
+      if (user === 'seller'){
+        return <h4>판매자 로그인</h4>
+      } else if (user === 'customer'){
+        return <h4>구매자 로그인</h4>
+      } else {
+        return <h4>그냥 로그인</h4>
+      }
+    }
+    ```
+    
+    ```jsx
+    function Component2(){
+      var user = 'seller';
+      switch (user){
+        case 'seller' :
+          return <h4>판매자 로그인</h4>
+        case 'customer' :
+          return <h4>구매자 로그인</h4>
+        default :
+          return <h4>그냥 로그인</h4>
+      }
+    }
+    ```
+    
+
+### object/array 자료형 응용
+
+```jsx
+function Component() {
+  var 현재상태 = 'info';
+  return (
+    <div>
+      {
+        {
+           info : <p>상품정보</p>,
+           shipping : <p>배송관련</p>,
+           refund : <p>환불약관</p>
+        }[현재상태]
+      }
+
+    </div>
+  )
+}
+```
+
+```jsx
+var 탭UI = {
+  info : <p>상품정보</p>,
+  shipping : <p>배송관련</p>,
+  refund : <p>환불약관</p>
+}
+
+function Component() {
+  var 현재상태 = 'info';
+  return (
+    <div>
+      {
+        탭UI[현재상태]
+      }
+    </div>
+  )
+}
+```
+
+## localStorage로 만드는 최근 본 상품 기능 1
