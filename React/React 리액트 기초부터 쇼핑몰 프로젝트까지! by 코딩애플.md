@@ -1236,3 +1236,4 @@ function Component() {
 ```
 
 ## localStorage로 만드는 최근 본 상품 기능 1
+
