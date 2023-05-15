@@ -1236,4 +1236,14 @@ function Component() {
 ```
 
 ## localStorage로 만드는 최근 본 상품 기능 1
-
+1. `key`, `value` 형태로 저장 가능
+2. 문자 데이터만 저장 가능(최대 5MB까지 저장 가능)
+3. 사이트 재접속해도 남아 있음(브라우저 청소하면 삭제됨)
+- Local Storage는 재접속해도 남아있음 / Session Storage는 브라우저 끄면 삭제(휘발성 데이터에 적합)
+- 데이터 저장은 `localStorage.setItem('key', 'value')`
+- 데이터 출력은 `localStorage.getItem('key')`
+- 데이터 삭제는 `localStorage.removeItem('key')`
+- 데이터 수정 문법은 없음 → 꺼내서 수정하고 집어넣으면 됨
+- `sessionStorage` 문법도 동일함
+- array/object → JSON 변환은 `JSON.stringify()` → **array나 object를 Local Storage에 담고자 할 때**
+- JSON → array/object 변환은 `JSON.parse()` → **JSON 형태를 다시 array/object 형태로 바꾸고자 할 때**
