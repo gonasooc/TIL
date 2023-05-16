@@ -1247,3 +1247,41 @@ function Component() {
 - `sessionStorage` 문법도 동일함
 - array/object → JSON 변환은 `JSON.stringify()` → **array나 object를 Local Storage에 담고자 할 때**
 - JSON → array/object 변환은 `JSON.parse()` → **JSON 형태를 다시 array/object 형태로 바꾸고자 할 때**
+
+## localStorage로 만드는 최근 본 상품 기능 2
+
+- local strorage에 담겨 있는 걸 가져오고 다시 넣거나 할 땐 항상 `stringify`나 `parse` 사용
+    
+    ```jsx
+    useEffect(() => {
+        let 꺼낸거 = localStorage.getItem('watched');
+        꺼낸거 = JSON.parse(꺼낸거);
+        꺼낸거.push(info.id);
+        꺼낸거 = new Set(꺼낸거);
+        꺼낸거 = Array.from(꺼낸거);
+        localStorage.setItem('watched', JSON.stringify(꺼낸거));
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, [])
+    ```
+    
+- 모든 state를 localStorage에 자동저장? → redux-persist라는 라이브러리를 쓰기도 함, 그 외 Jotai, Zustand
+
+## 실시간 데이터가 중요하면 react-query
+
+- 코인거래소나 SNS 서비스처럼 실시간 데이터가 중요한 경우에 react-query, 실시간 데이터가 굳이 필요하지 않은 대부분의 사이트에서는 거의 사용하지 않음
+- `axios` 요청을 `useQuery`로 감싸서 적용 가능
+    
+    ```jsx
+    let result = useQuery('작명', () => {
+      return axios.get('http://codingapple1.github.io/userdata.json').then((a) => {
+        return a.data
+      })
+    })
+    ```
+    
+    1. 성공/실패/로딩중 쉽게 파악 가능(해당 `result` 객체가 `status`, `isLoading` 등의 상태값을 들고 있어서 별도의 state 만들 필요가 없음)
+    2. 틈만 나면 자동으로 재요청(refetch) 해줌
+    3. 실패시 자동으로 retry 해줌
+    4. state 공유 안해도 됩니다
+    5. ajax 결과 캐싱 가능
+- redux-toolkit 설치하면 RTK Query도 자동 설치됨
