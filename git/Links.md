@@ -1,3 +1,9 @@
+### git 합치기(parent가 child 합치고 history 살리기) - git subtree 명령어
+
+[[Git / GitHub] - git subtree 명령어](https://zzang9ha.tistory.com/294)
+
+[commit log 유지하면서 Git Repository 합치기](https://dailylifeofdeveloper.tistory.com/193)
+
 ### git author or email이 local과 github가 달라서 잔디 안 심어지는 이슈 관련 - git 커밋 작성자(author) 한꺼번에 수정하기
 
 [git 커밋 작성자(author) 한꺼번에 수정하기](https://velog.io/@ounols/git-커밋-작성자author-한꺼번에-수정하기)
