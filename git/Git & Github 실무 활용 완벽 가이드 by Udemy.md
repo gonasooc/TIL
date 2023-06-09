@@ -50,3 +50,64 @@
 - Github is a service that hosts Git repositories in the cloud and makes it easier to collaborate with other people. You do need to sign up for an account to use Github. It’s an online place to share work that is done using Git.
 
 # 섹션3: 설치 및 설정
+## 터미널 vs. GUI
+
+### Git Is (Primarily) A Terminal Tool
+
+- Git was created as command-line tool. To use it, we run various git commands in a Unix shell. This is not the most user friendly experience, but it’s at the very core of Git!
+
+### The Rise of GUI’s
+
+- Over the last few years, companies have created graphical user interfaces for Git that allow people to use Git without having to be a command-line expert.
+- Popular Git GUI’s include:
+    - Github Desktop
+    - SourceTree
+    - Tower
+    - GitKraken
+    - Ungit
+    
+    [Git - GUI Clients](https://git-scm.com/downloads/guis)
+    
+
+### There is a lot of stupid GUI gate-keeping
+
+## Windows에서 Git 설치하기
+
+- Git은 유닉스 기반의 인터페이스로 실행되길 원하고 bash라는 shell이 리눅스 컴퓨터와 맥의 기본 쉘이기 때문에 윈도우에서는 command prompt가 있지만 유닉스 기반이 아님
+- 그래서 윈도우에는 Git bash를 통해 사용함 → 윈도우에서 유닉스가 하는 bash 경험들을 모방할 수 있게 해주고 Git도 함께 제공
+
+## Git 이름 및 이메일 구성하기
+
+### Configuring Git
+
+- To configure the name that Git will associate with your work, run this command:
+    
+    ```
+    git config --global user.name "gonasooc"
+    ```
+    
+- Do the same thing for your email using the following command. When we get to Github, you’ll want your Git email address to match your Github account.
+    
+    ```
+    git config --global user.email doupler@gmail.com
+    ```
+    
+
+## 터미널 집중 학습: 소개
+
+### 명령어 집중 학습
+
+## 터미널 집중 학습: 탐색
+
+### 명령어
+
+- List → Use `ls` to list the contents of your current directory. → list의 축약어, 현재 디렉토리 또는 폴더에 있는 컨텐츠를 나열
+- `start .` (맥은 `open .`) → 윈도우탐색기
+- `ls 폴더명` → 해당 폴더 내 list 확인
+- `clear` → 터미널 클리어
+- `ls 상위폴더/하위폴더` → 바로 하위폴더로 접근할 수 없음, 해당 상위폴더와 함께 작성해서 list 출력
+- `pwd` → Print Working Directory(현재 경로 출력): Prints the path to the working directory (where you currently are)
+- Change Directory → Use `cd` to change and move between folders ex) `cd 폴더명`
+- `cd ..` → Use `cd ..` to “back up” one directory
+
+## 터미널 집중 학습: 파일 및 폴더 생성
