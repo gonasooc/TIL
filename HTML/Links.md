@@ -1,3 +1,7 @@
+### `&nbsp;` entity는 줄바꿈을 일으키지 않음
+
+[HTML에서 &nbsp;를 언제, 왜 써야할까?](https://www.daleseo.com/html-nbsp/)
+
 ### HTML4까지 inline/block → HTML5에서 flow/phrasing 관련 답변
 
 [Types of inline and block elements in html5](https://stackoverflow.com/questions/71568727/types-of-inline-and-block-elements-in-html5)

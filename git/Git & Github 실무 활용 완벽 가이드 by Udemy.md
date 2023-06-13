@@ -111,3 +111,36 @@
 - `cd ..` → Use `cd ..` to “back up” one directory
 
 ## 터미널 집중 학습: 파일 및 폴더 생성
+- `touch purple.txt` → 새 파일 만들기
+- `touch test.js test.py` → 한 번에 여러 파일 생성 가능
+- `touch folder/test.txt` → 하위 폴더명을 통해 해당 폴더 아래에 파일 생성 가능
+- `mkdir Test` → Test라는 폴더를 만듬, 폴더 생성 명령어
+- `mkdir SeaTurtles LandTurtles` → 파일과 동일하게 여러 개의 폴더 한번에 만들 수 있음
+
+## 터미널 집중 학습: 파일 및 폴더 삭제
+
+- `rm test.txt` → test.txt라는 파일을 삭제(휴지통이 아니라 바로 삭제)
+- `rm test.txt delete.xls` → 동일하게 여러 개의 파일을 삭제할 수 있음
+- `rm -rf Test` → Test 폴더를 삭제, 플래그를 통해서 옵션을 변경할 수 있음
+- `ls -a` → ls 또한 플래그를 통해 숨겨진 파일을 다 볼 수 있음
+
+# 섹션4: Git의 기초: 추가하기와 커밋하기
+
+## Git Repo란 무엇인가?
+
+### Repository
+
+- **A Git “Repo” is a workspace which tracks and manages files within a folder.**
+- Anytime we want to use Git with a project, app, etc we need to create a new git repository. We can have as many repos on our machine as needed, all with separate histories and contents
+- 캡슐화된 거품처럼 각 저장소는 각각 연결되지 않고 독립된 이력과 컨텐츠를 갖고 있음
+
+## 우리의 첫 번째 명령어: git init과 git status
+
+### Our First Git Command!
+
+- `git status` give information on the current status of a git repository and its contents
+- It’s very useful, but at the moment we don’t actually have any repos to check the status of!
+- Use `git init` to create a new git repository. Before we can do anything git-related, we must initialize a repo first!
+- This is something you do once per project. Initialize the repo in the top-level folder containing your project → 터미널에서 어느 디렉토리에 있든 새 저장소를 초기화합니다
+
+## 신비한 Git 폴더
