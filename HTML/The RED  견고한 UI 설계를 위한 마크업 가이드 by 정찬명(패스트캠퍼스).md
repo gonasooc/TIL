@@ -3,7 +3,7 @@
 ### 01. HTML을 어떻게 공부해야 하는가
 
 - a 요소에는 href가 필수 요소가 아님 → <a>마크업</a>
-- HTML5에서는 block이나 inline 요소 개념이 없어짐 → ex) a 안에 div가 들어가도 됨, flow content parasing content라는 개념을 사용함
+- HTML5에서는 block이나 inline 요소 개념이 없어짐 → ex) a 안에 div가 들어가도 됨, flow content phrasing content라는 개념을 사용함
 - 잘 알려진 HTML 학습경로
     
     [W3Schools Free Online Web Tutorials](https://w3schools.com/)

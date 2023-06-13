@@ -1,3 +1,7 @@
+### HTML4까지 inline/block → HTML5에서 flow/phrasing 관련 답변
+
+[Types of inline and block elements in html5](https://stackoverflow.com/questions/71568727/types-of-inline-and-block-elements-in-html5)
+
 ### **alt 관련, 빈 alt가 왜 존재해야 하는가**
 
 [Image elements do not have [alt] attributes](https://velog.io/@w-hyacinth/Image-elements-do-not-have-alt-attributes)
