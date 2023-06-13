@@ -1285,3 +1285,59 @@ function Component() {
     4. state 공유 안해도 됩니다
     5. ajax 결과 캐싱 가능
 - redux-toolkit 설치하면 RTK Query도 자동 설치됨
+## 성능개선 1 : 개발자도구 & lazy import
+
+- 크롬 확장 프로그램에서 React Developer Tools 설치 후 해당 도구를 통해 components 구조나 해당 component의 props나 state 확인하면서 디버깅 가능
+- 해당 컴포넌트에서 View source for this element 버튼을 통해 해당 컴포넌트가 어느 위치에 있는지 확인 가능
+- Profiler 기능을 통해 어떤 컴포넌트나 어떤 페이지가 성능 저하를 일으키고 있는지 체크하기 수월함
+    
+    ![Untitled](../assets/f8f846f6231d.png)
+    
+    ![Untitled](../assets/1404ed5f09d1.png)
+    
+- 대부분의 지연시간은 서버에서 데이터가 늦게 와서 그럼
+- 크롬 확장 프로그램 Redux를 통해서 store를 한 눈에 보여주거나 state 변경 내역을 알려줌
+    
+    ![Untitled](../assets/ba6ccad666da.png)
+    
+- React로 개발한 페이지는 기본적으로 Single Page Application → SPA는 발행하면 js 파일 하나에 모든 코드를 다 쑤셔넣음 → 그러다 보니 사이즈가 매우 큼 → 최초에 유저가 메인에 접근했을 때 로딩 속도가 느릴 수밖에 없음
+- 그래서 바로 필요하지 않은 파일은 lazy import 할 수 있음 → 사이트를 발행할 때도 별도의 js 파일로 분리됨
+    
+    ```jsx
+    import { lazy, useEffect, useState } from 'react'; // lazy 호출 필요
+    
+    // import Detail from './routes/Detail.js';
+    // import Cart from './routes/Cart.js';
+    
+    const Detail = lazy(() => import('./routes/Detail.js'));
+    const Cart = lazy(() => import('./routes/Cart.js'));
+    ```
+    
+- 단, 해당 lazy 컴포넌트로 접근할 때 해당 컴포넌트 지연시간 발생 → Suspense 호출 후 해당 컴포넌트를 감싸서 fallback에 지연시간 동안 보여줄 html 입력
+
+## 성능개선 2 : 재렌더링 막는 memo, useMemo
+
+- 부모 컴포넌트에서 state가 변경되면 자식 컴포넌트까지도 재랜더링이 되는 구조
+- 자식 컴포넌트에 지연 요소가 있다면 불필요한 재랜더링을 하는 꼴
+- 꼭 필요할 때만 재랜더링해라 → 상단에 memo import한 후 함수선언식을 함수 표현식으로 변경한 후에 memo()로 감쌈
+    
+    ```jsx
+    import { memo, useState } from 'react';
+    
+    let Child = memo (function() {
+      console.log('재랜더링됨')
+      return <div>자식임</div>
+    })
+    ```
+    
+- memo로 재랜더링 오래 걸리는 컴포넌트 감싸놓으면 좋음
+- memo의 원리 → 해당 컴포넌트로 전송되는 props가 변할 때만 재랜더링
+- 해당 컴포넌트로 전송되는 props가 좀 길고 복잡하다면 memo를 쓰는 게 안 좋을 수 있음 → 때문에 큰 컴포넌트에만 적용할 것
+- useMemo → 컴포넌트 렌더링 시 1회만 실행해줌
+- dependency 세팅 가능
+- useEffect와 비슷함
+- useEffect → html 파싱 같은 게 끝나면 그때서야 useEffect가 생각이 남 / useMomo는 랜더링 될 때 같이 실행 → 실행 시점의 차익
+
+## 성능개선 3 : useTransition, useDeferredValue
+
+
