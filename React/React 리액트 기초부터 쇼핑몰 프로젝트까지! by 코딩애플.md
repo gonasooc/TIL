@@ -1339,5 +1339,44 @@ function Component() {
 - useEffect → html 파싱 같은 게 끝나면 그때서야 useEffect가 생각이 남 / useMomo는 랜더링 될 때 같이 실행 → 실행 시점의 차익
 
 ## 성능개선 3 : useTransition, useDeferredValue
+- batch 기능 → state가 여러 개 있을 때 state가 변경될 때마다 재랜더링이 일어나는데 마지막 state가 변경될 때 거기서만 재랜더링 1회로 제한할 수 있는  batching
+    - 17버전에서는 ajax, setTimeout 내부라면 batching이 일어나지 않는데, 18버전에서는 batching 가능
+    - [https://velog.io/@rookieand/React-18에서-추가된-Auto-Batching-은-무엇인가](https://velog.io/@rookieand/React-18%EC%97%90%EC%84%9C-%EC%B6%94%EA%B0%80%EB%90%9C-Auto-Batching-%EC%9D%80-%EB%AC%B4%EC%97%87%EC%9D%B8%EA%B0%80)
+- useTransition hook 추가 → 느린 컴포넌트 성능향상 가능(카드 빚 돌려막기)
+- 브라우저는 single-threaded
+- startTransition 동작 원리 → 감싸진 코드의 시작을 뒤로 늦춰줌(늦게처리)
+- isPending은 startTransition이 처리중일 때 true (말 그대로 pending) → isPending이 true일 때 progress bar나 ‘로딩중’ 같은 메세지 출력 가능
+- useDeferredValue → useDeferredValue 안에 넣은 state 같은 건 늦게 처리해줌
 
+*import* { useEffect, useState, useTransition } *from* 'react';
 
+```jsx
+import { useState, useTransition } from 'react';
+
+let a = new Array(10000).fill(0);
+
+function App() {
+
+  let [name, setName] = useState('')
+  let [isPending, startTransition] = useTransition()
+
+  return (
+    <div className="App">
+      <input onChange={(e) => {
+        startTransition(() => {
+          setName(e.target.value)
+        }) 
+      }}/>
+      {
+        isPending ? '로딩중' :
+        a.map(() => {
+          return <div>{name}</div>
+        })
+      }
+
+      <div>{name}</div>
+    </div>
+  )
+}
+```
+## PWA 셋팅해서 앱으로 발행하기 (모바일앱인척하기)

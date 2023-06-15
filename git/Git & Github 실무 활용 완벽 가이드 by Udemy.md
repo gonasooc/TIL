@@ -143,4 +143,70 @@
 - Use `git init` to create a new git repository. Before we can do anything git-related, we must initialize a repo first!
 - This is something you do once per project. Initialize the repo in the top-level folder containing your project → 터미널에서 어느 디렉토리에 있든 새 저장소를 초기화합니다
 
-## 신비한 Git 폴더
+## Git 초심자가 흔히 저지르는 실수
+
+- git은 최상위 폴더에서 탑다운으로 모든 디렉토리를 관리(Git Tracks A Directory and All Nested Subdirectories)
+- 어떤 프로젝트를 위해 이 디렉토리에서 변경하는 파일이나 폴더는 git에 의해 추적됨
+- git으로 트래킹되는 폴더 안에서 또 다시 git init을 하는 건 git 입장에서 혼란스러울 수 있음
+
+## commit 위크플로우 개요
+
+### Committing
+
+- The most important Git feature!
+- **Working Directory(`git add`) → Staging Area(`git commit`) → Repository**
+
+## git add로 변경사항 스테이징하기
+
+### Adding
+
+- Use git add to add specific files to the staging area. Separate files with spaces to add multiple at once.
+
+## 이제 드디어 git 명령어를 배울 시간
+
+### Git Commit
+
+- **We use the `git commit` command to actually commit changes from the staging area.**
+- When making a commit, we need to provide a commit message that summarizes the changes and work snapshotted in the commit
+- `git commit -m ‘git message’` → The -m flag allows us to pass in an inline commit message, rather than launching a text editor. We’ll learn more about writing good commit messages later on.
+
+## git log 명령어(그리고 더 많은 커밋)
+
+`git add .` → 한번에 모든 변경사항을 스테이지에 넣음
+
+# 섹션5: 커밋과 관련 주제 자세히 알아보기
+
+## git 문서 탐색
+
+### Reference
+
+https://git-scm.com/docs
+
+### Book
+
+https://git-scm.com/book/en/v2
+
+## 커밋을 원자적으로 유지하기
+
+### Atomic Commits
+
+- When possible, a commit should encompass a single feature, change, or fix. In other words, try to **keep each commit focused on a single thing. → 각각의 커밋은 한 가지에 집중하도록 하라는 것(기능과 상황에 맞게 분류해서 commit)**
+- This makes it much easier to undo or rollback changes later on. It also makes your code or project easier to review.
+
+## 커밋 메시지: 현재 또는 과거 시제?
+
+### Present-Tense Imperative Style??
+
+- From the Git docs:
+    
+    ```
+    Describe your changes in imperative mood, e.g. "make xyzzy do frotz" instead of "[This patch] makes xyzzy do frotz" or "I changed xyzzy to do frotz", as if you are giving orders to the codebase to change its behavior.
+    ```
+    
+    - 현재 시제에 명령문 권장
+- Which tense should be used on a Git commit message?
+    
+    https://medium.com/@corrodedlotus/which-tense-should-be-used-on-a-git-commit-message-121cb641134b
+    
+
+## VIM 빠져나오기 및 Git의 기본 편집기 구성하기
