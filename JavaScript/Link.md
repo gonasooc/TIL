@@ -1,3 +1,11 @@
+### var, let 차이점
+
+[PoiemaWeb](https://poiemaweb.com/es6-block-scope)
+
+### [JavaScript] innerHTML, innerText, textContent 차이 - textContent 잘 몰랐음
+
+[[JavaScript] innerHTML, innerText, textContent 차이](https://velog.io/@kim_unknown_/JavaScript-Difftext)
+
 ### 함수 표현식 vs 함수 선언식
 
 [함수 표현식 vs 함수 선언식](https://joshua1988.github.io/web-development/javascript/function-expressions-vs-declarations/)
