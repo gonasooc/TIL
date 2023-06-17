@@ -210,3 +210,47 @@ https://git-scm.com/book/en/v2
     
 
 ## VIM 빠져나오기 및 Git의 기본 편집기 구성하기
+
+### VIM
+
+- 터미널 내장 에디터
+- VIM을 학습하기보다는 commit message 없이 git commit을 입력했을 때 vim으로 접근하게 됨
+- `i` → insert 모드에서 commit message를 입력, `esc`로 insert mode를 빠져 나와서 `:wq` (write quit) 로 빠져나올 수 있음
+
+## Git Log 명령어 자세히 알아보기
+
+- 많은 기능들이 있지만 주로 사용하게 되는 건 `git log —oneline`
+- 한 줄로 log를 보게 되기 때문에 암묵적으로 첫 줄은 해당 commit을 요약하고 그 이후에 상세 내용을 적는 것
+    
+    https://git-scm.com/docs/git-log
+    
+
+## Amend로 실수 수정하기
+
+### Amending Commits
+
+- Suppose you just made a commit and then realized you forgot to include a file! Or, maybe you made a typo in the commit message that you want to correct.
+- Rather than making a brand new separate commit, you can “redo” the previous commit using the —amend option
+- **바로 직전에 커밋한 것을 편집하거나 실행 취소 또는 업데이트를 할 수 있게 해줌, 바로 직전 커밋만 적용 가능**
+- ex) 1.txt, 2.txt 먼저 커밋하고 3.txt를 누락했다면 → `git add 3.txt` → `git commit —amend` → vim insert mode에서 commit message 수정 후 `:wq`
+
+## .gitignore로 파일 무시하기
+
+### Ignoring Files
+
+- We can tell Git which files and directories to ignore in a given repository, using a **.gitignore** file. This is useful for files you know you NEVER want to commit, including:
+    - Secrets, API keys, credentials, etc.
+    - Operating Systems files (.DS_Store on Mac)
+    - Log files
+    - Dependencies & packages
+- Create a file called .gitignore in the root of a repository. Inside the file, we can write patterns to tell Git which files & folders to ignore:
+    - `.DS_Store` will ignore files named .DS_Store
+    - `folderName/` will ignore an entire directory
+    - `*.log` will ignore any files with the .log extension
+    - 슬래시가 없으면 파일 / 슬래시가 끝에 있으면 디렉토리
+- .gitignore 체크할 만한 사이트
+    
+    https://www.toptal.com/developers/gitignore
+    
+
+# 섹션6: 브랜치(branch)로 작업하기
