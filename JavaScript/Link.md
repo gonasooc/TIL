@@ -1,3 +1,7 @@
+### 객체 접근하는 두 가지 방식
+
+[JavaScript Object[‘key’] vs Object.key 차이](https://medium.com/sjk5766/javascript-object-key-vs-object-key-차이-3c21eb49b763)
+
 ### var, let 차이점
 
 [PoiemaWeb](https://poiemaweb.com/es6-block-scope)
