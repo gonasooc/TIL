@@ -1,3 +1,7 @@
+### 배열 제거 방식(앞, 뒤, 특정, filter)
+
+[[javascript] 자바스크립트 배열에서 특정 값 삭제](https://sisiblog.tistory.com/263)
+
 ### 객체 접근하는 두 가지 방식
 
 [JavaScript Object[‘key’] vs Object.key 차이](https://medium.com/sjk5766/javascript-object-key-vs-object-key-차이-3c21eb49b763)

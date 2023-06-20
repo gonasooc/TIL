@@ -254,3 +254,61 @@ https://git-scm.com/book/en/v2
     
 
 # 섹션6: 브랜치(branch)로 작업하기
+## 마스터 브랜치(또는 메인 브랜치?)
+
+### Master? Main?
+
+- In 2020, Github renamed the default branch from **master** to **main**. The default Git branch name is still **master**, though the Git team is expoloring a potential change. **We will circle back to this shortly.**
+
+## HEAD가 대체 뭘까?
+
+### HEAD
+
+- We’ll often come across the term **HEAD** in Git.
+- HEAD is simply a pointer that refers to the current “location” in your repository. It points to a particular branch reference.
+- So far, HEAD always points to the latest commit you made on the master branch, but soon we’ll see that we can move around and HEAD will change!
+
+## Git Branch로 모든 브랜치 보기
+
+### Viewing Branches
+
+- Use **git branch** to view your existing branches. The default branch in every git repo is master, though you can sconfigure this.
+- Look for the * which indicates the branch you are currenly on.
+
+## 브랜치 생성 및 전환하기
+
+### Creating Branches
+
+- Use **git branch <branch-name>** to make a new branch based upon the current HEAD
+- This just creates the branch. It does not switch you to that branch (the HEAD stays the same)
+
+### Switching Branches
+
+- Once you have created a new branch, use **git switch <branch-name>** to switch to it.
+- `checkout`과 비슷한 명령어
+
+## 기타 옵션: Git Checkout 대 Git Switch
+
+### Another way of switching??
+
+- Historically, we used git **checkout <branch-name>** to switch branches. This still works.
+- The **checkout** command does a million additional things, so the decision was made to add a standalone switch command which is much simpler.
+- You will see older tutorials and docs using checkout rather than switch. Both now work.
+
+### Creating & Switching
+
+- Use **git switch** with the **-c** flag to create a new branch AND switch to it all in one go.
+- Remember -c as short for “create”
+- #git checkout -b branch-name 도 동일하게 작동
+
+## 브랜치 삭제 및 이름 바꾸기
+
+- `git branch -d 삭제할브랜치` → 브랜치 삭제
+- `git branch -D 삭제할브랜치` → 만약에 merge가 안 된 상태라면 merge가 되지 않았다는 에러 메세지와 함께 삭제가 안 되는데, 대문자 D로 강제 옵션을 줄 수 있음
+- `git branch -m 새로운브랜치명` → 해당 브랜치를 새로운브랜치명으로 변경
+- `git branch -m 기존브랜치명 새로운브랜치명` → 다른 브랜치에 HEAD 라면 기존브랜치명도 명시해줘야 함
+    
+    https://mylko72.gitbooks.io/git/content/branch/checkout.html
+    
+
+# 섹션7: 브랜치 병합하기, 맙소사!
