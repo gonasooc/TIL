@@ -312,3 +312,28 @@ https://git-scm.com/book/en/v2
     
 
 # 섹션7: 브랜치 병합하기, 맙소사!
+## 병합 명령어 소개
+
+### Merging
+
+- Branching makes it super easy to work within self-contained contexts, but often we want to incorparate changes from one branch into another!
+- We can do this using the **git merge** command
+- The merge command can sometimes confuse students easly on. Remember these two merging concepts:
+    - We merge branches, not specific commits → 특정 커밋이 아니라 브랜치를 병합
+    - We always merge to the current HEAD branch → 항상 현재 HEAD 브랜치에 병합
+    
+
+## 빨리 감기 병합 수행하기
+
+- 커밋을 따라잡기 위해 병합의 기준이 되는 브랜치를 빨리 감기하는 병합
+- 깃의 측면에서 보면 아주 쉬운 병합 → 포인터를 특정 숫자의 커밋으로 옮기면 되고 아니면 특정 커밋까지 빨리 감기
+
+## 병합 시각화하기
+
+### Merging Made Easy
+
+- **To merge, follow these basic steps:**
+    1. Switch to or checkout the branch you want to merge the changes into (the receiving branch)
+    2. Use the **git merge** command to merge changes from a specific branch into the current branch.
+
+## 병합 커밋 생성하기
