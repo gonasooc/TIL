@@ -337,3 +337,35 @@ https://git-scm.com/book/en/v2
     2. Use the **git merge** command to merge changes from a specific branch into the current branch.
 
 ## 병합 커밋 생성하기
+
+- 병합 커밋은 두 개의 다른 부모 커밋을 갖는다는 것
+- ex) Merge branch ‘new-branch’
+
+## 이런, 병합 중에 충돌이 발생했다!
+
+### Heads Up!
+
+- Depending on the specific changes your are trying to merge, Git may not be able to automatically merge. This results in **merge conflicts**, which you need to manually resolve.
+
+### Conflict Markers
+
+- The content from your current **HEAD** (the branch you are trying to merge content into) is displayed **between the <<<<<<< HEAD and =======**
+
+### Resolving Conflicts
+
+- Whenever you encounter merge conflict, follow these steps to resolve them:
+    1. Open up the file(s) with merge conflicts
+    2. Edit the file(s) to remove the conflicts. Decide which branch’s content you want to keep in each conflict. Or keep the content from both.
+    3. Remove the conflict “markers” in the document
+    4. Add your changes and then make a commit!
+
+## 병합 충돌 해결하기
+
+- 병합 커밋과 다르지는 않음 → 다만 커밋하기 위해 편집 작업이 필요할 뿐
+
+## VSCode를 사용하여 충돌 해결하기
+
+- Accept Current Change / Accept Incoming Change / Accept Both
+- 직접 충돌 지점을 수정해서 별도의 스테이징/커밋을 작성해도 괜찮음
+
+## 병합 해결하기
