@@ -1,3 +1,7 @@
+### 중괄호, return 등 생략되는 Arrow Function
+
+[PoiemaWeb](https://poiemaweb.com/es6-arrow-function)
+
 ### 배열 제거 방식(앞, 뒤, 특정, filter)
 
 [[javascript] 자바스크립트 배열에서 특정 값 삭제](https://sisiblog.tistory.com/263)
