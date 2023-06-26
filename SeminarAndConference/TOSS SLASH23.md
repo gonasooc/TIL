@@ -87,8 +87,16 @@
 - 스크린 리더는 기본적으로 화면 정보가 변할 때 자동으로 읽어주지 않음
 - 상태가 변경될 때마다 변경된 상태를 읽어주도록 기본 동작을 변경
 
-# ****미친 생산성을 위한 React Native****
+# 미친 생산성을 위한 React Native
 
 [토스ㅣSLASH 22 - 미친 생산성을 위한 React Native](https://youtu.be/b_6CjuvVg8o)
 
 **#앞서 봤던 ‘달리는 토스 앱에 React Native 엔진 더하기’의 RN 도입 과정을 좀 더 자세하게 다루고, 회사 차원에서 RN을 어떤 회사가 도입하면 좋을지에 대한 내용들, 별도의 메모보다는 조금 빠르게 스킵하면서 봤음, 우직하게 플래닝하고 순차적으로 실행해나가는 과정이 인상적**
+
+# 퍼널: 쏟아지는 페이지 한 방에 관리하기
+
+[토스ㅣSLASH 23 - 퍼널: 쏟아지는 페이지 한 방에 관리하기](https://youtu.be/NwLWX2RNVcw)
+
+**#퍼널이라는 용어를 처음 알게 됐고, 흔한 페이지 흐름에서는 비슷한 고민을 하는구나 싶었음, 구조를 컴포넌트화한 게 Vue2 v-if 구조와 비슷해서 반가웠음ㅋ**
+
+[https://slash.page/ko/libraries/react/use-funnel/readme.i18n/#퍼널-정의하기](https://slash.page/ko/libraries/react/use-funnel/readme.i18n/#%ED%8D%BC%EB%84%90-%EC%A0%95%EC%9D%98%ED%95%98%EA%B8%B0)
