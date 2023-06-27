@@ -1,3 +1,19 @@
+### gh-pages로 배포 했는데 router만 출력 안 된다? 경로 잡아줘야 함
+
+[[React] react-router 적용한 React 앱을 github pages로 배포하는 법](https://medium.com/@_diana_lee/react-react-router-적용한-react-앱을-github-pages로-배포하는-법-5f6119c6a5d9)
+
+### gh-pages 이용해서 github repo에서 바로 배포하기
+
+[Github를 이용해 페이지 배포하기 (gh-pages)](https://inuplace.tistory.com/713)
+
+### Module not found: Can't resolve @emotion/react
+
+[Module not found: Can't resolve @emotion/react [Solved] | bobbyhadz](https://bobbyhadz.com/blog/react-module-not-found-cant-resolve-emotion-react)
+
+### MUI 폰트 변경하는 법
+
+[[React] Material UI Typography 폰트 적용하기 (Material UI font custom) (구글 웹 폰트 적용하는 법)](https://kbwplace.tistory.com/112)
+
 ### React Code Splitting
 
 [React에서 해보는 코드 스플리팅 (Code Splitting)](https://medium.com/humanscape-tech/react에서-해보는-코드-스플리팅-code-splitting-56c9c7a1baa4)
