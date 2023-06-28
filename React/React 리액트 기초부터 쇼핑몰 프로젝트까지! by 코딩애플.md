@@ -10,15 +10,19 @@
 
 - public 폴더: static 파일 모아놓는 곳
 - src 폴더: 코드 짜는 곳
+- **html 뿌려지는 구조**
+    
+    ![Untitled](../assets/31362969ec9b.png)
+    
 
 ## **리액트에서 레이아웃 만들 때 쓰는 JSX 문법 3개**
 
 - react는 jsx 사용 → .js파일에서 쓰는 html 대용품
 - 리액트에서 <div>를 만들기 위해선 React.createElement(’div’, null, ‘Hello World) 같은 걸로 작성 → 그걸 편리하게 작성하기 위해서 나온 게 JSX
 - **JSX 문법**
-    - html에 class 넣을 땐 className → JSX도 일종의 자바스크립트라서 자바스크립트에서 사용하는 예약어인 class라는 키워드를 막 사용하면 안됨
-    - 데이터바인딩은 {중괄호}
-    - style은 object 형태로 중괄호 안에 작성 ex) style={{스타일명: ‘값’}}, 하이픈(-)은 js에서 뺄셈으로 인식되기 때문에 camelCase로 작성 ex) font-size(X), fontSize(O)
+    - **html에 class 넣을 땐 className → JSX도 일종의 자바스크립트라서 자바스크립트에서 사용하는 예약어인 class라는 키워드를 막 사용하면 안됨**
+    - **데이터바인딩은 {중괄호}**
+    - **style은 object 형태로 중괄호 안에 작성 ex) style={{스타일명: ‘값’}}, 하이픈(-)은 js에서 뺄셈으로 인식되기 때문에 camelCase로 작성 ex) font-size(X), fontSize(O)**
     
 
 ## ****중요한 데이터는 변수말고 state에 담습니다****
@@ -28,8 +32,8 @@
     1. *`import* { useState } *from* 'react';`
     2. `useState(보관할자료)`
     3. `let [작명, 작명] = useState('남자 코트 추천');` → Destructuring 문법
-- Destructuring 문법
-    - 배열 안에 각각의 요소를 별도의 변수 안에 담음
+- **Destructuring 문법**
+    - **배열 안에 각각의 요소를 별도의 변수 안에 담음**
         
         ```jsx
         let num = [1, 2];
@@ -39,15 +43,16 @@
         // let c = num[1];
         ```
         
-- Q. 왜 state 써야함? → state를 쓰는 이유는 해당 데이터가 변동됐을 때 html 자동 재랜더링하기 위함 → state 쓰던 html은 자동 재랜더링됨
+- **Q. 왜 state 써야함? → state를 쓰는 이유는 해당 데이터가 변동됐을 때 html 자동 재랜더링하기 위함 → state 쓰던 html은 자동 재랜더링됨**
 - Q. state 언제 써야함? → 변동시 자동으로 html에 반영되게 만들고 싶으면 state 사용 → 가급적 변동될 일이 없는 거의 정적인 데이터는 굳이 state 사용하지 않아도 됨
 
 ## ****버튼에 기능개발을 해보자 & 리액트 state변경하는 법****
 
 - 터미널에 warning 메세지를 신경 쓰이면 최상단에 `/* *eslint-disable* */` 추가해주면 경고 메세지 미출력
+- useState 사용 시 변경이 필요없는 경우 set변수 선언해주지 않아도 됨 ex) `let **[따봉] **= *useState*(0);`
 - JSX에서 event handler 처리할 때는 역시 하이픈(-) 없이 camelCase로 작성
-- **onClick={} 안엔 함수 이름을 넣어야 함**
-- **state는 등호로 변경할 수 없음 → state변경함수(새로운state) 형식으로 변경**
+- **onClick={} 안엔 함수 이름을 넣어야 함 → 짠 함수를 넣거나 아니면 바로 함수 선언해서 작성해도 무방**
+- **state는 등호로 변경할 수 없음 → state변경함수(새로운state) 형식으로 변경 ex)** *`따봉변경*(따봉+1)`
 
 ## **array, object state 변경하는 법**
 
@@ -79,16 +84,21 @@
     }}>👩</span>
     ```
     
-- state변경함수 특징
-    - 기존state == 신규state 의 경우 변경안해줌 → 일종의 리소스 절약
-    - array/object 특징
-        
-        ![Untitled](../assets/d798482b587a.png)
-        
-    
-    - 변수1 & 변수2(copy) 화살표가 같으면 변수1 == 변수2 비교해도 true 나옴
-    - array, object는 reference data type이라서 그럼
-    - `let **copy **= **[...글제목];` 이런 형식으로 적었을 때 되는 이유는 ‘화살표를 바꿔주세요’ 라는 뜻이기 때문 → 괄호를 벗겨주세요 + 괄호를 다시 씌워주세요 → 완전히 독립적인 array 사본이 생성됨 → 화살표도 변경
+- **state변경함수 특징**
+    - state변경함수는 **기존state == 신규state** 의 경우 변경안해줌 → 일종의 리소스 절약
+    - **array/object 특징**
+        - array/object 담은 변수엔 화살표만 저장됨
+        - `let arr = [1, 2, 3];` arr 안에는 [1, 2, 3]이 어딨는지 알려주는 화살표만 들어있음 → 실제 데이터는 RAM 안에 저장
+        - state변경함수에서는 아래처럼 바꾼다 하더라도 RAM 안에 있는 배열의 데이터는 변경됐을지언정, 해당 데이터를 가리키는 화살표는 그대로이기 때문에 **기존state == 신규state**로 인지해서 변경되지 않음
+            
+            ```
+            글제목[0] = '여자코트 추천'; // RAM 안에 실제 데이터는 변경
+            글제목변경(글제목); // 화살표는 그대로이기에 기존state == 신규state로 인지
+            ```
+            
+    - **변수1 & 변수2(copy) 화살표가 같으면 변수1 == 변수2 비교해도 true 나옴**
+    - **array, object는 reference data type이라서 그럼**
+    - `**let **copy **= **[...글제목];` 이런 형식으로 적었을 때 되는 이유는 ‘화살표를 바꿔주세요’ 라는 뜻이기 때문 → 괄호를 벗겨주세요 + 괄호를 다시 씌워주세요 → 완전히 독립적인 array 사본이 생성됨 → 화살표도 변경**
     - **빡대가리식 정리: state가 array/object면 독립적 카피본(shallow copy)을 만들어서 수정해야 함**
     - 글제목을 가나다식으로 정렬
         
@@ -158,7 +168,7 @@
     3. <함수명></함수명> 쓰기
     - 안쪽에 element를 병렬로 구성하고 싶다면 또 하나의 div로 묶어서 그룹화하고 병렬 구성을 할 수도 있지만 react에서는 fragment 문법을 통해 <></> 빈 태그로 묶어서 구현할 수도 있음
         
-        [https://ko.reactjs.org/docs/fragments.html](https://ko.reactjs.org/docs/fragments.html)
+        https://ko.reactjs.org/docs/fragments.html
         
     
 - **어떤 걸 컴포넌트로 만들면 좋은가**
@@ -174,7 +184,6 @@
 - **컴포넌트 만드는 법 2**
     - `const Modal = () ⇒ { return ()}` 처럼 변수를 먼저 선언하고 함수를 넣어도 됨
     - 장점이라면, const로 만들어놓으면 실수로 수정했을 때 바로 확인 가능
-    
 
 ## **리액트 환경에서 동적인 UI 만드는 법 (모달창만들기)**
 
@@ -234,6 +243,7 @@
         }
         ```
         
+        - map 함수 콜백함수의 첫 번째 parameter는 안에 있는 각각의 데이터, 두 번째 parameter는 인덱스
 
 - 일반적인 for문으로 담고 싶다면,
     
@@ -258,9 +268,6 @@
 - JavaScript에서는 다른 함수에 있는 변수를 맘대로 가져다 쓸 수가 없음, 변수의 범위가 함수이기 때문
 - #항상 props를 선언할 때는 부모와 자식 구조를 먼저 떠올려보고 접근하면 좋음
 - 자식 컴포넌트는 부모의 state를 활용할 수 있음 → 전송할 땐 props라는 문법을 사용함
-    
-    ![Untitled](../assets/607ef4b9816c.png)
-    
 - 자식에서 부모로, 혹은 형제 요소끼리는 props를 사용할 수 없음
 - **props 사용하는 법**
     1. 자식 컴포넌트로 가서 <자식컴포넌트 **작명**={state이름}> 형식으로 자식컴포넌트에 작명하기
@@ -270,8 +277,21 @@
         ```
         
     2. 자식 컴포넌트 선언부로 가서 props라는 parameter 등록 후 props.작명 사용
-
+        
+        ```jsx
+        function Modal(props) { // 모달 컴포넌트
+          return (
+            <div className="modal">
+              <h4>제목</h4>
+              <p>날짜</p>
+              <p>상세내용</p>
+            </div>
+          )
+        }
+        ```
+        
 - 컴포넌트가 많아지면 props를 별도로 선언해줘야 해당 state를 활용할 수 있기 때문에 귀찮아짐
+- #변수뿐만 아니라 함수명 같은 것도 다 props로 내릴 수 있음
 
 ## **props를 응용한 상세페이지 만들기**
 
@@ -313,7 +333,7 @@ function Modal(props) {
 
 ## **input 1 : 사용자가 입력한 글 다루기**
 
-- 클릭이벤트는 상위html로 퍼짐(이벤트 버블링) #Vue는 `click.stop`으로 해당 버블링을 막음 → React나 순수 js에서는 `event.stopPropagation()` 을 통해서 버블링 막을 수 있음
+- **클릭이벤트는 상위html로 퍼짐(이벤트 버블링) #Vue는 `click.stop`으로 해당 버블링을 막음 → React나 순수 js에서는 `event.stopPropagation()` 을 통해서 버블링 막을 수 있음**
 - 사용자가 입력한 글을 변수에 저장하기 위해선 역시 비슷하게 state로 다루면 됨 -> `let [입력값, 입력값변경] = useState('');` 선언하고 event.target.value를 해당 변수에 state변경함수를 통해서 담아줌
 - 하기 코드에서 `console.log`가 먼저 실행되고 state 변경함수가 더 늦게 처리됨 → 비동기처리 되게끔 짜여져 있는데 React가 그렇게 짜여져 있음
     
@@ -327,7 +347,7 @@ function Modal(props) {
 
 ## **input 다루기 2 : 블로그 글발행 기능 만들기**
 
-- #값을 뒤에 담고 싶으면 `array.push()` / 앞에 담고 싶으면 `array.unshift()`
+- **#값을 뒤에 담고 싶으면 `array.push()` / 앞에 담고 싶으면 `array.unshift()`**
 
 ## **class를 이용한 옛날 React 문법**
 
@@ -359,6 +379,8 @@ function Modal(props) {
 
 ## **만든 리액트 사이트 build & Github Pages로 배포해보기**
 
+- 배포 전 체크사항
+    - 콘솔, 터미널에 에러 없으면 큰 문제 없음(warning은 크리티컬하지 않음)
 - #기본적으로 react는 build할 때 파일의 경로가 절대경로로 잡혀 있음
 - #static 파일들을 상대 경로롤 인지할 수 있게 빌드를 해줘야 함
 - #package.json에 homepage key를 추가
@@ -394,7 +416,7 @@ function Modal(props) {
     
 - src폴더에 있는 이미지는 별도로 import를 각각 해줘야 하기 때문에 public 폴더에도 이미지 보관 가능함
 - 리액트는 사이트 발행 전에 html js css 파일을 압축함 (bundling) → 하지만 public 폴더 안에 있던 건 압축되지 않음, 고로 그대로 쓸 수 있음
-- 서브 경로를 통해서 발행하고자 할 땐 src 경로를 다시 잡아줘야 하는 문제가 있음 → 때문에 env를 사용해서 경로를 잡아주는 것을 권장함
+- **서브 경로를 통해서 발행하고자 할 땐 src 경로를 다시 잡아줘야 하는 문제가 있음 → 때문에 env를 사용해서 경로를 잡아주는 것을 권장함**
     
     ```jsx
     render() {
@@ -507,8 +529,6 @@ function Modal(props) {
         ```
         
     
-    ## **리액트 라우터 2 : navigate, nested routes, outlet**
-    
     - React의 폴더 구조 → 비슷한 파일끼리 폴더로 잘 묶는 게 끝..
     1. 페이지 이동 도와주는 `useNavigate()` → 페이지 이동기능을 만들고 싶으면 사용
         
@@ -557,12 +577,29 @@ function Modal(props) {
             ```
             
     
+
+## **리액트 라우터 2 : navigate, nested routes, outlet**
+
 - nested routes 언제 씀?
     - 여러 페이지를 쓰고 싶을 때
     - 단, 페이지간의 차이가 별로 없고 유사한 페이지가 필요할 때
     
 
 ## **리액트 라우터 3 : URL 파라미터로 상세페이지 100개 만들기**
+
+- parameter를 사용할 페이지에서 useParams를 import하고 변수에 담아 사용 가능
+    
+    ```jsx
+    import { useParams } from 'react-router-dom';
+    
+    function Detail(props) {
+      
+    let {id} = useParams();
+    console.log(id);
+    
+    .......
+    ```
+    
 
 - 상세 페이지 같이 별도의 값으로 각각 페이지를 그려주는 곳에는 :url parameter를 사용할 수 있음
     
@@ -588,7 +625,7 @@ function Modal(props) {
     `
     
     // 컴포넌트 호출
-    <YellowBtn></YellowBtn>
+    <YellowBtn>버튼</YellowBtn>
     ```
     
 - **styled-components의 장점 및 기능**
@@ -596,6 +633,8 @@ function Modal(props) {
     - 오염방지하는 기능으로는 React에 module.css를 활용할 수 있음 → 컴포넌트.module.css
     - styled-components의 장점 → 페이지 로딩시간 단축
     - props를 통해서 별도의 값을 주고 동일한 컴포넌트 사용 가능
+    - styled-components 안에서 JS처럼 프로그래밍 가능 ex) *`color:* ${ *props* => *props.bg* === **'blue' **? **'white' **: **'black' **}*;*`
+    - 기존 스타일 복사해서 새로운 엘리먼트 생성
         
         ```jsx
         import { useParams } from "react-router-dom";
@@ -609,7 +648,7 @@ function Modal(props) {
           padding: 10px;
         `
         
-        // 기존 스타일 복사해서 새로운 엘레먼트 생성
+        // 기존 스타일 복사해서 새로운 엘리먼트 생성
         let NewBtn = styled(YellowBtn)`
           padding: 20px;
         `
@@ -669,13 +708,13 @@ function Modal(props) {
     
 - **useEffect 쓰는 이유**
     - 컴포넌트 안쪽에 별도의 코드를 넣어도 동일하게 실행이 되지만 useEffect 안에 있는 코드는 html 랜더링이 다 끝난 후에 동작함
-    - useEffect 안에 적는 코드들은 어려운 연산
-    - 혹은 서버에서 데이터 가져오는 작업
+    - useEffect 안에 적는 코드들은 어려운 연산(랜더링이 끝난 이후에 연산을 하도록)
+    - 혹은 서버에서 데이터 가져오는 작업(오래 걸리는)
     - 타이머 장착하는 거
     - #그 외 html 랜더링 후에 실행되어야 할 것들
 
 - **왜 이름이 Effect임?**
-    - 프로그래밍 언어 중에 Side Effect → 함수의 핵심 기능과 상관없는 부가기능
+    - 프로그래밍 언어 중에 Side Effect → 함수의 핵심 기능과 상관없는 부가기능을 Side Effect라고 함
 
 ## **Lifecycle과 useEffect 2**
 
@@ -750,7 +789,7 @@ function Modal(props) {
         useEffect(() => { 여기 코드 작성 });
         ```
         
-    - mount시 1회만 코드 실행하고 싶으면,
+    - mount시 1회만 코드 실행하고 싶으면(update 제외),
         
         ```jsx
         useEffect(() => { 여기 코드 작성 }, []);
@@ -776,6 +815,7 @@ function Modal(props) {
     2. fetch() → 요즘 자바스크립트 문법
     3. axios → 외부 라이브러리
 - `npm install axios`한 후에 원하는 곳에 *`import* axios *from* 'axios'`
+- .then 콜백을 통해서 get한 값을 다루거나 성공했을 때 처리할 로직,.catch 콜백을 통해서 가져오지 못했을 때 처리할 로직 넣기
 
 ```jsx
 <button type="button" onClick={() => {
@@ -806,7 +846,7 @@ function Modal(props) {
     - 원래는 array나 object 자료 주고 받을 수 없음
     - JSON 데이터는 문자 취급을 받을 수 있기 때문에 array나 object 형식으로 통신 가능함
     - **실질적으로 api 호출해서 값을 받아올 때 JSON 데이터로 받아오지만 외부 라이브러리(ex) axios)의 경우 array로 자동으로 변환해줌**
-    - **fetch 같은 기존 js 문법으로 호출하는 경우 별도의 변환 과정 필요**
+    - **fetch 같은 기존 js 문법으로 호출하는 경우 결과 별도의 변환 과정 필요**
         
         ```jsx
         const fetchItem = () => {
@@ -897,7 +937,7 @@ function TabContent({탭}) {
 
 ## **props 싫으면 Context API 써도 됩니다**
 
-- props 전송은 부모 → 자식만 가능, 고로 조부모에서 자식으로 내리려면 부모를 거쳐야 함 → 컴포넌트가 중첩될 수록 props 내리는 일이 쉽지 않음
+- **props 전송은 부모 → 자식만 가능, 고로 조부모에서 자식으로 내리려면 부모를 거쳐야 함 → 컴포넌트가 중첩될 수록 props 내리는 일이 쉽지 않음**
 - **props 싫으면,**
     1. Context API (리액트 기본문법) → 실무에선 잘 쓰이진 않음
         - 성능 이슈
@@ -908,22 +948,63 @@ function TabContent({탭}) {
 - **Context API 특징**
     1. state 변경 시 쓸데없는 것까지 비효율적인 것까지 재랜더링
     2. 해당 컴포넌트를 다른 페이지에서 재사용한다고 했을 때 혼란함이 있을 수 있음
+- ex)
+    
+    ```jsx
+    
+    // App.js
+    import { createContext } from 'react';
+    export let Context1 = createContext();
+    
+    <Context1.Provider value={{ 재고, shoes }}>
+      <Detail shoes={shoes}/>
+    </Context1.Provider>
+    
+    // Detail.js
+    import { useContext } from 'react';
+    import {Context1} from './../App';
+    
+    let {재고} = useContext(Context1);
+    ```
     
 
 ## **장바구니 페이지 만들기 & Redux 1 : Redux Toolkit 설치**
 
 - Q. 장바구니 state가 App, Detail, Cart에 필요하면 어디 만들어야 함? → 물론 Cart.js에 만들어도 되지만 전체 서비스 곳곳에서 필요하다면 최상위 컴포넌트에서 만들어야 함
-- Redux 사용하면 컴포넌트들이 props 없이 state 공유 가능
-    
-    ![Untitled](../assets/93657070ba26.png)
-    
-    (리액트 구인 시 대부분 Redux 요구)
-    
+- Redux 사용하면 컴포넌트들이 props 없이 state 공유 가능(리액트 구인 시 대부분 Redux 요구)
+    - ex) Redux store.js 에 전역에서 사용할 state 선언하고 <App />, <Detail />, <Cart />.. 등 원하는 데에 가져다가 사용
 - `npm install @reduxjs/toolkit react-redux`
 - **Redux 세팅**
-    1. store.js 파일 생성
-    2. index.js 가서 <Provider store={store}> 쓰기
-    
+    1. src 폴더 밑에 store.js 파일 생성
+    2. store.js에 아래 코드 세팅
+        
+        ```jsx
+        import { configureStore } from '@reduxjs/toolkit'
+        
+        export default configureStore({
+          reducer: { }
+        })
+        ```
+        
+    3. index.js 가서 <Provider store={store}> 쓰기
+        
+        ```jsx
+        import { Provider } from "react-redux";
+        import store from './store.js'
+        
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(
+          <React.StrictMode>
+            <Provider store={store}>
+              <BrowserRouter>
+                <App />
+              </BrowserRouter>
+            </Provider>
+          </React.StrictMode>
+        );
+        ```
+        
+    4. App.js와 그 자식 요소들은 store.js 데이터 자유롭게 사용 가능
 
 ## **Redux 2 : store에 state 보관하고 쓰는 법**
 
@@ -946,7 +1027,7 @@ function TabContent({탭}) {
     ```
     
 
-- userSelector를 import하고 문법대로 적어주면 Redux store에 있던 state가 그대로 남음
+- userSelector를 import하고 문법대로 적어주면 Redux store에 있던 모든 state가 그대로 남음
     
     `let **state **= *useSelector*((*state*) **=> **{ *return* state **})`
     
@@ -958,7 +1039,7 @@ function TabContent({탭}) {
     1. state 수정해주는 함수 만들기
     2. 만든 함수 export 해야 
     3. 만든 함수 import 해서 쓰기 전에 useDispatch 사용해야 함
-        - store.js로 요청 보내주는 함수
+        - useDispatch는 store.js로 요청 보내주는 함수(store.js로 메세지 보내줌)
         
 
 ```jsx
@@ -972,12 +1053,25 @@ let user = createSlice({ // createSlice를 통해 slice 하나 생성 후,
   }
 })
 
-export let { changeName } = user.actions
+export let { changeName } = user.actions // 관습적으로 이렇게 씀(디스트럭처링 문법)
 ```
 
 ```jsx
+import { useDispatch } from 'react-redux'
 import { changeName } from "./../store.js"
+
+...
+
+// 컴포넌트 안쪽에
+let dispatch = useDispatch()
+
+...
+
+// dispatch로 감싸고 사용
+<button onClick={() => { dispatch(changeName()) }}>버튼</button>
 ```
+
+- store.js에 메소드를 짜고 가져다 쓰는 이유는, 전역 관리하는 state를 각 컴포넌트에서 바로 수정했을 때 문제가 생기면 컴포넌트에 있는 모든 메소드를 다 체크해봐야 하지만 이런 식으로 export, import하면서 작업하면 store.js만 체크하면 됨
 
 ## **Redux 4 : state가 object/array일 경우 변경하는 법**
 
@@ -993,9 +1087,9 @@ let user = createSlice({ // createSlice를 통해 slice 하나 생성 후,
 })
 ```
 
-- state가 object/array면 return 없이 직접 수정 가능함
-- 그래서 문자 하나만 필요해도 일부러 객체 안에 담기도 함
-- 첫 번째 parameter는 state, 두 번째부터는 활용 필요한 parameter 선언해서 사용 가능함
+- **state가 object/array면 return 없이 직접 수정 가능함**
+- **그래서 문자 하나만 필요해도 일부러 객체 안에 담기도 함**
+- **첫 번째 parameter는 state, 두 번째부터는 활용 필요한 parameter 선언해서 사용 가능함**
     
     ```jsx
     let user = createSlice({ // createSlice를 통해 slice 하나 생성 후,
@@ -1012,6 +1106,7 @@ let user = createSlice({ // createSlice를 통해 slice 하나 생성 후,
     })
     ```
     
+- state 변경함수를 action이라고 함
 
 ## **Redux 5 : 장바구니 기능 만들기 숙제 & 응용문제**
 
@@ -1046,7 +1141,6 @@ let cartList = createSlice({ // createSlice를 통해 slice 하나 생성 후,
 
 - [x]  장바구니 삭제 기능
 - [ ]  장바구니에 해당 아이템 있을 시 추가하는 게 아니라 수량만 추가되는 기능
-
 
 ## **리액트에서 자주쓰는 if문 작성패턴 5개**
 
@@ -1236,6 +1330,7 @@ function Component() {
 ```
 
 ## localStorage로 만드는 최근 본 상품 기능 1
+
 1. `key`, `value` 형태로 저장 가능
 2. 문자 데이터만 저장 가능(최대 5MB까지 저장 가능)
 3. 사이트 재접속해도 남아 있음(브라우저 청소하면 삭제됨)
@@ -1285,6 +1380,7 @@ function Component() {
     4. state 공유 안해도 됩니다
     5. ajax 결과 캐싱 가능
 - redux-toolkit 설치하면 RTK Query도 자동 설치됨
+
 ## 성능개선 1 : 개발자도구 & lazy import
 
 - 크롬 확장 프로그램에서 React Developer Tools 설치 후 해당 도구를 통해 components 구조나 해당 component의 props나 state 확인하면서 디버깅 가능
@@ -1313,7 +1409,7 @@ function Component() {
     const Cart = lazy(() => import('./routes/Cart.js'));
     ```
     
-- 단, 해당 lazy 컴포넌트로 접근할 때 해당 컴포넌트 지연시간 발생 → Suspense 호출 후 해당 컴포넌트를 감싸서 fallback에 지연시간 동안 보여줄 html 입력
+- 단, **해당 lazy 컴포넌트로 접근할 때 해당 컴포넌트 지연시간 발생** → Suspense 호출 후 해당 컴포넌트를 감싸서 fallback에 지연시간 동안 보여줄 html 입력
 
 ## 성능개선 2 : 재렌더링 막는 memo, useMemo
 
@@ -1339,6 +1435,7 @@ function Component() {
 - useEffect → html 파싱 같은 게 끝나면 그때서야 useEffect가 생각이 남 / useMomo는 랜더링 될 때 같이 실행 → 실행 시점의 차익
 
 ## 성능개선 3 : useTransition, useDeferredValue
+
 - batch 기능 → state가 여러 개 있을 때 state가 변경될 때마다 재랜더링이 일어나는데 마지막 state가 변경될 때 거기서만 재랜더링 1회로 제한할 수 있는  batching
     - 17버전에서는 ajax, setTimeout 내부라면 batching이 일어나지 않는데, 18버전에서는 batching 가능
     - [https://velog.io/@rookieand/React-18에서-추가된-Auto-Batching-은-무엇인가](https://velog.io/@rookieand/React-18%EC%97%90%EC%84%9C-%EC%B6%94%EA%B0%80%EB%90%9C-Auto-Batching-%EC%9D%80-%EB%AC%B4%EC%97%87%EC%9D%B8%EA%B0%80)
@@ -1379,4 +1476,66 @@ function App() {
   )
 }
 ```
+
 ## PWA 셋팅해서 앱으로 발행하기 (모바일앱인척하기)
+
+- Progressive Web App → 웹사이트를 모바일 앱처럼 설치해서 쓸 수 있음
+- PWA 장점
+    1. 설치 마케팅 비용 적음
+    2. 아날로그 유저들 배려
+    3. html, css, js만으로 앱까지
+    4. 푸시알림, 센서 등
+- PWA 세팅할 프로젝트 생성
+    
+    ```
+    // 프로젝트 생성 시
+    npx create-react-app my-app --template cra-template-pwa
+    ```
+    
+- 기존 프로젝트에는 추가 불가능 → 새 PWA 프로젝트 만들고 기존 코드 복붙
+- PWA의 조건
+    - manifest.json → 앱 설정 파일(앱 이름 및 아이콘 등)
+        
+        ```jsx
+        {
+          "short_name": "React App", // 앱 이름
+          "name": "Create React App Sample",
+          "icons": [ // Android, iOS, Windows 마다 요구하는 아이콘 크기가 다름
+            {
+              "src": "favicon.ico",
+              "sizes": "64x64 32x32 24x24 16x16",
+              "type": "image/x-icon"
+            },
+            {
+              "src": "logo192.png",
+              "type": "image/png",
+              "sizes": "192x192"
+            },
+            {
+              "src": "logo512.png",
+              "type": "image/png",
+              "sizes": "512x512"
+            }
+          ],
+          "start_url": ".", // 앱 누르면 처음 뜨는 페이지 경로
+          "display": "standalone", // 앱 켜면 브라우저 상단바 제거할지 말지
+          "theme_color": "#000000",
+          "background_color": "#ffffff"
+        }
+        ```
+        
+    - service-worker.js → index.js에서 `serviceWorkerRegistration.unregister();` 를 `serviceWorkerRegistration.register();` 변경하고 build
+        - 오프라인에서도 사이트 열 수 있게 도와줌 → 모든 파일들이 미리 저장장치에 저장되어 있음
+    - build하고 나온 asset-manifest.json → 캐싱할 파일 목록
+    - build한 index.html을 live server로 띄어보면 PWA 테스트 가능
+    - 개발자도구 Application에서 Manifest,ㄴ Service Workers를 통해서 세팅값 확인 가능, Storage > Cache Storage를 통해서 어떤 파일이 캐싱되고 있는지 확인 가능
+    
+
+## state 변경함수 사용할 때 주의점 : async
+
+- **추후 복습(useEffect 관련)**
+
+## Node+Express 서버와 React 연동하려면
+
+- **실제 서버 구축과 배포할 때 참고**
+- 간단하게 얘기해서 html을 서버가 만들면 server-side rendering(SSR) / html을 리액트(JS)가 만들면 client-side rendering(CSR) → 랜더링 주체가 누구냐에 따라 다름
