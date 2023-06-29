@@ -2,12 +2,23 @@
 
 ## Next.js 많이 쓰는 이유를 알아보자
 
-- CSR보다 SSR이 유행함
-    - CSR의 문제 → 구글 검색 노출, 페이지 로딩 속도
-    - SSR → 서버에서 웹페이지를 다 만들어서 보내주기 때문에 유저한테 JS를 보낼 필요가 없어서 조금 더 가볍고, 구글 검색 노출, 페이지 로딩 속도 좋음 + 원하는 영역에서는 CSR로 처리 가능
+- CSR보다 SSR이 다시 유행함
+- client-side rendering은 브라우저에서 html을 실시간으로 만드는 방법
+- server-side rendering은 서버에서 html을 미리 만들어 보내줌
+- CSR의 문제 → 이쁘고 부드러운 사이트는 만들 수 있으나 구글 검색 노출, 페이지 로딩 속도
+- SSR → 서버에서 웹페이지를 다 만들어서 보내주기 때문에 유저한테 JS를 보낼 필요가 없어서 조금 더 가볍고, 구글 검색 노출, 페이지 로딩 속도 좋음 + 원하는 영역에서는 CSR로 처리 가능
+- Next.js 13버전 주요 기능
+    - 폴더기반 자동라우팅
+    - 새로디자인한 서버API 기능
+    - 쉬운 DB연결
+    - 직관적인 rendering 전략 선택기능
+    - hydration없는 server-side rendering
+    - 파워풀한 캐싱
+    - 이미지와 폰트 최적화
 
 ## Next.js 설치와 개발환경 셋팅
 
+- nodejs 18버전 이상에서만 잘돌아감
 - node 버전 변경 관련 참고 포스팅
     - nvm 사용 중 "C:\Users\������\AppData\Roaming\nvm could not be found or does not exist. Exiting.”
         
@@ -19,11 +30,13 @@
         
 - npx create-next-app@latest
 - 폴더&파일 구조
+    - app 폴더 → 코드 짤 폴더
     - page.js → 메인 페이지
     - layout.js → page.js를 감싸는 페이지(구조로 보면 page.js의 부모) → page.js 바깥에 적어줘야 할 코드는 여기에 작성 → ex) head 내용, 상단 고정 기능 등
     - globals.css → 모든 전역 css
     - xxx.module.css → 특정 페이지에만 적용 가능한 모듈 css
     - public 폴더 → 이미지 등 소스코드 외의 파일들 보관용
+    - api 폴더 → 서버 기능 만드는 곳
     
 
 ## 페이지 레이아웃 만들기 (React 기초문법)
@@ -155,4 +168,265 @@ export default function List() {
     - 외부 이미지 링크를 넣고 싶으면 width, height 속성이 정확히 필요하고 next.config.js에서 별도 remotePatterns 세팅 필요함
     - 때문에 다 만든 후에 최적화하는 것이 좋음
 
-**layout 터지는 거 해결하고 이 섹션 끝부분 다시 들어야 함…**
+## client/server component, import 문법
+
+- Next.js 컴포넌트는 종류가 2개 → server component / client component
+- 아무데나 선언해서 만든 건 server component
+- **파일 맨 위에 ‘use client’ 넣고 만든 건 client component**
+- **server component - html에 자바스크립트 기능 넣기 불가능, useState, useEffect 등 사용 불가**
+- ‘use client’ 선언하고 client component로 변경하면 사용 가능
+- **client component 개발 용이함, 로딩 속도 느림(자바스크립트 많이 필요, hydration 필요)**
+    - hydration - html을 유저에게 보낸 후에 자바스크립트로 html 다시 읽고 분석하는 일
+- **server component 로딩속도 빠름(큰 페이지에 추천)**
+- **JS 기능 필요한 작은 페이지에는 client component**
+
+## Component에 데이터 전해주려면 props
+
+- 리액트 문법과 동일함
+- 중괄호 열면 변수, 함수 등 아무거나 전송 가능
+- 부모 → 자식 전송 가능, 자식 → 부모, 옆집끼리 props 전송 불가능
+- 데이터가 많은 컴포넌트에서 가급적 그들 중 최고 부모 컴포넌트에 보관해야 좋음
+- **#같은 데이터를 부모에서, 자식에서 또 한번 두 번 가져올 수도 있으나 다른 Vue, React에서는 두 번 호출되기 때문에 비효율적인데, Next.js에서는 같은 데이터 요청이 여러 개면 1개로 압축해줌(deduplication 기능)**
+
+## ****좋아요 버튼 만들기 (useState, onClick)****
+
+- useState, 이벤트 설명 리액트와 동일함
+
+## 좋아요 버튼 만들기 2 (array, object state 변경하려면)
+
+- array, object 관련 설명 리액트와 동일함
+- 깊은복사, 얇은복사, reference data type 관련 내용
+    
+    let arr = [1, 2, 3]
+    
+    let arr2 = arr
+    
+    **console.log(arr2 == arr) // arr2 값이 바뀌더라도 true임, RAM에 담긴 그 값을 가리키는 화살표가 동일하게 때문, 비교연산자로는 array data 자체가 아닌 화살표만 비교 가능**
+    
+
+# Part 2 : 게시판 프로젝트
+
+## **새로운 프로젝트 생성 / MongoDB 셋팅**
+
+- Database
+    - 관계형 Database → PostgreSQL, MySQL, ORACLE
+    - 비관계형 Database → **mongoDB**, Cloud Firestore, cassandra → 대용량 트래픽, 분산처리 잘해줌
+    - **mongoDB** → JS object 자료형처럼 데이터 저장 가능
+
+## ****Next.js에서 MongoDB 사용하기****
+
+### 데이터 삽입 작업
+
+- [mongodb.com](http://mongodb.com) → Database → Browse Collections → Add My Own Data
+- database는 그냥 하나의 프로젝트라고 이해하면 좋음
+- collection은 하나의 폴더라고 이해하면 좋음
+- **collection이라는 폴더를 하나 만들고 그 안에 document라는 걸 만들어서 그 안에 object 자료형 같은 걸 보관**
+- 해당 collection에 접근해서 insert document를 통해 자료 삽입
+
+### Next.js 내 세팅
+
+- npm i mongodb
+- 호출하고자 하는 페이지에서 호출
+    
+    ```jsx
+    import { MongoClient } from "mongodb"
+    
+    export default async function Home() {
+    
+      const url = 'mongodb+srv://admin:qwe123@cluster0.tjgi6mq.mongodb.net/?retryWrites=true&w=majority';
+      const client = await MongoClient.connect(url, { // DB접속용 url
+        useNewUrlParser: true,
+      })
+      const db = client.db('forum'); // 접속하고자 하는 데이터베이스 이름(ex) forum)
+      db.collection('post').find();
+    
+      return (
+        <div>
+          test
+        </div>
+      )
+    }
+    ```
+    
+
+- 저렇게 짜면 해당 페이지에서 계속 `connect()`를 실행하기 때문에 별도의 파일로 짜서 호출해옴
+    
+    ```jsx
+    // util\database.js
+    
+    import { MongoClient } from 'mongodb'
+    const url = 'mongodb+srv://admin:qwe123@cluster0.tjgi6mq.mongodb.net/?retryWrites=true&w=majority'
+    const options = { useNewUrlParser: true }
+    let connectDB
+    
+    if (process.env.NODE_ENV === 'development') { // global 변수를 사용해서 개발 단계에선 connect()가 연속적으로 실행되지 않도록 분기처리
+      if (!global._mongo) {
+        global._mongo = new MongoClient(url, options).connect()
+      }
+      connectDB = global._mongo
+    } else {
+      connectDB = new MongoClient(url, options).connect()
+    }
+    export { connectDB }
+    ```
+    
+    ```jsx
+    // app\page.js
+    
+    import { connectDB } from '@/util/database.js'
+    
+    export default async function Home() {
+    
+      const client = await connectDB;
+      const db = client.db('forum');
+      let result = await db.collection('post').find().toArray();
+      console.log('result', result);
+    
+      return (
+        <div>
+          test
+        </div>
+      )
+    }
+    ```
+    
+
+- DB 입출력 코드는 server component 안에서만 작성하는 게 좋음 → client component는 랜더링해서 유저에게 모든 코드가 날아가기 때문
+
+## 글목록 조회기능 만들기 (DB 데이터 출력)
+
+- 몽고DB 가져와서 map 함수로 반복문 뿌리는 같은 내용
+
+## 상세페이지 만들기 1 (Dynamic route)
+
+- detail 폴더 밑에 [아무이름] 폴더 만들고 그 밑에 page.js 관리하면 detail/아무이름 으로 해당 페이지 접근 가능 → 즉 Dynamic하게 라우팅할 수 있음 ex) http://localhost:3000/detail/adsadad
+
+## 상세페이지 만들기 2 (useRouter)
+
+- useRouter를 사용한 예제
+    
+    ```jsx
+    'use client'
+    
+    import {useRouter} from 'next/navigation'
+    
+    export default function DetailLink(){
+      let router = useRouter()
+      return (
+        <button onClick={()=>{ router.push('/') }}>버튼</button>
+      )
+    }
+    ```
+    
+
+- router 관련 함수들
+    - router.back() → 뒤로 가기
+    - router.forward() → 앞으로 가기
+    - router.refresh() → 소프트 리프레시
+    - router.prefetch(’/어쩌구’) → 어쩌구의 내용을 미리 로드해줌 → 그 페이지 방문할 때 매우 빠르게 방문 가능
+    - server component에도 <Link> 컴포넌트에 prefetch 기본으로 적용되어 있음 → 원치 않으면 refetch={false} 적용
+        
+        ```jsx
+        <Link href={'/어쩌구'} prefetch={false}>링크</Link>
+        ```
+        
+- navigation 관련 함수들
+    
+    ```jsx
+    'use client'
+    
+    import {usePathname, useSearchParams, useParams} from 'next/navigation'
+    
+    export default function DetailLink(){
+      let a = usePathname()
+      let b = useSearchParams()
+      let c = useParams()
+      console.log(a)
+    }
+    ```
+    
+
+## 글 작성기능 만들기 1 (서버기능 개발은)
+
+- 유저가 작성한 글을 바로 DB로 받는 건 유효성 부분도 그렇고 안전하지 않기 때문에 중간에 글을 체크하고 이상이 없으면 DB에 저장 → 3-tier architecture, 그 중간이 서버
+- 그 중간 역할을 하는 서버에서 api 작성, URL과 method가 필요함(GET, POST, PUT, DELETE, PATCH)
+- GET 요청 작성
+    
+    ```jsx
+    export default function handler(요청, 응답) {
+      console.log(123);
+      return 응답.status(200).json('처리완료'); // 요청을 받아씅면 응답을 해주는 게 좋음
+    }
+    ```
+    
+- form tag 사용해서 GET, POST 요청 가능 - action에는 URL 잘 기입하고 method에는 GET, POST 중에 하나 기입하면 됩니다. (PUT, DELETE는 못씁니다)
+    
+    ```jsx
+    // (app/write/page.js)
+    
+    export default function Write(){
+      return (
+        <div>
+          <h4>글작성</h4>
+          <form action="/api/test" method="POST">
+            <button type="submit">버튼</button>
+          </form>
+        </div>
+      )
+    }
+    ```
+    
+
+- 회원가입 과제
+    
+    ```jsx
+    // app\join\page.js
+    
+    export default function Join() {
+      return (
+        <div>
+          <form action="/api/join/new" method="POST">
+            <input type="text" name="id" />
+            <input type="password" name="password" />
+            <button type="submit">회원가입</button>
+          </form>
+        </div>
+      )
+    }
+    ```
+    
+
+```jsx
+// pages\api\join\new.js
+
+import { connectDB } from "@/util/database";
+
+export default async function handler(req, res) {
+  const client = await connectDB;
+  const db = client.db('forum');
+  let result = await db.collection('user').find().toArray();
+  console.log(result);
+
+  if(req.method === 'POST') {
+    
+    for(let i = 0; i < result.length; i++) {
+      if(req.body.id === result[i].id) {
+        return res.status(500).json('중복아이디')
+      }
+    }
+
+    try {
+      const db = (await connectDB).db('forum')
+      let result = await db.collection('user').insertOne(req.body);
+      return res.status(200).json('회원가입완료');
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
+}
+```
+
+## 수정기능 만들기 1
+
+여기서부터!
