@@ -233,7 +233,7 @@ export default function List() {
     
     export default async function Home() {
     
-      const url = 'mongodb+srv://admin:qwe123@cluster0.tjgi6mq.mongodb.net/?retryWrites=true&w=majority';
+      const url = 'mongodb+srv://admin:<password>@cluster0.tjgi6mq.mongodb.net/?retryWrites=true&w=majority';
       const client = await MongoClient.connect(url, { // DB접속용 url
         useNewUrlParser: true,
       })
@@ -255,7 +255,7 @@ export default function List() {
     // util\database.js
     
     import { MongoClient } from 'mongodb'
-    const url = 'mongodb+srv://admin:qwe123@cluster0.tjgi6mq.mongodb.net/?retryWrites=true&w=majority'
+    const url = 'mongodb+srv://admin:<password>@cluster0.tjgi6mq.mongodb.net/?retryWrites=true&w=majority'
     const options = { useNewUrlParser: true }
     let connectDB
     
