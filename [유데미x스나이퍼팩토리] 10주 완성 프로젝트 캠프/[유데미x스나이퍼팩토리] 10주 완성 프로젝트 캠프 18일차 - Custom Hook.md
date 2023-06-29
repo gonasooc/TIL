@@ -11,3 +11,7 @@ C**ustom Hook**
 ## 수업 실습
 
 - https://github.com/udemy-team13/training/tree/main/gonasooc/practice/230628/learn-hooks
+
+
+본 후기는 유데미-스나이퍼팩토리 10주 완성 프로젝트캠프 학습 일지 후기로 작성 되었습니다.
+#프로젝트캠프 #프로젝트캠프후기 #유데미 #스나이퍼팩토리 #웅진씽크빅 #인사이드아웃 #IT개발캠프 #개발자부트캠프 #리액트 #react #부트캠프 #리액트캠프
