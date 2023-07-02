@@ -368,4 +368,70 @@ https://git-scm.com/book/en/v2
 - Accept Current Change / Accept Incoming Change / Accept Both
 - 직접 충돌 지점을 수정해서 별도의 스테이징/커밋을 작성해도 괜찮음
 
-## 병합 해결하기
+# 섹션8: Git Diff로 변경사항 비교하기
+
+## Git Diff 명령어 소개
+
+### Git Diff
+
+- We can use the **git diff** command to view changes between commits, branches, files, our working directory, and more!
+- We often use git diff alongside commands like git status and git log, to get a better picture of a repository and how it has changed over time.
+
+## Diff 읽는 방법 1
+
+### Compared Files
+
+- For each comparison, git Explains which files it is comparing. Usually this is two versions of the same file.
+- Git also declares one file as “A” and the other as “B”.
+
+### File Metadata
+
+- You really do not need to care about the file metadata.
+- The first two numbers are the hashes of the two files being compared. The last number is an internal file mode identifier.
+
+### Markers
+
+- File A and File B are each assigned a symbol.
+    - File A gets a minus sign (-)
+    - File A gets a plus sign (+)
+
+### Chunks
+
+- A diff won’t show the entire contents of a file, but instead only shows portions or “chunks” that were modified.
+- A chunk also includes some unchanged lines before and after a change to provide some context
+
+## 작업 디렉토리 변경사항 보기
+
+### git diff
+
+- git diff HEAD lists all changes in the working tree since your last commit.
+- git diff는 워킹 디렉토리와 스테이지 영역의 차이점을 보여주고, git diff HEAD는 HEAD가 가리키는 최신 커밋과 워킹 디렉토리 간의 차이를 보여줌
+
+## 스테이징된 변경사항 보기
+
+### git diff
+
+- **git diff —staged** or **—cached** will list the changes between the staging area and our last commit.
+- “Show me what will be included in my commit if I run git commit right now”
+
+## 특정 파일 Diff하기
+
+### Diff-ing Specific Files
+
+- We can view the changes within a specific file by providing git diff with a filename.
+
+## 브랜치 전반에 걸쳐 변경사항 비교하기
+
+### Comparing Branches
+
+- **git diff branch1..branch2** will list the changes between the tips of branch1 and branch2
+
+## 커밋 전반에 걸쳐 변경사항 비교하기
+
+### Comparing Commits
+
+- To compare two commits, provide git diff with the commit hashes of the commits in question.
+
+## Diff 연습하기
+
+이거 실습해봐야 함

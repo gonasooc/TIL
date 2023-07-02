@@ -14,7 +14,8 @@
 
 - 무비 앱에 커스텀 훅 도입하기
     - 4개 기능 중 하나씩 각자 맡아서 커스텀 훅 구현하기 → Pagination 커스텀 훅 담당
-- 별도 branch로 구현하고 현재 pull request(팀원들 피드백 받고 merge 예정)
+- 각자 커스텀 훅 구현한 거 mr로 서로 피드백한 후 main에 merge 후 배포
+- https://udemy-team13.github.io/react-movie/
 - https://github.com/udemy-team13/react-movie
 
 
