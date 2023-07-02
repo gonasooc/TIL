@@ -1,3 +1,7 @@
+### git remote branch 삭제
+
+[Git 로컬 및 원격 브랜치 삭제하기](https://www.freecodecamp.org/korean/news/git-delete-local-or-remote-branch/)
+
 ### git 합치기(parent가 child 합치고 history 살리기) - git subtree 명령어
 
 [[Git / GitHub] - git subtree 명령어](https://zzang9ha.tistory.com/294)
