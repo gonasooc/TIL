@@ -1,3 +1,7 @@
+### Redux에서 사용하는 Flux 패턴
+
+[Flux 패턴이란?](https://velog.io/@andy0011/Flux-패턴이란)
+
 ### React 무한 스크롤
 
 [[React] 무한 스크롤 적용하기](https://velog.io/@sjoleee_/React-무한-스크롤)
