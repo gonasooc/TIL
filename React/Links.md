@@ -1,3 +1,11 @@
+### React 같은 SPA에서 새로고침하면 404 나올 때 하는 세팅
+
+[깃허브 데스크탑 - 404 에러를 수정한 Broswer Router로 gh-pages 배포하기](https://bloodstrawberry.tistory.com/1133)
+
+### Outlet에 props 넘겨주기
+
+[[TIL] Outlet에 props 넘겨주기](https://velog.io/@sungho/TIL-Outlet에-props-넘겨주기)
+
 ### Redux에서 사용하는 Flux 패턴
 
 [Flux 패턴이란?](https://velog.io/@andy0011/Flux-패턴이란)
