@@ -4,7 +4,7 @@
 
 - “New developer? The best time to learn Git is yesterday.”
 - “The best time to plant fruit trees is five years ago…”
-- →  “The second best time is now”
+- → “The second best time is now”
 
 # 섹션2: Git을 소개합니다!
 
@@ -36,11 +36,11 @@
 
 - Torvalds referred to Git as “the stupid content tracker” while he was working on it. Eventually he settled on the name Git.
 - The official Git source code explanes a couple different meanings for the name, depending on your mood:
-    - a random three-letter, conbination that is pronounceable, and not actually used by any common UNIX command.
-    - stupid. contemptible and despicable. simple.
-    - “global information tracker”: you’re in a good mood, and it actually works for you. Angels sing, and a light suddenly filles the room.
-    - “g#ddamn idiotic truckload of sh*t”: when it breaks
-    - 영국 속어로 ‘반갑지 않은 손님’
+  - a random three-letter, conbination that is pronounceable, and not actually used by any common UNIX command.
+  - stupid. contemptible and despicable. simple.
+  - “global information tracker”: you’re in a good mood, and it actually works for you. Angels sing, and a light suddenly filles the room.
+  - “g#ddamn idiotic truckload of sh\*t”: when it breaks
+  - 영국 속어로 ‘반갑지 않은 손님’
 
 ## Git vs. Github: 차이점은 무엇일까?
 
@@ -50,6 +50,7 @@
 - Github is a service that hosts Git repositories in the cloud and makes it easier to collaborate with other people. You do need to sign up for an account to use Github. It’s an online place to share work that is done using Git.
 
 # 섹션3: 설치 및 설정
+
 ## 터미널 vs. GUI
 
 ### Git Is (Primarily) A Terminal Tool
@@ -60,14 +61,12 @@
 
 - Over the last few years, companies have created graphical user interfaces for Git that allow people to use Git without having to be a command-line expert.
 - Popular Git GUI’s include:
-    - Github Desktop
-    - SourceTree
-    - Tower
-    - GitKraken
-    - Ungit
-    
-    [Git - GUI Clients](https://git-scm.com/downloads/guis)
-    
+  - Github Desktop
+  - SourceTree
+  - Tower
+  - GitKraken
+  - Ungit
+  [Git - GUI Clients](https://git-scm.com/downloads/guis)
 
 ### There is a lot of stupid GUI gate-keeping
 
@@ -81,17 +80,13 @@
 ### Configuring Git
 
 - To configure the name that Git will associate with your work, run this command:
-    
-    ```
-    git config --global user.name "gonasooc"
-    ```
-    
+  ```
+  git config --global user.name "gonasooc"
+  ```
 - Do the same thing for your email using the following command. When we get to Github, you’ll want your Git email address to match your Github account.
-    
-    ```
-    git config --global user.email doupler@gmail.com
-    ```
-    
+  ```
+  git config --global user.email doupler@gmail.com
+  ```
 
 ## 터미널 집중 학습: 소개
 
@@ -111,6 +106,7 @@
 - `cd ..` → Use `cd ..` to “back up” one directory
 
 ## 터미널 집중 학습: 파일 및 폴더 생성
+
 - `touch purple.txt` → 새 파일 만들기
 - `touch test.js test.py` → 한 번에 여러 파일 생성 가능
 - `touch folder/test.txt` → 하위 폴더명을 통해 해당 폴더 아래에 파일 생성 가능
@@ -198,16 +194,12 @@ https://git-scm.com/book/en/v2
 ### Present-Tense Imperative Style??
 
 - From the Git docs:
-    
-    ```
-    Describe your changes in imperative mood, e.g. "make xyzzy do frotz" instead of "[This patch] makes xyzzy do frotz" or "I changed xyzzy to do frotz", as if you are giving orders to the codebase to change its behavior.
-    ```
-    
-    - 현재 시제에 명령문 권장
+  ```
+  Describe your changes in imperative mood, e.g. "make xyzzy do frotz" instead of "[This patch] makes xyzzy do frotz" or "I changed xyzzy to do frotz", as if you are giving orders to the codebase to change its behavior.
+  ```
+  - 현재 시제에 명령문 권장
 - Which tense should be used on a Git commit message?
-    
-    https://medium.com/@corrodedlotus/which-tense-should-be-used-on-a-git-commit-message-121cb641134b
-    
+  https://medium.com/@corrodedlotus/which-tense-should-be-used-on-a-git-commit-message-121cb641134b
 
 ## VIM 빠져나오기 및 Git의 기본 편집기 구성하기
 
@@ -221,9 +213,7 @@ https://git-scm.com/book/en/v2
 
 - 많은 기능들이 있지만 주로 사용하게 되는 건 `git log —oneline`
 - 한 줄로 log를 보게 되기 때문에 암묵적으로 첫 줄은 해당 commit을 요약하고 그 이후에 상세 내용을 적는 것
-    
-    https://git-scm.com/docs/git-log
-    
+  https://git-scm.com/docs/git-log
 
 ## Amend로 실수 수정하기
 
@@ -239,21 +229,20 @@ https://git-scm.com/book/en/v2
 ### Ignoring Files
 
 - We can tell Git which files and directories to ignore in a given repository, using a **.gitignore** file. This is useful for files you know you NEVER want to commit, including:
-    - Secrets, API keys, credentials, etc.
-    - Operating Systems files (.DS_Store on Mac)
-    - Log files
-    - Dependencies & packages
+  - Secrets, API keys, credentials, etc.
+  - Operating Systems files (.DS_Store on Mac)
+  - Log files
+  - Dependencies & packages
 - Create a file called .gitignore in the root of a repository. Inside the file, we can write patterns to tell Git which files & folders to ignore:
-    - `.DS_Store` will ignore files named .DS_Store
-    - `folderName/` will ignore an entire directory
-    - `*.log` will ignore any files with the .log extension
-    - 슬래시가 없으면 파일 / 슬래시가 끝에 있으면 디렉토리
+  - `.DS_Store` will ignore files named .DS_Store
+  - `folderName/` will ignore an entire directory
+  - `*.log` will ignore any files with the .log extension
+  - 슬래시가 없으면 파일 / 슬래시가 끝에 있으면 디렉토리
 - .gitignore 체크할 만한 사이트
-    
-    https://www.toptal.com/developers/gitignore
-    
+  https://www.toptal.com/developers/gitignore
 
 # 섹션6: 브랜치(branch)로 작업하기
+
 ## 마스터 브랜치(또는 메인 브랜치?)
 
 ### Master? Main?
@@ -273,7 +262,7 @@ https://git-scm.com/book/en/v2
 ### Viewing Branches
 
 - Use **git branch** to view your existing branches. The default branch in every git repo is master, though you can sconfigure this.
-- Look for the * which indicates the branch you are currenly on.
+- Look for the \* which indicates the branch you are currenly on.
 
 ## 브랜치 생성 및 전환하기
 
@@ -307,11 +296,10 @@ https://git-scm.com/book/en/v2
 - `git branch -D 삭제할브랜치` → 만약에 merge가 안 된 상태라면 merge가 되지 않았다는 에러 메세지와 함께 삭제가 안 되는데, 대문자 D로 강제 옵션을 줄 수 있음
 - `git branch -m 새로운브랜치명` → 해당 브랜치를 새로운브랜치명으로 변경
 - `git branch -m 기존브랜치명 새로운브랜치명` → 다른 브랜치에 HEAD 라면 기존브랜치명도 명시해줘야 함
-    
-    https://mylko72.gitbooks.io/git/content/branch/checkout.html
-    
+  https://mylko72.gitbooks.io/git/content/branch/checkout.html
 
 # 섹션7: 브랜치 병합하기, 맙소사!
+
 ## 병합 명령어 소개
 
 ### Merging
@@ -319,9 +307,8 @@ https://git-scm.com/book/en/v2
 - Branching makes it super easy to work within self-contained contexts, but often we want to incorparate changes from one branch into another!
 - We can do this using the **git merge** command
 - The merge command can sometimes confuse students easly on. Remember these two merging concepts:
-    - We merge branches, not specific commits → 특정 커밋이 아니라 브랜치를 병합
-    - We always merge to the current HEAD branch → 항상 현재 HEAD 브랜치에 병합
-    
+  - We merge branches, not specific commits → 특정 커밋이 아니라 브랜치를 병합
+  - We always merge to the current HEAD branch → 항상 현재 HEAD 브랜치에 병합
 
 ## 빨리 감기 병합 수행하기
 
@@ -333,8 +320,8 @@ https://git-scm.com/book/en/v2
 ### Merging Made Easy
 
 - **To merge, follow these basic steps:**
-    1. Switch to or checkout the branch you want to merge the changes into (the receiving branch)
-    2. Use the **git merge** command to merge changes from a specific branch into the current branch.
+  1. Switch to or checkout the branch you want to merge the changes into (the receiving branch)
+  2. Use the **git merge** command to merge changes from a specific branch into the current branch.
 
 ## 병합 커밋 생성하기
 
@@ -354,10 +341,10 @@ https://git-scm.com/book/en/v2
 ### Resolving Conflicts
 
 - Whenever you encounter merge conflict, follow these steps to resolve them:
-    1. Open up the file(s) with merge conflicts
-    2. Edit the file(s) to remove the conflicts. Decide which branch’s content you want to keep in each conflict. Or keep the content from both.
-    3. Remove the conflict “markers” in the document
-    4. Add your changes and then make a commit!
+  1. Open up the file(s) with merge conflicts
+  2. Edit the file(s) to remove the conflicts. Decide which branch’s content you want to keep in each conflict. Or keep the content from both.
+  3. Remove the conflict “markers” in the document
+  4. Add your changes and then make a commit!
 
 ## 병합 충돌 해결하기
 
@@ -392,8 +379,8 @@ https://git-scm.com/book/en/v2
 ### Markers
 
 - File A and File B are each assigned a symbol.
-    - File A gets a minus sign (-)
-    - File A gets a plus sign (+)
+  - File A gets a minus sign (-)
+  - File A gets a plus sign (+)
 
 ### Chunks
 
@@ -432,6 +419,25 @@ https://git-scm.com/book/en/v2
 
 - To compare two commits, provide git diff with the commit hashes of the commits in question.
 
-## Diff 연습하기
+# 섹션9: 스태시(Stash)의 모든 것
 
-이거 실습해봐야 함
+## Git Stash가 필요한 이유
+
+### Git Stash
+
+- sub branch에서 파일을 수정하고 staging이나 commit 없이 main branch로 switch 하려는 상황
+  - git이 잠재적 충돌을 감지하는 경우 → commit이나 stash 이후에 이동해달라고 경고문
+  - 잠재적 충돌이 잡히지 않는 경우 → 변경사항을 든 채로 branch 이동이 됨 → 그 상황에서 staging과 commit을 할 경우 빨리감기 병합이 진행
+
+## 스태시의 기초: Git Stash Save 및 Pop
+
+### Stashing
+
+- Git provides an easy way of stashing these uncommitted changes so that we can return to them later, without having to make unnecessary commits.
+- 커밋하지 않은 변경사항을 임시 저장하도록 해주고 불필요한 커밋으로 이력이 지저분해지는 것 없이 나중에 돌아올 수 있게 해줌
+
+### Git Stash
+
+- **git stash** is super useful command that helps you save changes that you are not yet ready to commit. You can stash changees and then come back to them later.
+- Running git stash will take all uncommited changes (staged and unstaged) and stash them, reverting the change in your working copy.
+- Use **git stash pop** to remove the most recently stashed changes in your stash and re-apply them to your working copy.
