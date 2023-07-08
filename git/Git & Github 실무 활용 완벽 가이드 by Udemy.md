@@ -66,7 +66,7 @@
   - Tower
   - GitKraken
   - Ungit
-  [Git - GUI Clients](https://git-scm.com/downloads/guis)
+    [Git - GUI Clients](https://git-scm.com/downloads/guis)
 
 ### There is a lot of stupid GUI gate-keeping
 
@@ -441,3 +441,60 @@ https://git-scm.com/book/en/v2
 - **git stash** is super useful command that helps you save changes that you are not yet ready to commit. You can stash changees and then come back to them later.
 - Running git stash will take all uncommited changes (staged and unstaged) and stash them, reverting the change in your working copy.
 - Use **git stash pop** to remove the most recently stashed changes in your stash and re-apply them to your working copy.
+
+## Git Stash 불러오기
+
+### Stash Apply
+
+- You can use **git stash apply** to apply whatever is stashed away, without removing it from the stash. This can be useful if you want to apply stashed changes to multiple branches.
+- 하지만 대부분 git stash와 git stash pop
+- stash pop은 불러오고 삭제, stash apply는 불러오고 그대로 유지
+
+## 여러 개의 스태시로 작업하기
+
+### Stashing Multiple Times
+
+- You can add multiple stashes onto the stack of stashes. They will all be stashed in the order you added them.
+- git stash list를 통해서 여러 개의 스태시를 확인할 수 있으나 일반적으로는 하나의 스태시를 git stash를 통해 저장하고 git stash pop을 통해 불러오고 삭제
+
+## 스태시 드롭 및 삭제
+
+- git stash drop stash@{0} → 특정 스태시 삭제
+- git stash clear → 전체 스태시 삭제
+- 스태시를 들고 있는 상태에서 git stash pop이나 git stash apply를 통해 가져오지 않고 삭제하면 변경사항도 같이 사라짐
+
+# 섹션10: 변경사항 취소하기 및 시간 여행
+
+## 이전 커밋 확인하기(Undoing Stuff & Time Traveling)
+
+### Checkout
+
+- The **git checkout** command is like a Git Swiss Army knife. Many developers think it is overloaded, which is what lead to the addition of the **git switch** and **git restore** commands.
+- We can use **checkout** to create branches, switch to new branches, restore files, and undo history!
+- git checkout이 너무 많은 기능을 담당한다고 생각해서 git switch나 git restore 같은 새로운 명령어가 추가되었음
+- **We can use git checkout commit <commit-hash> to view a previous commit.**
+- Remember, you can use the **git log** command to view commit hashes. We just need the first 7 digits of a commit hash.
+- Don’t panic when you see the following message…
+- **일반적으로 HEAD는 특정 브랜치를 가리키지, HEAD는 별도의 커밋을 가리키지 않음 → 이전 커밋으로 체크아웃하고자 하면 헤드가 해당 커밋을 참조하도록 바꾸는 DETACHED HEAD!가 발생하는 것**
+
+## 분리된 HEAD 재연결!
+
+### Detached HEAD - Don’t panic when this happens! It’s not a bod thing!
+
+You have a couple options:
+
+1. Stay in detached HEAD to examine the contents of the old commit. Poke around, view the files, etc.
+2. Leave and go back to wherever you were before - reattach the HEAD
+3. Create a new branch and switch to it. You can now make and save changes, since HEAD is no longer detached.
+
+## HEAD와 관련된 커밋 참조하기
+
+### Checkout
+
+- git checkout supports a slightly add syntax for referencing previous commits relative to a particular commit.
+  ```
+  HEAD~1 refers to the commit before HEAD (parent)
+  HEAD~2 refers to 2 commits before HEAD (grandparent)
+  ```
+- This is not essential, but I wanted to mention it because it’s quite weird looking if you’ve never seen it.
+- **별도의 해시 정보 없이 바로 이전 커밋으로 checkout 가능한 HEAD~1**

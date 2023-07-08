@@ -1,3 +1,7 @@
+### RTK non-serializable value
+
+[RTK non-serializable value 오류 해결 방법](https://velog.io/@pest95/RTK-non-serializable-value-오류-해결-방법)
+
 ### React 같은 SPA에서 새로고침하면 404 나올 때 하는 세팅
 
 [깃허브 데스크탑 - 404 에러를 수정한 Broswer Router로 gh-pages 배포하기](https://bloodstrawberry.tistory.com/1133)
