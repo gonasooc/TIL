@@ -1,3 +1,7 @@
+### firebase query 말고 getDoc으로 데이터 가져왔을 때 정렬 방식
+
+[firebase data 시간순서대로 정렬하기](https://velog.io/@owlsuri/firebase-data-시간순서대로-정렬하기)
+
 ### useSelector() + 구조분해할당은 안티 패턴
 
 [useSelector의 적절한 사용법](https://velog.io/@arthur/useSelector의-적절한-사용법)

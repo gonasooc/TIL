@@ -540,3 +540,53 @@ You have a couple options:
 
 - If you want to undo both the commits AND the actual changes in your files, you can use the **—hard** option.
 - for example, **git reset —hard HEAD~1** will delete the last commit and associated changes.
+
+## Git Revert로 커밋 원래대로 복구하기
+
+### Git Revert
+
+- **git revert** is similar to **git reset** in that they both “undo” changes, but they accomplish it in different ways.
+- **git reset** actually moves the branch pointer backwards, eliminating commits.
+- **git revert** instead creates a brand new commit which reverses / undos the changes from a commit, Because it results in a new commit, you will be prompted to enter a commit message.
+- 이건 기본적으로 변경사항을 실행 취소하는 새로운 커밋을 만드는 것 → 일반적으로 협업 시 git revert를 사용
+
+### Which One Should I Use?
+
+- Both **git reset** and **git revert** help us reverse changes, but there is a significant difference when it comes to collaboration (which we have yet to discuss but is coming up soon!)
+- **If you wnat to reverse some commits that other people already have on their machines, you should use revert.**
+- If you want to reverse commits that you haven’t shared with others, use reset and no one will ever know.
+
+# 섹션11: Github의 기초
+
+## Github는 어떤 역할을 할까?
+
+### What Is Github?
+
+- Github is a hosting platform for git repositories. You can put your own Git repos on Github and access them from anywhere and share them with people around the world.
+- Beyond hosting repos, Github also provides additional collaboration features that are not native to Git (but are super useful). Basically, Github helps people share and collaborate on repos.
+
+## Git Clone으로 Github Repo 복제하기
+
+### Cloning
+
+- So far we’ve created our own Git repositories from scratch, but often we want to get a **local copy of an existing repository** instead.
+- To do this, we can clone a remote repository hosted on Github or similar websites. All we need is a URL that we can tell Git to clone for use.
+
+## Github 설정: SSH 구성
+
+### SSH Keys
+
+- You need to be authenicated on Github to do certain operations, like pushing up code from your local machine. Your terminal will prompt you every single time for your Github email and password, unless…
+- You generate and configure an SSH key! Once configured, you can connect to Github without having to supply your username / password.
+
+## Git Remote 집중 학습
+
+### Remote
+
+- Before we can push anything up to Github, we need to tell Git about our remote repository on Github. We need to setup a “destination” to push up to.
+- In Git, we refer to these “destinations” as remotes. Each remote is simply a URL where a hosted repository lives.
+
+### Viewing Remotes
+
+- To view any existing remotes for you repository, we can run **git remote** or **git remote -v** (verbose, for more info)
+- This just displays a list of remotes. If you haven’t added any remotes yet, you won’t see anything!
