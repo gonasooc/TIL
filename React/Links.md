@@ -1,3 +1,7 @@
+### useSelector() + 구조분해할당은 안티 패턴
+
+[useSelector의 적절한 사용법](https://velog.io/@arthur/useSelector의-적절한-사용법)
+
 ### RTK non-serializable value
 
 [RTK non-serializable value 오류 해결 방법](https://velog.io/@pest95/RTK-non-serializable-value-오류-해결-방법)
