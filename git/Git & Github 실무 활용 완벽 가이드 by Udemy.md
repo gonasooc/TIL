@@ -498,3 +498,45 @@ You have a couple options:
   ```
 - This is not essential, but I wanted to mention it because it’s quite weird looking if you’ve never seen it.
 - **별도의 해시 정보 없이 바로 이전 커밋으로 checkout 가능한 HEAD~1**
+
+## Git Checkout으로 변경사항 폐기하기
+
+### Discarding Changes
+
+- Suppose you’ve made some changes to a file but don’t want to keep them. To revert the file back to whatever it looked like when you last committed, you can use:
+- **git checkout HEAD <filename>** to discard any changes in that file, reverting back to the HEAD.
+
+### Another Option
+
+- Here’s another shorter option to revert a file…
+- Rather than typing HEAD, you can substitute — followed by the file(s) you want to restore.
+
+## Git Restore로 수정 사항 취소하기
+
+### Restore
+
+- **git restore** is a brand new Git command that helps with undoing operations.
+- Because it is so new, most of the existing Git tutorials and books do not mention it, but it is worth knowing!
+- Recall that **git checkout** does a million different things, which many git users find very confusing. **git restore** was introduced alongside **git switch** as alternatives to some of the uses for **checkout**.
+- git switch와 git restore는 git checkout이 하는 일을 나누려고 도입됨
+- git restore는 상단에 git checkout HEAD <filename>이 하던 discard 기능을 함
+
+## Git Restore 변경사항 스테이징 취소하기
+
+### Unstaging Files with Restore
+
+- If you have accidentally added a file to your staging area with **git add** and you don’t wish to include it in the next commit, you can use **git restore** to remove it from staging.
+- Use the **—staged** option like this: **git restore —staged app.js**
+
+## Git Reset으로 커밋 취소하기
+
+### Git Reset
+
+- Suppose you’ve just made a couple of commits on the master branch, but you actually meant to make them on a separate branch instead. To undo those commits, you can use **git reset**.
+- **git reset <commit-hash>** will reset the repo back to a specific commit. The commits are gone
+- 간단하게 말하면, 현재 저장 사항을 그대로 유지하고 싶고 불필요한 커밋들을 날리고 싶을 때 그 날리고 싶은 커밋 이전의 커밋해시를 찾아서 입력 → 저장사항은 유지하되 그 사이의 커밋은 삭제되고 해당 저장사항은 staging에 들고 있음
+
+### Reset —hard
+
+- If you want to undo both the commits AND the actual changes in your files, you can use the **—hard** option.
+- for example, **git reset —hard HEAD~1** will delete the last commit and associated changes.
