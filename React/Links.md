@@ -1,3 +1,7 @@
+### useRef와 nativeEvent 참고하기 좋음
+
+[React로 그림판 만들기1](https://velog.io/@sweet_pumpkin/React로-그림판-만들기1)
+
 ### firebase query 말고 getDoc으로 데이터 가져왔을 때 정렬 방식
 
 [firebase data 시간순서대로 정렬하기](https://velog.io/@owlsuri/firebase-data-시간순서대로-정렬하기)
