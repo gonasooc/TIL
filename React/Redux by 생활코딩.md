@@ -37,6 +37,7 @@
 ### Redux - 4. Redux가 없다면
 
 - terrible..
+
   ```html
   <html>
     <body>
@@ -145,6 +146,7 @@
 
 - store에 dispatch를 호출하게 되면 dispatch는 store를 생성할 때 만든 reducer를 호출하도록 약속되어 있음 → 이전의 state값과 action의 값을 인자로 줌
 - 이런 형식으로 action의 type을 받아서 state값을 바꿀 수 있지만, 이렇게 되면 undo, redo와 같은 시간 여행을 할 수가 없게 됨(기존 state값을 바꿨기 때문에) → 기존의 state값의 사본을 만들고 그 사본을 return 해줌으로서 과거의 state 이력을 확인할 수 있음
+
   ```html
   <!DOCTYPE html>
   <html>
@@ -193,6 +195,7 @@
     </body>
   </html>
   ```
+
 - `Object.assign({}, {name: 'egoing'}, {city: 'Seoul'});` → 반드시 첫 번째 인자는 빈 객체 → `Object.assign` 의 return값은 첫 번째 인자인 객체이기 때문
 
 ### Redux - 5.3. Redux의 적용 : state의 변화에 따라서 UI 반영하기
@@ -216,4 +219,22 @@
 
 ### Redux - 7.3. 실전 Redux : store 생성과 state 사용하기
 
-여기까지
+- (recap) store를 처음 생성하는 최초 1회, action과는 상관없이 reducer가 생성되는데 그때 state의 값은 undefined니까 그걸 조건식 `if === undefined`으로 초기값을 세팅
+  ```jsx
+  function reducer(state, action) {
+    if (state === undefined) {
+      return {
+        contents: [
+          { id: 1, title: "HTML", desc: "HTML is .." },
+          { id: 2, title: "CSS", desc: "CSS is .." },
+        ],
+      };
+    }
+  }
+
+  var store = Redux.createStore(reducer);
+  ```
+
+### Redux - 8. 수업을 마치며
+
+- redux toolkit과 JavaScript 불변성(Immutability) 공부

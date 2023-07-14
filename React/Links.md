@@ -1,3 +1,7 @@
+### RTK 없이 createStore 썼을 때 deprecated 취소선 뜨는 이유
+
+[redux createStore deprecated ?!](https://velog.io/@201_steve/redux-createStore-deprecated)
+
 ### useRef와 nativeEvent 참고하기 좋음
 
 [React로 그림판 만들기1](https://velog.io/@sweet_pumpkin/React로-그림판-만들기1)
