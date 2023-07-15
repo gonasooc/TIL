@@ -1,3 +1,15 @@
+### 객체에 for in, 혹은 배열에 for in 썼을 떄 정리
+
+[JavaScript 배열 및 객체, 반복문](https://velog.io/@jinyongp/JavaScript-배열-및-객체-반복문)
+
+### const newObj = JSON.parse(JSON.stringify(obj))를 통한 깊은복사 인상적
+
+[[JavaScript] 2차원 이상 객체 깊은 복사 방법](https://velog.io/@nemo/shallow-deep-copy)
+
+### Object.assign, lodash \_.cloneDeep(obj) - 얇은복사, 깊은복사 개념 정리
+
+[참조에 의한 객체 복사](https://ko.javascript.info/object-copy)
+
 ### 중괄호, return 등 생략되는 Arrow Function
 
 [PoiemaWeb](https://poiemaweb.com/es6-arrow-function)
@@ -36,7 +48,7 @@
 
 ### GSAP 3.11.4 미디어쿼리
 
-[Docs](https://greensock.com/docs/v3/GSAP/gsap.matchMedia())
+[Docs](<https://greensock.com/docs/v3/GSAP/gsap.matchMedia()>)
 
 ### nextTIck과 setTimeout의 차이
 
@@ -123,16 +135,52 @@
 ```jsx
 // 단순 키워드 배열 반복
 function printKeyword() {
-  let keywords = ['성인병(혈당혈압)', '뼈(관절)건강', '눈 건강', '간 건강', '혈액순환', '다이어트', '비염/염증개선', '면역력', '우울증/불면증', '피로회복', '남성성기능개선', '항산화', '콜레스테롤 개선', '아토피', '잇몸치주', '변비', '피부개선', '생리불순', '탈모', '근육개선', '과민면역완화', '체지방감소', '장 건강', '위 건강', '신장/요로개선', '갱년기여성건강', '어린이 성장 및 면역력', '뇌기능(기억력 개선)', '기관지'];
-  var keyword_grp = document.querySelector('.keyword-grp');
+  let keywords = [
+    "성인병(혈당혈압)",
+    "뼈(관절)건강",
+    "눈 건강",
+    "간 건강",
+    "혈액순환",
+    "다이어트",
+    "비염/염증개선",
+    "면역력",
+    "우울증/불면증",
+    "피로회복",
+    "남성성기능개선",
+    "항산화",
+    "콜레스테롤 개선",
+    "아토피",
+    "잇몸치주",
+    "변비",
+    "피부개선",
+    "생리불순",
+    "탈모",
+    "근육개선",
+    "과민면역완화",
+    "체지방감소",
+    "장 건강",
+    "위 건강",
+    "신장/요로개선",
+    "갱년기여성건강",
+    "어린이 성장 및 면역력",
+    "뇌기능(기억력 개선)",
+    "기관지",
+  ];
+  var keyword_grp = document.querySelector(".keyword-grp");
   for (var i = 0; i < keywords.length; i++) {
-    let span = document.createElement('span');
-    span.className = 'keyword';
+    let span = document.createElement("span");
+    span.className = "keyword";
     keyword_grp.append(span);
     span.append(keywords[i]);
     console.log(keywords[5]);
-    if (keywords[i] === '혈액순환' || keywords[i] === '피로회복' || keywords[i] === '잇몸치주' || keywords[i] === '과민면역완화' || keywords[i] === '갱년기여성건강') {
-      span.classList.add('type-edge');
+    if (
+      keywords[i] === "혈액순환" ||
+      keywords[i] === "피로회복" ||
+      keywords[i] === "잇몸치주" ||
+      keywords[i] === "과민면역완화" ||
+      keywords[i] === "갱년기여성건강"
+    ) {
+      span.classList.add("type-edge");
     }
   }
 }
