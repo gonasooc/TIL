@@ -44,6 +44,7 @@
 - inline style 속성 넣으려면 → style={{ color: ‘red’, fontSize: ‘20px’ }} → 기본적으로 JavaScript object 자료형이기 때문에 key값에 대시 기호 같은 걸 적을 수 없음 → 그래서 카멜케이스로 작성
 
 - #페이지 레이아웃 만들 때 레이아웃 안에서 { children } 넣어줘야하고, 인자로도 children 넘겨줘야 함
+
   ```jsx
   export default function CartLayout({ **children** }) {
 
@@ -63,6 +64,7 @@
   2. 그 안에 page.js 넣고
   3. 그 안에 레이아웃 작업
 - 해당 페이지로 가는 작업을 할 때는 <Link> → a tag와 동일하지만 좀 더 스무스하게 넘겨줌
+
   ```jsx
   import Image from 'next/image'
   import styles from './page.module.css'
@@ -84,6 +86,7 @@
     )
   }
   ```
+
 - header나 gnb, footer 같이 페이지 전체에서 노출되어야 되는 영역은 layout.js body 안에 작성
 
   ```jsx
@@ -192,9 +195,9 @@ export default function List() {
 ## **새로운 프로젝트 생성 / MongoDB 셋팅**
 
 - Database
-  - 관계형 Database → PostgreSQL, MySQL, ORACLE
-  - 비관계형 Database → **mongoDB**, Cloud Firestore, cassandra → 대용량 트래픽, 분산처리 잘해줌
-  - **mongoDB** → JS object 자료형처럼 데이터 저장 가능
+  - 관계형 Database → PostgreSQL, MySQL, ORACLE → 데이터를 마치 엑셀처럼 표로 관리 가능
+  - 비관계형 Database → mongoDB, Cloud Firestore, cassandra → 대용량 트래픽, 분산처리 잘해줌
+    ex) mongoDB → JS object 자료형처럼 데이터 저장 가능
 
 ## \***\*Next.js에서 MongoDB 사용하기\*\***
 
@@ -202,14 +205,16 @@ export default function List() {
 
 - [mongodb.com](http://mongodb.com) → Database → Browse Collections → Add My Own Data
 - database는 그냥 하나의 프로젝트라고 이해하면 좋음
+  - 때로는 하나의 서비스가 여러 개의 database를 운영할 수도 있음
 - collection은 하나의 폴더라고 이해하면 좋음
+- document는 하나의 메모장 파일 → 실제 데이터는 document에 { } 형식으로 기록
 - **collection이라는 폴더를 하나 만들고 그 안에 document라는 걸 만들어서 그 안에 object 자료형 같은 걸 보관**
 - 해당 collection에 접근해서 insert document를 통해 자료 삽입
 
-### Next.js 내 세팅
+### Next.js 내 MongoDB 세팅
 
-- npm i mongodb
-- 호출하고자 하는 페이지에서 호출
+- **MongoDB 설치** - \*\*\*\*npm i mongodb
+- **MongoDB 접속** - 호출하고자 하는 페이지에서 호출
 
   ```jsx
   import { MongoClient } from "mongodb";
@@ -224,7 +229,7 @@ export default function List() {
     const db = client.db("forum"); // 접속하고자 하는 데이터베이스 이름(ex) forum)
     db.collection("post").find();
 
-    return <div>test</div>;
+    return <div>Home</div>;
   }
   ```
 
@@ -240,7 +245,7 @@ export default function List() {
   let connectDB;
 
   if (process.env.NODE_ENV === "development") {
-    // global 변수를 사용해서 개발 단계에선 connect()가 연속적으로 실행되지 않도록 분기처리
+    // global 변수를 사용해서 개발 단계에선 connect()가 연속적으로 실행되지 않도록 분기처리 "개발중 상태면 global이라는 전역변수 저장소에 보관해주세요"
     if (!global._mongo) {
       global._mongo = new MongoClient(url, options).connect();
     }
@@ -254,29 +259,53 @@ export default function List() {
   ```jsx
   // app\page.js
 
-  import { connectDB } from "@/util/database.js";
+  import { connectDB } from "@/util/database.js"; // 사이트 루트 경로부터 시작하려면 / 아니면 @/
 
   export default async function Home() {
-    const client = await connectDB;
+    const client = await connectDB; // db 접속
     const db = client.db("forum");
-    let result = await db.collection("post").find().toArray();
+    let result = await db.collection("post").find().toArray(); // 'post' 콜렉션에 있는 모든 데이터를 가져와달라
     console.log("result", result);
 
-    return <div>test</div>;
+    return <div>Home</div>;
   }
   ```
 
-- DB 입출력 코드는 server component 안에서만 작성하는 게 좋음 → client component는 랜더링해서 유저에게 모든 코드가 날아가기 때문
+- DB 입출력 코드는 server component 안에서만 작성하는 게 좋음 → client component는 랜더링해서 유저에게 모든 코드가 날아가기 때문에 민감한 코드는 server component 안에서 작성
 
 ## 글목록 조회기능 만들기 (DB 데이터 출력)
 
-- 몽고DB 가져와서 map 함수로 반복문 뿌리는 같은 내용
+- 상단처럼 해당 collection 가져와서 map 함수로 반복문 뿌리는 같은 내용
+- async, await에서 await는 Promise 뱉는 코드만 사용 가능
 
-## 상세페이지 만들기 1 (Dynamic route)
+## 상세페이지 만들기 1 (c)
 
 - detail 폴더 밑에 [아무이름] 폴더 만들고 그 밑에 page.js 관리하면 detail/아무이름 으로 해당 페이지 접근 가능 → 즉 Dynamic하게 라우팅할 수 있음 ex) http://localhost:3000/detail/adsadad
+- mongoDB에서 하나의 document만 가져오고 싶을 땐 `find()`가 아닌 `findOne()` → 인자로는 찾고 싶은 key: value를 object로 넣어줌
+- 기본적으로 별도의 값을 전달하지 않은 props를 출력해보면 params를 들고 있음
+  `{ params: { id: '1' }, searchParams: {} }`
 
-## 상세페이지 만들기 2 (useRouter)
+  ```jsx
+  import { connectDB } from "@/util/database";
+  import { ObjectId } from "mongodb";
+
+  export default async function Detail(props) {
+    const db = (await connectDB).db("forum");
+    let result = await db
+      .collection("post")
+      .findOne({ _id: new ObjectId(props.params.id) });
+    console.log(props.params.id);
+    return (
+      <div>
+        <h4>상세페이지</h4>
+        <h4>{result.title}</h4>
+        <p>{result.content}</p>
+      </div>
+    );
+  }
+  ```
+
+## 상세페이지 만들기 2 (useRouter) - ‘use client’에서 사용 가능
 
 - useRouter를 사용한 예제
 
@@ -299,43 +328,50 @@ export default function List() {
   }
   ```
 
-- router 관련 함수들
+- **SSR에서 <Link> 컴포넌트를 쓰면 되는데 왜 굳이 useRouter를 쓰는가? → 그 외에 별도의 기능들이 필요할 때**
+- **router 관련 함수들**
   - router.back() → 뒤로 가기
   - router.forward() → 앞으로 가기
   - router.refresh() → 소프트 리프레시
   - router.prefetch(’/어쩌구’) → 어쩌구의 내용을 미리 로드해줌 → 그 페이지 방문할 때 매우 빠르게 방문 가능
-  - server component에도 <Link> 컴포넌트에 prefetch 기본으로 적용되어 있음 → 원치 않으면 refetch={false} 적용
-    ```jsx
-    <Link href={"/어쩌구"} prefetch={false}>
-      링크
-    </Link>
-    ```
+  - **server component에도 <Link> 컴포넌트에 prefetch 기본으로 적용되어 있음 → 원치 않으면 refetch={false} 적용**
+    - 개발중일 땐 prefetch 여부 확인불가
+    - ex) 게시판 목록의 경우 모든 글을 prefetch하는 게 부담스럽고 불필요함
+      ```jsx
+      <Link href={"/어쩌구"} prefetch={false}>
+        링크
+      </Link>
+      ```
 - navigation 관련 함수들
+
   ```jsx
   "use client";
 
   import { usePathname, useSearchParams, useParams } from "next/navigation";
 
   export default function DetailLink() {
-    let a = usePathname();
-    let b = useSearchParams();
-    let c = useParams();
+    let a = usePathname(); // 현재 URL 출력
+    let b = useSearchParams(); // Search parameter 출력
+    let c = useParams(); // dynamic route에 입력한 거 출력
     console.log(a);
   }
   ```
 
 ## 글 작성기능 만들기 1 (서버기능 개발은)
 
-- 유저가 작성한 글을 바로 DB로 받는 건 유효성 부분도 그렇고 안전하지 않기 때문에 중간에 글을 체크하고 이상이 없으면 DB에 저장 → 3-tier architecture, 그 중간이 서버
+- 유저가 작성한 글을 바로 DB로 받는 건 유효성 부분도 그렇고 악성스크립트를 보낼 수도 있어서 안전하지 않기 때문에 중간에 글을 체크하고 이상이 없으면 DB에 저장 → **3-tier architecture**, 그 중간이 서버
 - 그 중간 역할을 하는 서버에서 api 작성, URL과 method가 필요함(GET, POST, PUT, DELETE, PATCH)
+- 원래는 api url 주소와 GET 요청하면 해당 함수를 실행하는데, Next.js의 경우 자동 라우팅이 되어 있어서 /api/test 로 GET/POST/PUT/DELETE/PATCH 요청하면 파일 안에 코드 실행해줌
 - GET 요청 작성
-  ```jsx
-  export default function handler(요청, 응답) {
-    console.log(123);
-    return 응답.status(200).json("처리완료"); // 요청을 받아씅면 응답을 해주는 게 좋음
-  }
-  ```
-- form tag 사용해서 GET, POST 요청 가능 - action에는 URL 잘 기입하고 method에는 GET, POST 중에 하나 기입하면 됩니다. (PUT, DELETE는 못씁니다)
+  - 서버는 기능 실행 후에 유저에게 응답해줘야 함(요청/응답)
+  - 처리 성공 status(200), 처리 실패 status(500), 유저잘못으로 인한 기능 실패 status(400)
+    ```jsx
+    export default function handler(요청, 응답) {
+      console.log(123);
+      return 응답.status(200).json("처리완료"); // 요청을 받아씅면 응답을 해주는 게 좋음
+    }
+    ```
+- **form tag 사용해서 GET, POST 요청 가능 - action에는 URL 잘 기입하고 method에는 GET, POST 중에 하나 기입하면 됩니다. (PUT, DELETE는 못씁니다)**
 
   ```jsx
   // (app/write/page.js)
@@ -352,7 +388,31 @@ export default function List() {
   }
   ```
 
+  ```jsx
+  // pages\api\post\new.js
+
+  import { connectDB } from "@/util/database";
+
+  export default async function handler(req, res) {
+    console.log(req.body);
+    if (req.method === "POST") {
+      if (req.body.title === "") {
+        return res.status(500).json("제목이 없습니다");
+      }
+
+      try {
+        const db = (await connectDB).db("forum");
+        let result = await db.collection("post").insertOne(req.body);
+        return res.status(200).redirect("/list");
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+  ```
+
 - 회원가입 과제
+
   ```jsx
   // app\join\page.js
 
@@ -405,68 +465,248 @@ export default async function handler(req, res) {
 ## 수정기능 만들기 2
 
 - app\edit\[id]\page.js
+
   ```jsx
-  import { connectDB } from "@/util/database.js";
+  import { connectDB } from "@/util/database";
   import { ObjectId } from "mongodb";
 
   export default async function Edit(props) {
-    const client = await connectDB;
-    const db = client.db("forum");
+    const db = (await connectDB).db("forum");
     let result = await db
       .collection("post")
       .findOne({ _id: new ObjectId(props.params.id) });
+
     console.log("result", result);
 
     return (
       <div className="p-20">
-        <h4>글수정</h4>
+        <h4>수정페이지</h4>
         <form action="/api/post/edit" method="POST">
+          <input name="_id" type="text" defaultValue={result._id.toString()} />
           <input
             name="title"
-            placeholder="글제목"
+            type="text"
             defaultValue={result.title}
+            placeholder="제목"
           />
           <input
             name="content"
-            placeholder="글내용"
+            type="text"
+            placeholder="내용"
             defaultValue={result.content}
           />
-          <input
-            style={{ display: "none" }}
-            name="_id"
-            defaultValue={result._id.toString()}
-          />
-          <button type="submit">수정완료</button>
+          <button type="submit">전송</button>
         </form>
       </div>
     );
   }
   ```
+
 - pages\api\post\edit.js
+
   ```jsx
   import { connectDB } from "@/util/database";
-  import { ObjectId } from "mongodb";
 
   export default async function handler(req, res) {
+    console.log(req.body);
     if (req.method === "POST") {
-      console.log(req.body);
+      if (req.body.title === "") {
+        return res.status(500).json("제목이 없습니다");
+      }
 
-      let newObj = { title: req.body.title, content: req.body.content };
-
-      let db = (await connectDB).db("forum");
-      let result = await db
-        .collection("post")
-        .updateOne({ _id: new ObjectId(req.body._id) }, { $set: newObj });
-      console.log("res", res);
-      res.redirect(302, "/list");
+      try {
+        const db = (await connectDB).db("forum");
+        let result = await db.collection("post").insertOne(req.body);
+        return res.status(200).redirect("/list");
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
   ```
 
 ## 삭제기능 만들기 1 (Ajax)
 
-Ajax 삭제 기능 강의 3개 일단 스킵
+- 리스트 페이지에서 글 삭제를 진행했을 때 페이지의 새로고침 없이 처리하고자 하면 전체 페이지는 SSR로 두되 삭제를 처리하는 영역만 컴포넌트로 빼서 CSR로 처리할 수 있음
+- SSR에서 props를 통해서 데이터를 내려줘도 되고, 컴포넌트 영역 안에서 바로 다시 불러와도 되지만 CSR이기 때문에 구글 서치 결과나 이런 부분에서 단점이 있음 → 즉, SSR의 props로 내려주는 편이 나음
 
+  ```jsx
+  // app\list\page.js
+
+  import { connectDB } from "@/util/database";
+  import ListItem from "./ListItem";
+
+  export default async function List() {
+    const db = (await connectDB).db("forum");
+    let result = await db.collection("post").find().toArray();
+    console.log("result", result);
+
+    return (
+      <div className="list-bg">
+        <ListItem result={result} />
+      </div>
+    );
+  }
+  ```
+
+  ```jsx
+  // app\list\ListItem.js
+
+  "use client";
+
+  import Link from "next/link";
+  import DetailLink from "./DetailLink";
+
+  export default function ListItem(props) {
+    console.log("props", props);
+    let { result } = props;
+
+    return (
+      <div>
+        {result.map((item) => {
+          return (
+            <div key={item._id} className="list-item">
+              <Link
+                style={{ display: "inline-block" }}
+                href={`/detail/${item._id}`}
+              >
+                <h4>{item.title}</h4>
+              </Link>
+              <Link href={`/edit/${item._id}`}>🖋</Link>
+              <span
+                onClick={() => {
+                  // fetch('/url', {
+                  //   method: 'DELETE',
+                  //   body: JSON.stringify([])
+                  // })
+                  // .then(() => {
+                  // })
+                }}
+              >
+                🧻
+              </span>
+              <DetailLink />
+              <p>1월 1일</p>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+  ```
+
+## 삭제기능 만들기 2 (Ajax 추가내용과 에러처리)
+
+- **서버로 array, object 보낼 땐 JSON.stringify()로 처리 → 당연히 받아올 때는 JSON.parse()**
+- DELETE 요청 시 데이터가 안 가는 경우가 가끔 있음 → 그럴 땐 POST로 처리
+- 삭제 기능 구현 및 ajax 에러 처리 추가
+- ajax 에러 처리를 위한 fetch 함수의 문법을 간소화하기 위해 axios 같은 라이브러리 사용
+
+  ```jsx
+  // app\list\ListItem.js
+
+  "use client";
+
+  import Link from "next/link";
+  import DetailLink from "./DetailLink";
+
+  export default function ListItem(props) {
+    console.log("props", props);
+    let { result } = props;
+
+    return (
+      <div>
+        {result.map((item) => {
+          return (
+            <div key={item._id} className="list-item">
+              <Link
+                style={{ display: "inline-block" }}
+                href={`/detail/${item._id}`}
+              >
+                <h4>{item.title}</h4>
+              </Link>
+              <Link href={`/edit/${item._id}`}>🖋</Link>
+              <span
+                onClick={() => {
+                  fetch("/api/post/delete", {
+                    method: "DELETE",
+                    body: item._id,
+                  })
+                    .then((r) => {
+                      if (r.status === 200) {
+                        return r.json();
+                      } else {
+                        // 서버가 에러코드 전송 시 실행할 코드
+                      }
+                    })
+                    .then((result) => {
+                      // 성공시 실행할 코드
+                    })
+                    .catch((error) => {
+                      // 인터넷 문제로 실패 시 실행할 코드
+                      console.log(error);
+                    });
+                }}
+              >
+                🧻
+              </span>
+              <DetailLink />
+              <p>1월 1일</p>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+  ```
+
+  ```jsx
+  // pages\api\post\delete.js
+
+  import { connectDB } from "@/util/database";
+  import { ObjectId } from "mongodb";
+
+  export default async function handler(req, res) {
+    if (req.method === "DELETE") {
+      try {
+        const db = (await connectDB).db("forum");
+        let result = await db
+          .collection("post")
+          .deleteOne({ _id: new ObjectId(req.body) });
+        console.log(result);
+        return res.status(200).json("삭제완료");
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+  ```
+
+## 삭제기능 만들기 3 (query string / URL parameter)
+
+- animation 같은 경우에 여러 방법이 있겠지만 직접 DOM에 접근해서 style을 바꿈으로서 줄 수 있음
+- 해당 element에 { opacity: 1; trasition: all 1s; } 정도를 준 후에, event가 발생하는 target의 부모의 element의 style을 변경
+  ```
+  e.target.parentElement.style.opacity = 0;
+  setTimeout(() => {
+  	e.target.parentElement.style.display = "none";
+  }, 1000);
+  ```
+- ajax에서 fetch url에 query string으로 값을 보낼 수 있음 _`fetch_("/api/test?name=kim&age=20");`
+  ```jsx
+  export default function handler(req, res) {
+    **console.log(req.query); // { name: 'kim', age: '20' }**
+    return res.status(200).json("성공");
+  }
+  ```
+- 간단하고, GET 요청은 body를 전달할 수 없는데 query string을 이용하면 보낼 수 있음 / 단점은 데이터가 많으면 더럽고 민감한 정보는 담으면 곤란함
+- url parameter 형식으로 dynamic route 폴더 구조 만들 듯이 page\api\abc\[어쩌구].js 이런 형식으로 작성하면 해당 api url 어쩌구에 아무 값이 들어가도 { 어쩌구: value }로 나옴
+  - 서버에서는 query string처럼 `console.log(req.query);` 로 확인할 수 있음
+  - 파일명 뿐만 아니라 폴더명에 대괄호로 세팅하는 거 가능
+- 요약정리
+  - DB document 삭제는 deleteOne
+  - 서버랑 ajax로 통신가능
+  - 서버로 데이터 전송 시 귀찮으면 query string이나 url parameter 문법 사용 가능
 
 ## static rendering, dynamic rendering, cache
 
@@ -474,182 +714,577 @@ Ajax 삭제 기능 강의 3개 일단 스킵
 
 - npm run build를 통해 build된 결과물을 얻어야 함
 - 해당 명령어로 빌드한 후에 터미널을 보면,
-    - O → static rendering → (디폴트) npm run build 할 때 만든 html 페이지 그대로 유저에게 보냄 → 값이 변해도 최초에 npm run build 했을 때 나온 페이지만 보내줌
-    - λ → dynamic rendering → 유저가 페이지 접속마다 html 새로 만들어서 보내줌
-        - `fetch(’/’, { cache: ‘no-store’ }` / `useSearchParams()` / `cookies()` / `headers()` / `[dynamic route]` 관련 함수 등을 사용했을 때 페이지에서 자동으로 dynamic rendering으로 바꿔줌
-- 기존 list 페이지 같은 경우 글이 등록/삭제/수정되었을 때 새로 페이지를 그려줘야 하는 이슈 → `export const dynamic = 'force-dynamic'`라는 예약어를 통해서 변경
-    
-    ```jsx
-    import { connectDB } from "@/util/database.js";
-    import ListItem from "./ListItem";
-    
-    **export const dynamic = 'force-dynamic'**
-    
-    export default async function List() {
-      const client = await connectDB;
-      const db = client.db("forum");
-      let result = await db.collection("post").find().toArray();
-      console.log(result);
-    
-      return (
-        <div className="list-bg">
-          <ListItem result={result} />
-        </div>
-      );
-    }
-    ```
-    
-- dynamic rendering 단점 → 서버/DB 부담 증가 → 부담스러우면 캐싱 기능 사용 가능
-    - 페이지 캐싱: 페이지 완성본을 잠깐 저장해두고 재사용
-    - GET요청 결과 캐싱: GET요청결과를 잠깐 저장해두고 재사용 가능
+  - O → static rendering → (디폴트) npm run build 할 때 만든 html 페이지 그대로 유저에게 보냄 → 값이 변해도 최초에 npm run build 했을 때 나온 페이지만 보내줌
+  - λ → dynamic rendering → 유저가 페이지 접속마다 html 새로 만들어서 보내줌
+    - `fetch(’/’, { cache: ‘no-store’ }` / `useSearchParams()` / `cookies()` / `headers()` / `[dynamic route]` 관련 함수 등을 사용했을 때 페이지에서 자동으로 dynamic rendering으로 바꿔줌
+- 기존 list 페이지 같은 경우 글이 등록/삭제/수정되었을 때 새로 페이지를 그려줘야 하는 이슈 → `export const dynamic = 'force-dynamic'`라는 예약된 변수를 통해서 변경
+
+  ```jsx
+  import { connectDB } from "@/util/database";
+  import ListItem from "./ListItem";
+
+  export const dynamic = "force-dynamic";
+
+  export default async function List() {
+    const db = (await connectDB).db("forum");
+    let result = await db.collection("post").find().toArray();
+    console.log("result", result);
+
+    return (
+      <div className="list-bg">
+        <ListItem result={result} />
+      </div>
+    );
+  }
+  ```
+
+- dynamic rendering 단점 → 서버/DB 부담 증가 → **부담스러우면 캐싱 기능 사용 가능**
+
+  - 페이지 캐싱: 페이지 완성본을 잠깐 저장해두고 재사용
+  - GET요청 결과 캐싱: GET요청결과를 잠깐 저장해두고 재사용 가능
 
 - 캐싱 예시
-    
+
+  - 뒤에 cache 옵션이 없어도 자동으로 cache가 됨
+
     ```jsx
     export default async function Home() {
-    
       await fetch("/URL", { cache: "force-cache" }); // 뒤에 cache 옵션이 없어도 자동으로 cache가 됨
-    
+
       return <div>test</div>;
     }
     ```
-    
+
+  - 캐싱 없이 실시간 정보가 필요한 경우 적용 옵션
+
     ```jsx
     export default async function Home() {
-    
       await fetch("/URL", { cache: "no-store" }); // 캐싱 없이 실시간 정보가 필요한 경우 적용 옵션
-    
+
       return <div>test</div>;
     }
     ```
-    
+
+  - 지정된 시간마다 캐싱 가능
+
     ```jsx
     export default async function Home() {
       await fetch("/URL", { next: { revalidate: 60 } }); // 이러면 60초마다 캐싱된 데이터 갱신해줌, 1초마다 실시간 데이터가 필요 없는 건 이렇게 캐싱해두면 자원을 절약할 수 있음
-    
+
       return <div>test</div>;
     }
     ```
-    
 
-- revalidate 예약 변수 쓰면 페이지 단위 캐싱 가능
-    
+  - revalidate 예약 변수 쓰면 페이지 단위 캐싱 가능
+
     ```jsx
-    import { connectDB } from '@/util/database.js'
-    
+    import { connectDB } from "@/util/database.js";
+
     export const revalidate = 60; // 누가 페이지 방문시 60초 동안 페이지가 캐싱됩니다
-    
+
     export default async function Home() {
-    
       const client = await connectDB;
-      const db = client.db('forum');
-      let result = await db.collection('post').find().toArray();
-    
-      return (
-        <div>
-          test
-        </div>
-      )
+      const db = client.db("forum");
+      let result = await db.collection("post").find().toArray();
+
+      return <div>test</div>;
     }
     ```
-    
 
 ## JWT, session, OAuth 설명시간
 
 - 브라우저 내 쿠키에 저장된 정보는 GET/POST 요청할 때 자동으로 같이 서버에 전송됨 → 즉 로그인했을 때 입장권을 쿠키에 저장함
 - 입장권 만들 때 → session 방식 / token 방식
 - session 방식
-    - session id (이것만 적혀 있음)
-    - 장점: 유저의 GET/POST 요청마다 로그인 상태 체크 가능
-    - 단점: DB에 무리가 갈 수 있음
+  - 입장권에는 session id (이것만 적혀 있음)
+  - 장점: 유저의 GET/POST 등 요청마다 엄격하게 로그인 상태 체크 가능
+  - 단점: DB에 무리가 갈 수 있음
 - token 방식(사실상 대부분 JWT(JSON Web Token))
-    - 장점: DB를 자주 조회하지 않아도 됨 → 유저가 많거나 마이크로서비스 운영중이면 좋음
+  - 입장권에 아이디/로그인날짜/유효기간 등을 담고 암호화를 시켜서 유저한테 보냄
+  - 유저의 GET/POST 등의 요청이 있을 때마다 서버에서 체크
+  - 장점: DB를 자주 조회하지 않아도 됨 → 유저가 많거나 마이크로서비스 운영중이면 좋음
 - OAuth
-    - 타 사이트를 통한 서비스 이용
-        <!-- 차후 재업로드 및 경로 변경 예상되어 이미지 업로드 안함 -->
-        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e606d60e-e3c4-4fdd-a0a3-396701c626b6/Untitled.png)
-        
-    - 소셜 로그인
-        <!-- 차후 재업로드 및 경로 변경 예상되어 이미지 업로드 안함 -->
-        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4a57b03f-74c5-46ab-ad98-cb7a2d99ce23/Untitled.png)
-        
+
+  - 타 사이트를 통한 서비스 이용
+    ![Untitled](../assets/396701c626b6.png)
+  - 소셜 로그인
+    ![Untitled](../assets/cb7a2d99ce23.png)
 
 - Next.js에서 회원기능 구현 → NextAuth.js, Auth.js 주로 사용
-    - 소셜로그인, 아이디/비번로그인, JWT, Session, DB adapter
-    - 아이디/비번로그인시 JWT 강제로 사용해야 함(session 금지)
-    
+  - 소셜로그인, 아이디/비번로그인, JWT, Session, DB adapter
+  - 아이디/비번로그인시 JWT 강제로 사용해야 함(session 금지)
+    - “개발자가 직접 아아디/비번 취급하면 보안이슈가 생길 수 있어 금지함” - NextAuth 설명서
 
 ## 회원기능 만들기 : Auth.js 사용한 소셜로그인
 
+- 소셜로그인을 사용하려면 각 사이트마다 세팅이 필요함
+  ex) GitHub → Settings > Developer settings > OAuth App 세팅 필요 → (참고) GitHub OAuth App이 여러 개일 경우 각각 동일한 url을 적으면 안됨
 - `npm i next-auth@4.21.1`
 - pages\api\auth\[…nextauth].js 파일 생성해서 세팅
-    
+
+  ```jsx
+  // pages\api\auth\[...nextauth].js
+
+  import NextAuth from "next-auth";
+  import GithubProvider from "next-auth/providers/github";
+
+  export const authOptions = {
+    providers: [
+      GithubProvider({
+        clientId: "Github에서 발급받은ID",
+        clientSecret: "Github에서 발급받은Secret",
+      }),
+    ],
+    secret: "jwt생성시쓰는암호",
+  };
+  export default NextAuth(authOptions);
+  ```
+
+  - 로그인 방식 하나를 provider라고 함
+  - 소셜 로그인은 기본적으로 JWT를 사용함 → 암호 같은 걸 넣어줘야 함
+  - 그 후에 라이브러리에 내장된 _`signIn_()` 이라는 함수를 통해 로그인 기능 구현
+  - _`````signOut_()` 은 로그아웃
+  - 해당 로그인한 사용자 정보를 확인하거나 활용하고 싶으면, _`getServerSession()`_
+
+    - await 쓰게끔 되어 있음
+    - authOptions 필요함
+
     ```jsx
-    import NextAuth from "next-auth";
-    import GithubProvider from "next-auth/providers/github";
-    
-    export const authOptions = {
-      providers: [
-        GithubProvider({
-          clientId: 'Github에서 발급받은ID',
-          clientSecret: 'Github에서 발급받은Secret',
-        }),
-      ],
-      secret : 'jwt생성시쓰는암호'
+    // app\layout.js
+
+    import Link from "next/link";
+    import "./globals.css";
+    import { Inter } from "next/font/google";
+    import LoginBtn from "./LoginBtn";
+    import LogoutBtn from "./LogoutBtn";
+    import { getServerSession } from "next-auth";
+    import { authOptions } from "@/pages/api/auth/[...nextauth]";
+
+    const inter = Inter({ subsets: ["latin"] });
+
+    export const metadata = {
+      title: "Create Next App",
+      description: "Generated by create next app",
     };
-    export default NextAuth(authOptions);
+
+    export default async function RootLayout({ children }) {
+      let session = await getServerSession(authOptions);
+      console.log(session);
+
+      return (
+        <html lang="en">
+          <body>
+            <div className="navbar">
+              <Link href="/" className="logo">
+                Appleforum
+              </Link>
+              <Link href="/list">List</Link>
+              {!session ? <LoginBtn /> : <LogoutBtn />}
+            </div>
+            {children}
+          </body>
+        </html>
+      );
+    }
     ```
-    
-    - 로그인 방식 하나를 provider라고 함
-    - 소셜 로그인은 기본적으로 JWT를 사용함 → 암호 같은 걸 넣어줘야 함
-    - 그 후에 라이브러리에 내장된 *`signIn*()` 이라는 함수를 통해 로그인 기능 구현
-    - *`````signOut*()` 은 로그아웃
-    - 해당 로그인한 사용자 정보를 확인하거나 활용하고 싶으면, *`getServerSession()`*
-        
-        ```jsx
-        import Link from "next/link";
-        import "./globals.css";
-        import { Inter } from "next/font/google";
-        import LoginBtn from "./LoginBtn";
-        import { getServerSession } from "next-auth";
-        import { authOptions } from "@/pages/api/auth/[...nextauth]";
-        
-        const inter = Inter({ subsets: ["latin"] });
-        
-        export const metadata = {
-          title: "Create Next App",
-          description: "Generated by create next app",
-        };
-        
-        export default async function RootLayout({ children }) {
-          let session = await getServerSession(authOptions);
-          console.log(session);
-          return (
-            <html lang="en">
-              <body className={inter.className}>
-                <div className="navbar">
-                  <Link href="/" className="logo">
-                    Appleforum
-                  </Link>
-                  <Link href="/list">List</Link>
-                  <LoginBtn></LoginBtn>
-                </div>
-                {children}
-              </body>
-            </html>
-          );
-        }
-        ```
-        
+
+    ```jsx
+    // LoginBtn.js
+
+    "use client";
+
+    import { signIn } from "next-auth/react";
+
+    export default function LoginBtn() {
+      return (
+        <button
+          onClick={() => {
+            signIn();
+          }}
+        >
+          로그인
+        </button>
+      );
+    }
+    ```
+
+    ```jsx
+    LogoutBtn.js;
+
+    ("use client");
+
+    import { signOut } from "next-auth/react";
+
+    export default function LogoutBtn() {
+      return (
+        <button
+          onClick={() => {
+            signOut();
+          }}
+        >
+          로그아웃
+        </button>
+      );
+    }
+    ```
 
 ## 회원기능 만들기 : OAuth + session방식 사용하기
 
 - session 방식으로 관리하고 싶다 → DB adapter 사용
-    1. 첫 로그인 시 자동회원가입 (DB에 보관)
-    2. 로그인 시 DB에 세션정보 보관
-    3. 현재 로그인된 유저 정보 필요하면 DB에서 조회해봄
-    
+  1. 첫 로그인 시 자동회원가입 (DB에 보관)
+  2. 로그인 시 DB에 세션정보 보관
+  3. 현재 로그인된 유저 정보 필요하면 DB에서 조회해봄
+- npm install @next-auth/mongodb-adapter
+  - 다른 DB 쓰려면 다른 DB adapter 찾아서 사용 가능
+- 수정/삭제 기능을 넣기 위해 유저 판별이 필요할 땐 `getServerSession()` 으로 유저 정보를 글에 담아줘야 함
+- 클라이언트에서 담아줘도 되지만 서버에서 `getServerSession()` 실행할 땐 request, response 같이 인자로 보내줘야 함
+
+  ```jsx
+  // pages\api\post\new.js
+
+  import { connectDB } from "@/util/database";
+  import { getServerSession } from "next-auth";
+  import { authOptions } from "../auth/[...nextauth]";
+
+  export default async function handler(req, res) {
+    let session = await getServerSession(req, res, authOptions);
+    if (session) {
+      req.body.author = session.user.email;
+    }
+
+    if (req.method === "POST") {
+      if (req.body.title === "") {
+        return res.status(500).json("제목이 없습니다");
+      }
+
+      try {
+        const db = (await connectDB).db("forum");
+        let result = await db.collection("post").insertOne(req.body);
+        return res.status(200).redirect("/list");
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+  ```
 
 ## 회원기능 만들기 : 아이디/비번 + JWT 사용하기
 
-여기서부터
+- 아이디/비번 기능을 사용하고 싶다 → CredentialsProvider() 사용 → 단, JWT만 사용 가능
+- DB에 비밀번호는 바로 저장하지 말고 암호화해서 저장 필요 → npm i bcrypt
+
+  ```jsx
+  import { connectDB } from "@/util/database";
+  import bcrypt from "bcrypt";
+
+  export default async function handler(req, res) {
+    if (req.method === "POST") {
+      let hash = await bcrypt.hash(req.body.password, 10); // 비밀번호 암호화
+      req.body.password = hash; // 기존 body에 password값을 hash로 대체
+      let db = (await connectDB).db("forum");
+      await db.collection("user_cred").insertOne(req.body);
+      res.status(200).json("회원가입성공");
+    }
+  }
+  ```
+
+- CredentialsProvider를 사용하면 로그인 페이지를 만들어주는데, 로그인페이지에 들어갈 input들은 설정해줘야 함
+
+  ```jsx
+  // pages\api\auth\[...nextauth].js
+
+  import { connectDB } from "@/util/database";
+  import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
+  import NextAuth from "next-auth";
+  import GithubProvider from "next-auth/providers/github";
+  import CredentialsProvider from "next-auth/providers/credentials";
+  import bcrypt from "bcrypt";
+
+  export const authOptions = {
+    providers: [
+      GithubProvider({
+        clientId: "8b9699dbd17597da56f2",
+        clientSecret: "610f243a98c5cabfaff723e58f184824b59ba308",
+      }),
+
+      CredentialsProvider({
+        //1. 로그인페이지 폼 자동생성해주는 코드
+        name: "credentials",
+        credentials: {
+          email: { label: "email", type: "text" },
+          password: { label: "password", type: "password" },
+        },
+
+        //2. 로그인요청시 실행되는코드
+        //직접 DB에서 아이디,비번 비교하고
+        //아이디,비번 맞으면 return 결과, 틀리면 return null 해야함
+        async authorize(credentials) {
+          let db = (await connectDB).db("forum");
+          let user = await db
+            .collection("user_cred")
+            .findOne({ email: credentials.email });
+          if (!user) {
+            console.log("해당 이메일은 없음");
+            return null;
+          }
+          const pwcheck = await bcrypt.compare(
+            // 비밀번호 비교
+            credentials.password,
+            user.password
+          );
+          if (!pwcheck) {
+            console.log("비번틀림");
+            return null;
+          }
+          return user;
+        },
+      }),
+    ],
+
+    //3. jwt 써놔야 잘됩니다 + jwt 만료일설정
+    session: {
+      strategy: "jwt", // session or jwt
+      maxAge: 30 * 24 * 60 * 60, // 로그인 유지기간(30일)
+    },
+
+    callbacks: {
+      //4. jwt 만들 때 실행되는 코드
+      //user변수는 DB의 유저정보담겨있고 token.user에 뭐 저장하면 jwt에 들어갑니다.
+      jwt: async ({ token, user }) => {
+        if (user) {
+          token.user = {};
+          token.user.name = user.name;
+          token.user.email = user.email;
+        }
+        return token;
+      },
+      //5. 유저 세션이 조회될 때 마다 실행되는 코드
+      session: async ({ session, token }) => {
+        session.user = token.user;
+        return session;
+      },
+    },
+    secret: "qwe213",
+    adapter: MongoDBAdapter(connectDB),
+  };
+  export default NextAuth(authOptions);
+  ```
+
+- user role을 나누고 싶으면 가입할 때 role: normal 정보 같은 거 넣어줌 role-based auth
+
+## 댓글기능 만들기 1 (input 데이터 다루기)
+
+- 댓글은 새로고침 없이 화면을 새로 그려주는 게 나으니 해당 컴포넌트만 client로 뽑아서 ajax 적용
+- 기존 document에 해당 댓글 데이터를 저장해도 되지만 document 1개당 최대 8메가 제한도 있고 댓글 수정 및 삭제가 까다로움, array 안에 자료 많으면 수정/삭제 까다로움
+- 별도의 comment collection을 만들어서 따로 저장해도 좋음 → 다만 어떤 글에 달렸는지 알아야 하기 때문에 하단처럼 parent 필요
+  ```
+  _id: ObjectId('12831e319a31a9s313');
+  content: '댓글임',
+  author: 'test@test.com',
+  parent: 'ObjectId(부모게시물의 _id);
+  ```
+- DB저장시 이게 맞는지 모르겠다면 → 나중에 수정, 삭제, 출력 쉬우면 잘한 거임 → 수정/삭제/출력 어려우면 다른 document로 빼보자
+
+## 댓글기능 만들기 2 (useEffect)
+
+```jsx
+// app\detail\[id]\page.js
+
+import { connectDB } from "@/util/database";
+import { ObjectId } from "mongodb";
+import Comment from "./Comment";
+
+export default async function Detail(props) {
+  const db = (await connectDB).db("forum");
+  let result = await db
+    .collection("post")
+    .findOne({ _id: new ObjectId(props.params.id) });
+  return (
+    <div>
+      <h4>상세페이지</h4>
+      <h4>{result.title}</h4>
+      <p>{result.content}</p>
+      <Comment _id={result._id} />
+    </div>
+  );
+}
+```
+
+```jsx
+// app\detail\[id]\Comment.js
+
+"use client";
+
+import { useEffect, useState } from "react";
+
+export default function Comment(props) {
+  let [comment, setComment] = useState("");
+
+  return (
+    <div>
+      <div>댓글목록보여줄부분</div>
+      <input
+        type="text"
+        onChange={(e) => {
+          setComment(e.target.value);
+        }}
+      />
+      <button
+        onClick={() => {
+          fetch("/api/comment/new", {
+            method: "POST",
+            body: JSON.stringify({ comment: comment, _id: props._id }),
+          });
+        }}
+      >
+        댓글전송
+      </button>
+    </div>
+  );
+}
+```
+
+```jsx
+// pages\api\comment\new.js
+
+import { connectDB } from "@/util/database";
+import { ObjectId } from "mongodb";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]";
+
+export default async function handler(req, res) {
+  let session = await getServerSession(req, res, authOptions);
+  req.body = JSON.parse(req.body);
+  if (req.method == "POST") {
+    let params = {
+      content: req.body.comment,
+      parent: new ObjectId(req.body._id),
+      author: session.user.email,
+    };
+    let db = (await connectDB).db("forum");
+    let result = await db.collection("comment").insertOne(params);
+    res.status(200).json("댓글저장완료");
+  }
+}
+```
+
+## 댓글기능 만들기 3 (댓글 불러오기)
+
+```jsx
+// app\detail\[id]\pages.js
+
+import { connectDB } from "@/util/database";
+import { ObjectId } from "mongodb";
+import Comment from "./Comment";
+
+export default async function Detail(props) {
+  const db = (await connectDB).db("forum");
+  let result = await db
+    .collection("post")
+    .findOne({ _id: new ObjectId(props.params.id) });
+  return (
+    <div>
+      <h4>상세페이지</h4>
+      <h4>{result.title}</h4>
+      <p>{result.content}</p>
+      <Comment _id={result._id} />
+    </div>
+  );
+}
+```
+
+```jsx
+// app\detail\[id]\Comment.js
+
+"use client";
+
+import { useEffect, useState } from "react";
+
+export default function Comment(props) {
+  let [comment, setComment] = useState("");
+  let [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch(`/api/comment/list?id=${props._id}`)
+      .then((r) => r.json())
+      .then((result) => {
+        console.log(result);
+        setData(result);
+      });
+  }, []);
+
+  return (
+    <div>
+      {data
+        ? data.map((item) => {
+            return <p key={item._id}>{item.content}</p>;
+          })
+        : null}
+
+      <input
+        type="text"
+        onChange={(e) => {
+          setComment(e.target.value);
+        }}
+      />
+      <button
+        onClick={() => {
+          fetch("/api/comment/new", {
+            method: "POST",
+            body: JSON.stringify({ comment: comment, _id: props._id }),
+          });
+        }}
+      >
+        댓글전송
+      </button>
+    </div>
+  );
+}
+```
+
+```jsx
+// pages\api\comment\list.js
+
+import { connectDB } from "@/util/database";
+import { ObjectId } from "mongodb";
+
+export default async function handler(req, res) {
+  const db = (await connectDB).db("forum");
+  let result = await db
+    .collection("comment")
+    .find({ parent: new ObjectId(req.query.id) })
+    .toArray();
+  res.status(200).json(result);
+}
+```
+
+- MySQL 등 관계형 DB는 유저 이름이나 유저 이메일을 다른 테이블에 저장하는 게 안 좋은 관습이지만 비관계형에는 사관 없거니와 괜찮은 관습(많은 정보를 저장)
+
+## loading.js, error.js, not-found.js
+
+- loading.js
+  - 모든 page.js 옆에 loading.js 생성 가능
+  - 리액트 Suspense
+    ```jsx
+    <Suspense fallback={<div>로딩중</div>}>
+      <div>보여줄페이지</div>
+    </Suspense>
+    ```
+  - 해당 폴더 page.js 옆에 loading.js가 없더라도 상위를 서치하기 때문에 최상단에 하나만 두는 것도 가능
+- error.js
+  - 모든 page.js 옆에 error.js 만들고,
+  - 무조건 ‘use client’
+  - props 확인하면 기본적으로 error, reset이 있는데 활용 가능
+  - page.js에서 에러가 나면 error.js 보여줌
+    - 해당 컴포넌트 영역만 error.js 를 보여주기 때문에 header 등 다른 공통 컴포넌트가 남아 있어서 상대적으로 깔끔함
+  - 해당 폴더 page.js 옆에 error.js가 없더라도 상위를 서치하기 때문에 최상단에 하나만 두는 것도 가능
+  - error.js는 옆에 있는 layout.js는 에러 체크 못함
+    - global-error.js 만들면 최상단 layout.js 에러 체크 가능
+- not-found.js (404 not found)
+  - Next.js 기본 내장된 404 페이지가 있음
+  - 모든 page.js 옆에 not-found.js 생성 가능
+  - notFound()라는 함수를 통해 해당 not-found.js 출력 가능
+
+## AWS Elastic Beanstalk에 Next.js서버 배포
+
+이 밑으로부터는 추후 체크 예정
