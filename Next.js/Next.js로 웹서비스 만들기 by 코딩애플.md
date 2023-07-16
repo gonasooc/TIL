@@ -1003,8 +1003,8 @@ export default async function handler(req, res) {
   export const authOptions = {
     providers: [
       GithubProvider({
-        clientId: "8b9699dbd17597da56f2",
-        clientSecret: "610f243a98c5cabfaff723e58f184824b59ba308",
+        clientId: "clientId", // GitHub에서 확인한 clientId
+        clientSecret: "clientSecret", // GitHub에서 확인한 clientSecret
       }),
 
       CredentialsProvider({
