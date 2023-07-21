@@ -1,3 +1,7 @@
+### React snippet
+
+[[React snippets] 컴포넌트 종류별 단축키](https://velog.io/@rgfdds98/React-snippets-컴포넌트-종류별-단축키)
+
 ### RTK 없이 createStore 썼을 때 deprecated 취소선 뜨는 이유
 
 [redux createStore deprecated ?!](https://velog.io/@201_steve/redux-createStore-deprecated)

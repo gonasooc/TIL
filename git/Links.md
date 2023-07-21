@@ -1,3 +1,7 @@
+### merge 전략 squash, rebase 등
+
+[Git의 다양한 브랜치 병합 방법 (Merge, Squash & Merge, Rebase & Merge)](https://hudi.blog/git-merge-squash-rebase/)
+
 ### git remote branch 삭제
 
 [Git 로컬 및 원격 브랜치 삭제하기](https://www.freecodecamp.org/korean/news/git-delete-local-or-remote-branch/)
