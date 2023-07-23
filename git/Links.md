@@ -1,3 +1,7 @@
+### stash 명령어 체크, stash는 staging된 파일만 가능
+
+[생활코딩 git 06 - git stash, git stash apply, git stash pop · 초보몽키의 개발공부로그](https://wayhome25.github.io/git/2017/04/05/git-05-stash/)
+
 ### merge 전략 squash, rebase 등
 
 [Git의 다양한 브랜치 병합 방법 (Merge, Squash & Merge, Rebase & Merge)](https://hudi.blog/git-merge-squash-rebase/)
