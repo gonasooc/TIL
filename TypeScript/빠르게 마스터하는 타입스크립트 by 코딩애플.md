@@ -19,6 +19,7 @@
 ### 타입스크립트 문법
 
 - 변수 타입 지정
+
   ```tsx
   let 이름: string = "kim";
   이름 = 123; // error
@@ -26,15 +27,18 @@
   let 이름2: string[] = [123, "kim"]; // error
   let 이름3: { name?: string } = { name: 123 }; // error
   ```
+
 - 다양한 타입이 들어올 수 있게 하려면 Union type
   ```jsx
   let 이름: string | number = 123;
   ```
 - 타입은 변수에 담아쓸 수 있음 Type alias
+
   ```tsx
   type NameType = string | number;
   let 이름: NameType = 123;
   ```
+
   ```tsx
   // 이 함수는 파라미터로 number, return 값으로 number가 되어야 하는 설정
 
@@ -44,12 +48,14 @@
 
   함수("123"); // error
   ```
+
 - array에 쓸 수 있는 tuple 타입
   ```tsx
   type Member = [number, boolean];
   let john: Member = ["123", true]; // error
   ```
 - object에 타입 지정해야 할 속성이 너무 많으면
+
   ```tsx
   type Member = {
     [key: string]: string;
@@ -57,6 +63,7 @@
 
   let john: Member = { name: "kim", age: 123 }; // error
   ```
+
 - class 타입 지정 가능
   ```tsx
   class User {
@@ -139,6 +146,7 @@ let 회원들: { member1: string; member2: string } = {
   이름 = false;
   ```
 - unknown 타입 → any보다 안전한 이유는 strict한 타입에 해당 데이터를 넣을 때 error 뱉어줌 → 간단한 수학연산조차도 타입이 맞아야 함, unkown 타입과 number로 연산 불가능
+
   ```tsx
   let 이름: unknown;
   이름 = 123;
@@ -146,17 +154,21 @@ let 회원들: { member1: string; member2: string } = {
 
   let 변수1: string = 이름; // error
   ```
+
   ```tsx
   let 나이: string | number;
   나이 + 1; // error, union 타입과 number는 연산이 불가능
   ```
+
 - 타입 선언 예시
+
   ```tsx
   let user: string = "kim";
   let age: undefined | number = undefined;
   let married: boolean = false;
   let 철수: (string | number | undefined | boolean)[] = [user, age, married];
   ```
+
   ```tsx
   let 학교: 학교 = {
     score: [100, 97, 84],
@@ -176,6 +188,7 @@ let 회원들: { member1: string; member2: string } = {
 ## 함수에 타입 지정하는 법 & void 타입
 
 - void는 실수로 뭔가 return하는 걸 사전에 막을 수 있음
+
   ```tsx
   function 함수(x: number): void {
     return x + 1; // error
@@ -183,7 +196,9 @@ let 회원들: { member1: string; member2: string } = {
 
   함수(2);
   ```
+
 - 값이 있을 수도 있고 없을 수도 있는
+
   ```tsx
   const hello = (name?: string) => {
     name ? console.log(`안녕하세요 ${name}`) : console.log("이름이 없습니다");
@@ -195,6 +210,7 @@ let 회원들: { member1: string; member2: string } = {
 ## 타입 확정하기 Narrowing & Assertion
 
 - type이 아직 하나로 확정되지 않았을 경우 Type Narrowing
+
   ```tsx
   // before
 
@@ -204,6 +220,7 @@ let 회원들: { member1: string; member2: string } = {
 
   내함수(123);
   ```
+
   ```tsx
   // after
 
@@ -217,12 +234,14 @@ let 회원들: { member1: string; member2: string } = {
 
   내함수("123");
   ```
+
 - else문도 확실하게 넣어주는 편이 좋음
 - Narrowing으로 판정해주는 문법들 → 현재 변수의 타입이 뭔지 특정지을 수 있기만 하면 다 인정해줌
   - typeof 변수
   - 속성명 in 오브젝트자료
   - 인스턴스 instanceof 부모
 - 아니면 assertion 문법 (타입 덮어쓰기)
+
   ```tsx
   function 내함수(x: number | string) {
     let array: number[] = [];
@@ -231,6 +250,7 @@ let 회원들: { member1: string; member2: string } = {
 
   내함수(123);
   ```
+
 - 빠따 안 맞기 위한 assertion 문법의 용도
   1. Narrowing 할 때 씀 → 애매한 union 타입을 확정 지을 때
   2. 무슨 타입이 들어올지 100% 확실할 때 써야 함 → 버그 추적 불가능
@@ -239,14 +259,18 @@ let 회원들: { member1: string; member2: string } = {
 ## 타입도 변수에 담아쓰세요 type 키워드 써서 & readonly
 
 - type alias 만드는 법
+
   ```tsx
   type Animal = string | number | undefined;
 
   let 동물: Animal = false;
   ```
+
 - type 변수 작명 관습 → 일반 변수랑 차이를 두기 위해 PascalCase
 - const 변수는 등호로 재할당만 막는 역할임 → const로 담은 object 수정은 자유롭게 가능
+
   - 그래서 readonly 키워드를 통해서 수정을 막을 수 있음
+
     ```tsx
     type Girlfriend = {
       readonly name: string;
@@ -258,6 +282,7 @@ let 회원들: { member1: string; member2: string } = {
 
     여친.name = "유라"; // error
     ```
+
 - type 합치는 것도 가능
   ```tsx
   type Name = string;
@@ -265,6 +290,7 @@ let 회원들: { member1: string; member2: string } = {
   type Person = Name | Age;
   ```
 - & 연산자로 object 타입 합치기(extend 하기)
+
   ```tsx
   type PositionX = { x: number };
   type PositionY = { y: number };
@@ -273,6 +299,86 @@ let 회원들: { member1: string; member2: string } = {
 
   let position: NewType = { x: 10, y: 20 };
   ```
+
 - type 키워드는 재정의가 불가능
 
-**과제 체크 필요**
+## Literal Types로 만드는 const 변수 유사품
+
+- 더 엄격한 타입 지정 가능 → ex) “kim or park 문자만 들어올 수 있습니다~” Literal Types
+  ```tsx
+  let 이름: 123;
+  이름 = 456; // error
+  ```
+- LIteral Types
+  - 변수에 뭐가 들어올지 더 엄격하게 관리 가능
+  - 버그 방지 & 자동 완성
+- 함수의 parameter 뿐만 아니라 return 값도 제한할 수 있어서 버그를 미연에 방지할 수 있음
+  ```tsx
+  const game = (hand: "가위" | "바위" | "보"): ("가위" | "바위" | "보")[] => {
+    return [hand];
+  };
+  ```
+- Literal type은 const 변수와 유사하게 사용 가능 → const 변수 업그레이드 버전 같은 느낌
+
+## 함수와 methods에 type alias 지정하는 법
+
+- 함수 type alias 부착하려면 함수표현식 써야
+  1. 함수 타입은 () ⇒ {} 모양으로
+  2. 함수 type alias 부착하려면 함수표현식 써야
+
+**과제..**
+
+## 타입스크립트로 HTML 변경과 조작할 때 주의점
+
+- 변수에 element를 담으면 조작할 때 error가 생김 → 해당 element가 제대로 담기지 않았을 때는 null이고 제대로 담기면 element라서 narrowing으로 명확하게 처리해줘야 함
+  ```tsx
+  let 제목 = document.querySelector("#title");
+  제목.innerHTML = "반가워요"; // error
+  ```
+  ```
+  let 제목 = document.querySelector("#title");
+  if(제목 !== null) {
+    제목.innerHTML = "반가워요";
+  }
+  ```
+- HTML 조작시 narrowing 방법 5개
+  - instanceof 연산자
+    ```tsx
+    let 제목 = document.querySelector("#title");
+    if (제목 instanceof Element) {
+      제목.innerHTML = "반가워요";
+    }
+    ```
+  - as로 사기치기 → null이 들어와도 무조건 타입이 Element로 확정 시키기
+    ```tsx
+    let 제목 = document.querySelector("#title") as Element;
+    제목.innerHTML = "반가워요";
+    ```
+  - 오브젝트에 붙이는 ?. (optional chaining)
+    ```tsx
+    let 제목 = document.querySelector("#title");
+    if (제목?.innerHTML !== undefined) {
+      제목.innerHTML = "반가워요";
+    }
+    ```
+  - 귀찮은 strict 모드 자체를 끌 수도 있음
+    ```json
+    {
+      "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "strictNullChecks": false
+      }
+    }
+    ```
+  - narrowing 예시
+    ```tsx
+    let 링크 = document.querySelector(".link");
+    if (링크 instanceof HTMLAnchorElement) {
+      링크.href = "http://kakao.com";
+    }
+    ```
+    ```tsx
+    let 버튼 = document.querySelector("#button");
+    버튼?.addEventListener("click", function () {});
+    ```
