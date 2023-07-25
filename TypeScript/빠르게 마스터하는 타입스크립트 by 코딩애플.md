@@ -382,3 +382,128 @@ let 회원들: { member1: string; member2: string } = {
     let 버튼 = document.querySelector("#button");
     버튼?.addEventListener("click", function () {});
     ```
+
+## (JS문법시간) class 키워드 알아보기
+
+[객체지향 Class 문법 10분만에 이해시켜줌 (자바스크립트)](https://youtu.be/dHrI-_xq1Vo)
+
+- **“저렇게 비슷한 object 많이 만들 일 있으면 class 만들어쓰세요” → class는 object 뽑는 기계라고 생각하면 좋음**
+- class 문법이 없던 시절에는 function으로 구현
+  ```jsx
+  function 기계() {
+    this.q = "consume"; // '새로 생성되는 object에 { q: 'consume' } 추가해주셈'
+    this.w = "snowball";
+  }
+  ```
+- this는 기계로부터 생성되는 object라고 생각하면 좋음(멋진 말로 instance)
+  ```jsx
+  function 기계(구멍) {
+    this.q = 구멍;
+    this.w = "snowball";
+  }
+
+  let nunu = new 기계("consume");
+  let garen = new 기계("strike");
+
+  class Hero {
+    constructor(구멍) {
+      this.q = 구멍;
+      this.w = "snowball";
+    }
+  }
+
+  let test = new Hero("hero");
+  console.log(test);
+  ```
+
+## (JS 문법시간) prototype 문법 짚어보기
+
+[이거보고 prototype 이해 못하면 강의접음](https://youtu.be/wUgmzvExL_E)
+
+- prototype은 유전자 역할을 함
+- object에서 자료 뽑을 때 일어나는 일
+  1. 직접 자료를 가지고 있으면 그거 출력
+  2. 없으면 부모 유전자까지 뒤짐
+  3. 없으면 부모의부모유전자까지
+  4. prototype chain..
+- Array의 내장함수들은 prototype으로 들고 있음 ex) `Array.prototype.sort()`
+- prototype에 함수 추가하는 것도 가능 ex) `Array.prototype.함수 = function() {}`
+
+## class 만들 때 타입지정 가능
+
+- TypeScript constructor() → 필드값에 **어쩌구**가 미리 있어야 this.**어쩌구** 가능
+  ```tsx
+  class Person {
+    name: string;
+
+    constructor(a: string) {
+      this.name = a;
+    }
+  }
+
+  let 사람1 = new Person("Kim");
+  let 사람2 = new Person("Park");
+  console.log(사람2);
+  ```
+- constructor의 parameter는 type 지정이 필요하지만 class 문법을 통해 생성되는 건 항상 object라 return 타입 지정할 필요 없음
+  ```tsx
+  class Person {
+    name: string;
+
+    constructor(a: string) {
+      this.name = a;
+    }
+
+    함수(a: string): void {
+      // prototype에 함수 추가
+      console.log("안녕" + a);
+    }
+  }
+
+  let 사람1 = new Person("Kim");
+  let 사람2 = new Person("Park");
+  console.log(사람2.함수);
+  사람1.함수("HI");
+  ```
+
+## Object에 타입지정하려면 interface 이것도 있음
+
+- object의 경우 type, interface 둘 다 사용 가능
+- class 만드는 문법과 비슷해서 interface는 등호가 필요 없음
+- interface의 장점: extends로 복사 가능
+  ```tsx
+  interface Student {
+    name: string;
+  }
+
+  interface Teacher extends Student {
+    age: number;
+  }
+
+  let 학생: Student = {
+    name: "kim",
+  };
+
+  let 선생: Teacher = {
+    name: "kim",
+    age: 20,
+  };
+  ```
+- 물론 type alias도 비슷하게 만들 수 있음 → & 기호를 사용(intersection)
+  - interface의 extends와는 조금 차이가 있음
+  - & 기호(intersection type)을 통해 두 타입을 전부 만족하는 타입이라는 거지 확장된 개념이 아님
+  - interface 또한 & 기호로 붙일 수 있음
+    ```tsx
+    type Animal = {
+      name: string;
+    };
+
+    type Cat = {
+      age: number;
+    } & Animal;
+    ```
+- **type vs interface (엄격함 vs 유연함)**
+  - interface는 중복선언 가능 → 중복 선언을 하는 경우 두 개가 합쳐짐 → 일종의 자동 extends
+  - type은 중복 선언 불가능
+  - 외부 라이브러리 같은 경우 interface 많이 씀 → 사용자가 타입을 쉽게 추가할 수 있게끔
+  - interface는 extends를 사용했을 때 동일한 속성이 있는 경우 error을 뱉어주나, type의 intersection을 사용했을 때는 error가 아니라 두 속성을 합쳐줌(?) → 때문에 interface가 조금 더 안전함
