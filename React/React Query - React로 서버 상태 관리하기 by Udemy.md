@@ -60,6 +60,7 @@
 - react-query에서 QueryClient와 QueryClientProvider가 필요
 - 클라이언트가 가지고 있는 캐시와 모든 기본 옵션을 Provider의 하위 컴포넌트로 사용할 수 있음, react-query hook 사용 가능
 - App.jsx
+
   ```jsx
   import { Posts } from "./Posts";
   import "./App.css";
@@ -82,6 +83,7 @@
 
   export default App;
   ```
+
 - 구조 분해 할당을 통해 useQuery를 담아줄 수 있음, useQuery는 다양한 속성을 가진 개체를 반환함
 - useQuery는 몇 가지 인수를 사용함
   - 쿼리 키를 사용
@@ -101,6 +103,7 @@
   - isLoading - 가져오는 상태를 의미, 표시할 캐시 데이터 없음(no cached data, plus isFetching)
   - 캐시된 데이터가 있을 때와 없을 때를 구분할 때 필요
 - react-query는 기본적으로 세 번 시도한 후에 해당 데이터를 가져올 수 없다고 판단하여 isError를 반환함(횟수 변경 가능)
+
   ```jsx
   // replace with useQuery
   const { data, isLoading, isError, error } = useQuery("posts", fetchPosts);
@@ -116,3 +119,88 @@
   ```
 
 ## React Query 개발자 도구
+
+- React Query Dev Tools
+  - Shows queries (by key) - 쿼리 키로 쿼리 표시
+    - status of queries
+    - last updated timestamp
+  - Data explorer
+  - Query explorer - 쿼리 탐색기
+- import 하기
+  ```jsx
+  import { Posts } from "./Posts";
+  import "./App.css";
+
+  import { QueryClient, QueryClientProvider } from "react-query";
+  import { ReactQueryDevtools } from "react-query/devtools";
+
+  const queryClient = new QueryClient();
+
+  function App() {
+    return (
+      // provide React Query client to App
+      <QueryClientProvider client={queryClient}>
+        <div className="App">
+          <h1>Blog Posts</h1>
+          <Posts />
+        </div>
+        <ReactQueryDevtools />
+      </QueryClientProvider>
+    );
+  }
+
+  export default App;
+  ```
+
+## staleTime vs cacheTime
+
+- Stale Data
+  - React Query에서 데이터가 만료됐다는 건 무슨 뜻일까요? (Why does it matter if the data is stale?)
+  - 데이터 리페칭(refetching)은 만료된 데이터에서만 실행(Data refetch only triggers for stale data)
+    - For example, component remount, window refocus
+    - staleTime은 데이터를 허용하는 ‘최대 나이’라고 할 수 있음(`staleTime` translates to “max age”
+  - 데이터가 만료됐다고 판단하기 전까지 허용하는 시간이 staleTime (How to tolerate data potentially being out of date?) - ex) 웹사이트에 표시된 데이터가 10초까지는 그대로여도 괜찮다면 10초로 설정, 데이터의 성격에 따라 달라진다고 볼 수 있음
+    ```jsx
+    const { data, isLoading, isError, error } = useQuery("posts", fetchPosts, {
+      staleTime: 2000,
+    });
+    ```
+- staleTime vs. cacheTime
+  - `staleTime` is for re-fetching
+  - Cache is for data that might be re-used later
+    - query goes into “cold storage” if there’s no active `useQuery`
+    - cache data expires after `cacheTime` (default: five minutes)
+      - how long it’s been since the last active `useQuery`
+    - After the cache expires, the data is garbage collected - 캐시가 만료되면 가비지 컬렉션이 실행되고 클라이언트 데이터는 사용할 수 없음
+  - Cache is backup data to display while fetching - 데이터가 캐시에 있는 동안에는 페칭(fetching)할 때 사용될 수 있음
+
+# 섹션 2: 페이지 매김, 프리페칭과 변이
+
+## 코드 퀴즈! 블로그 댓글을 위한 쿼리 생성하기
+
+- `post.id`를 받아와야 하기 때문에 익명함수로 작성(인자가 필요한 함수인 경우 익명함수를 통해 함수를 실행시켜야 함)
+  ```jsx
+  const { data, isLoading, isError, error } = useQuery("comments", () =>
+    fetchComments(post.id)
+  );
+
+  if (isLoading) return <h3>Loading...</h3>;
+
+  if (isError) {
+    return (
+      <>
+        <h3>Error</h3>
+        <p>{error.toString()}</p>
+      </>
+    );
+  }
+  ```
+- 위와 같은 이전과 같은 방법으로 데이터를 fetching 하면 다른 post.id를 넣어도 query key는 같기 때문에 이전에 만들어진 cache data만 불러오게 됨
+- \*참고하면 좋을 블로그
+  - [https://velog.io/@cloud_oort/React-Query-공부-2](https://velog.io/@cloud_oort/React-Query-%EA%B3%B5%EB%B6%80-2)
+    - 이 배열은 우리가 흔히 알고 있는 useEffect에서 사용하는 dependency array와 같은 역할을 할 것이다.
+      ```jsx
+      const { data } = useQuery(["comments", post.id], () =>
+        fetchComments(post.id)
+      );
+      ```
