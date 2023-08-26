@@ -127,6 +127,7 @@
   - Data explorer
   - Query explorer - 쿼리 탐색기
 - import 하기
+
   ```jsx
   import { Posts } from "./Posts";
   import "./App.css";
@@ -179,6 +180,7 @@
 ## 코드 퀴즈! 블로그 댓글을 위한 쿼리 생성하기
 
 - `post.id`를 받아와야 하기 때문에 익명함수로 작성(인자가 필요한 함수인 경우 익명함수를 통해 함수를 실행시켜야 함)
+
   ```jsx
   const { data, isLoading, isError, error } = useQuery("comments", () =>
     fetchComments(post.id)
@@ -195,6 +197,7 @@
     );
   }
   ```
+
 - 위와 같은 이전과 같은 방법으로 데이터를 fetching 하면 다른 post.id를 넣어도 query key는 같기 때문에 이전에 만들어진 cache data만 불러오게 됨
 - \*참고하면 좋을 블로그
   - [https://velog.io/@cloud_oort/React-Query-공부-2](https://velog.io/@cloud_oort/React-Query-%EA%B3%B5%EB%B6%80-2)
@@ -204,3 +207,37 @@
         fetchComments(post.id)
       );
       ```
+
+## 쿼리 키
+
+- Why don’t comments refresh?
+  - 모든 쿼리가 `comment` 쿼리 키를 동일하게 사용하기 때문 - Every query uses the same key (`comments`)
+  - 어떠한 트리거가 있어야 함 - Data for queries with known keys only refreshed upon trigger
+  - Example triggers:
+    - compoment remount
+    - window refocus
+    - running refetch function
+    - automated refetch
+    - query invalidation after a mutation
+- Solution?
+  - Option: remove programmatically for every new title
+    - it’s not easy
+    - it’s not really what we want
+  - No reason to remove data from the cache
+    - we’re not even performing the same query!
+  - 해당 쿼리는 게시물 ID를 포함 - Query includes post ID
+    - 쿼리별로 캐시를 남길 수 있음 - Chche on a per-query basis
+    - “comments” 쿼리에 대한 캐시를 공유하지 않아도 됨 - don’t share cache for any “comments’ query regardless of post id
+  - 각 게시물에 대한 쿼리에 라벨을 설정하면 됨 - What we really want: label the query for each post separately
+- Array as Query Key
+  - 바로 쿼리 키에 문자열(String) 대신 배열(Array)을 전달하면 가능 - Pass array for the query key, not just a string
+  - Treat the query key as a _dependency array_
+    - What key changes, create a new query - 의존성 배열에 다르면 완전히 다른 것으로 간주됨
+  - 데이터를 가져올 때 사용하는 쿼리 함수에 있는 값이 쿼리 키에 포함되어야 함 - Query function values should be part of the key
+
+```
+// replace with useQuery
+  const { data, isLoading, isError, error } = useQuery(["comments", post.id], () =>
+    fetchComments(post.id)
+  );
+```
