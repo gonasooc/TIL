@@ -241,3 +241,168 @@
     fetchComments(post.id)
   );
 ```
+
+## 페이지 매김(Pagination)
+
+- Pagination
+  - Track current page in component state (`currentPage`)
+  - Use query keys that include the page number `[”post”, currentPage]`
+  - User clicks “next pages” or “previous page” button
+    - update `currentPage` state
+    - fire off new query
+- prefetching 이전
+  ```jsx
+  import { useState } from "react";
+  import { useQuery } from "react-query";
+
+  import { PostDetail } from "./PostDetail";
+  const maxPostPage = 10;
+
+  async function fetchPosts(pageNum) {
+    const response = await fetch(
+      `https://jsonplaceholder.typicode.com/posts?_limit=10&_page=${pageNum}`
+    );
+    return response.json();
+  }
+
+  export function Posts() {
+    const [currentPage, setCurrentPage] = useState(1);
+    const [selectedPost, setSelectedPost] = useState(null);
+
+    // replace with useQuery
+    const { data, isLoading, isError, error } = useQuery(
+      ["posts", currentPage],
+      () => fetchPosts(currentPage),
+      {
+        staleTime: 2000,
+      }
+    );
+
+    if (isLoading) return <h3>Loading...</h3>;
+    if (isError)
+      return (
+        <>
+          <h3>Oops, something went wrong</h3>
+          <p>{error.toString()}</p>
+        </>
+      );
+
+    return (
+      <>
+        <ul>
+          {data.map((post) => (
+            <li
+              key={post.id}
+              className="post-title"
+              onClick={() => setSelectedPost(post)}
+            >
+              {post.title}
+            </li>
+          ))}
+        </ul>
+        <div className="pages">
+          <button
+            disabled={currentPage <= 1}
+            onClick={() => {
+              setCurrentPage((previousValue) => previousValue - 1);
+            }}
+          >
+            Previous page
+          </button>
+          <span>Page {currentPage}</span>
+          <button
+            disabled={currentPage >= maxPostPage}
+            onClick={() => {
+              setCurrentPage((previousValue) => previousValue + 1);
+            }}
+          >
+            Next page
+          </button>
+        </div>
+        <hr />
+        {selectedPost && <PostDetail post={selectedPost} />}
+      </>
+    );
+  }
+  ```
+
+## 데이터 프리페칭(Pre-fetching)
+
+- Prefetching
+
+  - Prefetch
+    - 데이터를 캐시에 추가 - adds data to cache
+    - 구성 가능하나 기본값으로는 만료(stale) 상태 - automatically stale (configurable)
+    - shows while re-fetching
+      - 캐시가 만료되지 않았다는 가정 하에 - as long as cache hasn’t expired!
+  - Prefetching can be used for any anticipated data needs
+    - not just pagination!
+
+- prefetching 적용
+  - prefetchQuery는 queryClient에 있음 → useQueryClient 호출
+  - useQuery와 작성 방식 비슷함
+    ```jsx
+    import { useEffect, useState } from "react";
+    import { useQuery, useQueryClient } from "react-query";
+
+    import { PostDetail } from "./PostDetail";
+    const maxPostPage = 10;
+
+    async function fetchPosts(pageNum) {
+      const response = await fetch(
+        `https://jsonplaceholder.typicode.com/posts?_limit=10&_page=${pageNum}`
+      );
+      return response.json();
+    }
+
+    export function Posts() {
+      const [currentPage, setCurrentPage] = useState(1);
+      const [selectedPost, setSelectedPost] = useState(null);
+
+      const queryClient = useQueryClient();
+
+      useEffect(() => {
+        if (currentPage < maxPostPage) {
+          const nextPage = currentPage + 1;
+          queryClient.prefetchQuery(["posts", nextPage], () =>
+            fetchPosts(nextPage)
+          );
+        }
+      }, [currentPage, queryClient]);
+
+      // replace with useQuery
+      const { data, isLoading, isError, error } = useQuery(
+        ["posts", currentPage],
+        () => fetchPosts(currentPage),
+        {
+          staleTime: 2000,
+          keepPreviousData: true,
+        }
+      );
+
+      if (isLoading) return <h3>Loading...</h3>;
+      if (isError)
+        return (
+          <>
+            <h3>Oops, something went wrong</h3>
+            <p>{error.toString()}</p>
+          </>
+        );
+
+      return (
+    		...
+      );
+    }
+    ```
+
+## isLoading vs isFetching
+
+- `isFetching`
+  - async query function이 해결되지 않았을 때 참에 해당함, 아직 데이터를 가져오는 중 - the async query fuction hasn’t yet resolved
+- `isLoading`
+  - 캐시된 데이터가 없고 데이터를 가져오는 상황에 해당, `isFetching`의 부분 집합 - no cached data, plus `isFetching`
+
+## Mutations
+
+- Mutations
+  - 변이는 서버에 데이터를 업데이트하도록 서버에 네트워크 호출을 실시 - Mutations: making a network call that changes data on the server

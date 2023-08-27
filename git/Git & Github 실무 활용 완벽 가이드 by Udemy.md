@@ -590,3 +590,47 @@ You have a couple options:
 
 - To view any existing remotes for you repository, we can run **git remote** or **git remote -v** (verbose, for more info)
 - This just displays a list of remotes. If you haven’t added any remotes yet, you won’t see anything!
+
+### Adding A New Remote
+
+- A remote is really two things: a URL and a label. To add a new remote, we need to provide both to Git.
+
+### Origin?
+
+- **Origin** is a conventional Git remote name, but it is not at all special. It’s just a name for a URL.
+- When we clone a Github repo, the default remote name setup for us is called origin. You can change it. Most people leave it.
+
+### Other commands
+
+- They are not commonly used, but there are commands to rename and delete remotes if needed.
+- git remote rename <old> <new>
+- git remote remove <name>
+
+## Git Push 소개
+
+### Pushing
+
+- Now that we have a remote set up, let’s push some work up to Github! To do this, we need to use the **git push** command.
+- We need to specify the remote we want to push up to AND the specific local branch we want to push up to that remote.
+
+## Git Push 자세히 알아보기
+
+### An Example
+
+- **git push origin mater** tells git to push up the master branch to our origin remote.
+
+### Push In Detail - local branch와 remote branch가 이름이 같을 필요는 없음!
+
+- While we often want to push a local branch up to a remote branch of the same name, we don’t have to!
+- To push our local pancake branch up to a remote branch called waffle we could do: **git push origin pancake: waffle**
+
+## ‘git push -u’는 무슨 뜻일까?
+
+### The -u option
+
+- the -u option allows us to set the upstream of the branch we’re pushing. You can think of this as a link connecting our local branch to a branch on Github.
+- Running **git push -u origin master** sets the upstream of the local master branch so that it tracks the master branch on the origin repo.
+
+# 섹션12: Fetch와 Pull
+
+## 이 섹션에서 가장 중요한 것
