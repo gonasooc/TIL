@@ -251,6 +251,7 @@
     - update `currentPage` state
     - fire off new query
 - prefetching 이전
+
   ```jsx
   import { useState } from "react";
   import { useQuery } from "react-query";
@@ -339,8 +340,10 @@
     - not just pagination!
 
 - prefetching 적용
+
   - prefetchQuery는 queryClient에 있음 → useQueryClient 호출
   - useQuery와 작성 방식 비슷함
+
     ```jsx
     import { useEffect, useState } from "react";
     import { useQuery, useQueryClient } from "react-query";
@@ -406,3 +409,91 @@
 
 - Mutations
   - 변이는 서버에 데이터를 업데이트하도록 서버에 네트워크 호출을 실시 - Mutations: making a network call that changes data on the server
+    - jsonplaceholder API doesn’t change server
+    - go through the mechanics of making the change
+  - Day Spa app will demonstrate showing changes to user:
+    - Optimistic updates (assume change wil happen)
+    - Update React Query cache with data returned from the server
+    - Trigger re-fetch of relevant data (invalidation)
+- useMutation
+  - Similar to useQuery, but:
+    - returns `mutate` function
+    - doesn’t need query key
+    - `isLoading` but no `isFetching` - 캐시된 값이 없기 때문에 `isFetching`은 존재하지 않음
+    - by default, no retries (configurable!)
+
+## useMutation로 포스팅 삭제하기
+
+```jsx
+import { useQuery, useMutation } from "react-query";
+
+...
+
+async function deletePost(postId) {
+  const response = await fetch(
+    `https://jsonplaceholder.typicode.com/postId/${postId}`,
+    { method: "DELETE" }
+  );
+  return response.json();
+}
+
+...
+
+export function PostDetail({ post }) {
+  console.log("post", post.id);
+  // replace with useQuery
+  const { data, isLoading, isError, error } = useQuery(
+    ["comments", post.id],
+    () => fetchComments(post.id)
+  );
+
+  const deleteMutation = useMutation((postId) => deletePost(postId));
+
+  if (isLoading) return <h3>Loading...</h3>;
+
+  if (isError) {
+    return (
+      <>
+        <h3>Error</h3>
+        <p>{error.toString()}</p>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <h3 style={{ color: "blue" }}>{post.title}</h3>
+      <button
+        onClick={() => {
+          deleteMutation.mutate();
+        }}
+      >
+        Delete
+      </button>{" "}
+      <button>Update title</button>
+      {deleteMutation.isError && <p>Error deleting the post</p>}
+      {deleteMutation.isLoading && <p>Deleting the post</p>}
+      {deleteMutation.isSuccess && <p>Post has (not) been deleted</p>}
+      <p>{post.body}</p>
+      <h4>Comments</h4>
+      {data.map((comment) => (
+        <li key={comment.id}>
+          {comment.email}: {comment.body}
+        </li>
+      ))}
+    </>
+  );
+}
+```
+
+## React Query 기초
+
+- Blog-em Ipsum Summary
+  - Install package, create QueryClient and add QueryProvider
+  - `useQuery` for data
+    - return object also includes `isLoading` / `isFetching` and `error`
+  - `staleTime` for whether or not to re-fetch (on trigger)
+  - `cacheTime` for how long to hold on to data after inactivity
+  - query keys as dependency arrays
+  - pagination and pre-fetching
+  - `useMutation` for server side-effects
