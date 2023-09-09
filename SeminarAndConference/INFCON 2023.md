@@ -134,3 +134,26 @@
 ## 결론
 
 - 모노레포는 하나의 제품에 필요한 패키지를 여러 개 만들어야 할 때 적절한 대안
+
+# 실시간 추천 시스템 구축하기 - 정지용
+
+## Session-based Recommender
+
+- Session-based Recommender
+- 가장 중요한 User Feature?
+  - 유저가 콘텐츠를 소비한 ‘체류시간’
+- ex) 예시 데이터
+  ```tsx
+  {
+  	...
+  	'action_type': 'view',
+  	'user_id': 4040441,
+  	'resource_type': 'article',
+  	'resource_id': 23411230,
+  	'timestamp': 1684821964,
+  	...
+  }
+  ```
+- 이런 식으로 발생된 유저 로그 → Apache Beam을 통해 Data Processing → BigTable에 저장
+- BIgTable에 유저 로그는 user_id를 key값으로 해서 resource_id, session_id, timestamp 등이 value로 담기게 됨
+- timestamp 기반으로 체류 시간을 계산
