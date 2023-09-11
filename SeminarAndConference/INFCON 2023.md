@@ -157,3 +157,119 @@
 - 이런 식으로 발생된 유저 로그 → Apache Beam을 통해 Data Processing → BigTable에 저장
 - BIgTable에 유저 로그는 user_id를 key값으로 해서 resource_id, session_id, timestamp 등이 value로 담기게 됨
 - timestamp 기반으로 체류 시간을 계산
+
+# SSR의 기쁨과 슬픔: 렌더링의 변화의 흐름을 통해 알아보는 SSR과 Streaming SSR - 김태희
+
+### Static Web Site
+
+- 웹 서버에서 정적인 HTML 파일을 중심으로 제공
+- URL을 통해 해당 디렉토리에 있는 파일을 내려주는 방식
+  - 디렉토리와 파일 구조가 곧 URL
+  - 해당 경로 폴더에 각각의 index.html이 있고 요청을 주고 받는..
+
+### Common Gateway Interface
+
+- **정적인 HTML 제공의 한계를 탈피하기 위해 등장**
+- Apache, NGINX 등을 통해 가능
+- 웹서버에 요청이 들어오면 외부 프로그램을 호출하여 그것을 처리한 결과를 내려줌
+
+### Server Side Template
+
+- Web Server에서 정적인 HTML을 제공하는 게 아닌, Server Application에서 여러 가지 조건과 로직에 따라 HTML을 생성해서 내려주는 방식
+- Server Application은 Java, Python 등 다양한 언어를 통해 제공
+  - 하나의 언어에서도 굉장히 다양한 Template이 존재
+- HTML은 Server에서 내려주고 브라우저에서 Rendering하지만, 브라우저에 Rendering 된 이후 인터렉션 처리 등은 JavaScript를 Client에서 실행하여 처리
+- ex) JSP, handlebars, Thymeleaf, Jinja, EJS..
+
+### Server Side Template 문제점
+
+- UI가 복잡하지 않던 시절에는 이것으로 충분
+- 기능 구현에 따라 같은 뷰 로직이 Server side에서도 구현되어야 했고 Client에서도 구현이 되어야 했음
+  - ajax를 통해 데이터를 불러와 Client에서 랜더링은 추가로 하는 경우 때문
+    - 더보기 기능이나 무한스크롤 등
+  - 결국 이렇게 랜더링 시점이 뒤섞이게 되면서 복잡한 인터렉션의 UI를 다룰수록 작업자의 고통은 점점 커짐
+- Server에서 API나 Database Query 등에서 시간이 오래 걸릴 경우, 사용자에게 보여지는 화면이 늦어지는 문제가 있음
+  - 이 부분 때문에 API 요청 등에서 오래 걸릴 경우, FID 점수가 낮아짐
+
+### Client Side Rendering
+
+- 브라우저 성능의 발전과 JS 스펙의 고도화로, 아예 Rendering을 Client에서 다 처리해버리자는 움직임이 등장
+- API와 웹 어플리케이션이 완전히 분리되어 있고, 웹 애플리케이션은 HTML, CSS, JS만 있는 형태, 현재에 익숙한 형태
+- 따라서 뷰 로직은 전부 Client에 있고, Server에선 API 형태로 데이터만 내려주는 형태
+- Client에는 정적인 파일들이 주를 이루기 때문에 개념적으로 Static Web Site와 거의 같음
+  - 그렇기 때문에 별도의 Application Server 없이 CDN을 통한 배포
+  - Application Server가 없기 때문에 신경 쓸 요소가 적음
+  - 트래픽에 대응해서 스케일 업이나 스케일 아웃을 할 필요가 없음, CDN에서 알아서 해주기 때문
+- 기존 Server Side 방식에서 해주던 URL에 따른 라우팅 처리도 Client에서 처리
+  - 이것이 바로 SPA
+
+### Client Side Rendering의 흐름
+
+- 기본적으로 404 에러가 발생하면 index.html로 요청을 돌림
+
+### Client Side Rendering - 문제점
+
+- SPA 형태는 어느 페이지를 접속해도 매번 같은 index.html를 내려주기 때문에 meta:og 태그 관련 문제 발생
+- 그렇기에 크롤러/봇 입장에서는 Client가 HTML을 그리기 전 HTML만 받아올 수 있음
+  - AWS의 경우 lambda edge, firebase의 경우 functions 등의 서비스를 통해 보완은 가능하나 추천할 만한 방법은 아님
+- 초기에 body가 텅 비어 있다가 채워지는 방식이라 초기 랜더링이 느림
+- 메모리 누수에 좀 더 취약함 → SPA는 별도의 새로고침 없이 계속 화면을 다시 그리기 때문에 새로고침을 통한 메모리 누수 관리가 상대적으로 취약함
+
+### Server Side Rendering
+
+- node.js의 발전으로 Client와 Server에서 같은 언어를 쓸 수 있게 되면서 다시 Rendering의 책임을 Server로 돌리려는 움직임이 나옴
+- 같은 언어로 양쪽 다 쓸 수 있음
+- Server Side Template 기반의 Rendering과 유사한 측면이 있음
+
+### Server Side Rendering의 단점
+
+- 더 이상 serverless가 아니게 되므로 server 관리 책임이 생김
+- 관리해야 하는 server가 있기 때문에 트래픽이 몰릴 경우 스케일 업, 스케일 아웃 등의 작업이 필요해짐
+- docker 등으로 말아서 배포할 경우 빌드 및 배포 시간이 CSR 대비해서 더 늘어남
+- 세팅이 복잡함
+  - next,js, remix, vite-plugin-ssr 등이 등장하면서 많이 보완된 단점
+- CSR 경험만 있던 사람들에게는 다소 개념이 복잡하게 느껴질 수 있음
+
+### 당근마켓 동네생활 이야기
+
+- 웹뷰(기반 클라이언트)를 다양한 서비스에서 활용
+- 대부분의 서비스가 React 기반의 CSR 기반
+  - 배포는 PAAS(platform as a service)나 Serverless Hosting 방식
+    - 대표적으로는 vercel이나 cloudflare
+- 이 웹뷰를 초기에 로딩하는 걸리는 시간이 생각보다 오래 걸림
+  - 아마 CSR에 필요한 자원들을 초기에 받고 ,실행하는 데 걸리는 시간이 꽤 걸림
+  - 특히 배포 직후에는 JS Bundle이나 CSS 등을 새로 받아야 하는데 생각보다 로딩이 걸림
+- 기존의 네이티브 앱을 웹뷰로 전환하는 의사 결정
+  - 사용자 측면에서 화면을 초대한 빨리 뜨게 하는 것을 고민하게 됨
+  - 개인적으로 next.js + ISR 기반으로 정적 생성을 선호하지만, 규모 측면에서 해결해야 하는 문제가 있었음
+  - 결국 SSR로 시도
+- 당근마켓에서는 stackflow라는 액티비티 관리 프레임워크(웹뷰를 네이티브처럼 보이게 하는)가 있고 활용중
+
+### 구현하고 보니…
+
+- @tankstack/react-query를 사용해서 데이터를 가져오게 구현을 했었음
+- 습관처럼 Suspense를 통해 로딩 처리를 했음
+- 그런데, ReactDOM.renderToString은 suspense를 지원하지 않음
+- 그러니까 사실상 SSR이 완전하게 되진 않음
+  - SSR이 되다가 Suspense 처리가 되는 구간을 만나면 CSR로 전환이 되어버림
+- 그래서 일단 Server Side에서는 prefetch 처리만 먼저 했음
+  - 이 정도만 해도 속도 체감이 됨
+
+### 기쁨도 잠시, SSR의 슬픔이 시작되고…
+
+- 기존 vecel 배포 대비, 인프라 관리와 서버 운영에 대해 너무나도 신경을 많이 써야 함
+  - 기존에는 볼 필요 없었던 Node.js Server 모니터링도 해야 하고, Node.js Server의 로그도 봐야 함
+- docker 기반의 배포를 하기 대문에 vercel, cloudflare 대비 배포 시간이 길어짐
+- 특정 상황에서 랜더링이 느려지는 문제
+
+### Streaming SSR
+
+- 기존 SSR의 단점을 보완하는 방법
+- 기존에는 Server에서 HTML을 전부 생성한 이후 화면을 그리는 방식
+- Streaming SSR의 경우는 가장 빠르게 그릴 수 있는 부분을 먼저 그리고, 이후는 Node.js의 스트림을 이용해 점진적으로 랜더링하는 방식
+  - renderToPipteableStream 함수를 이용하면, Node.js 스트림을 이용한 방식으로 랜더링이 가능
+- https://mxstbr.com/thoughts/streaming-ssr/
+- Streaming SSR에서는 Shell, 그리고 Suspense로 경계 지어진 컴포넌트를 기준으로 렌더링을 처리함
+- Suspense로 감싸진 최상단 영역 밖의 영역을 Shell이라고 함
+  - Shell은 일반적으로 GNB 등 data fetching이 필요없는 부분이라고 볼 수 있음
+- Shell이 먼저 렌더링 된 후, 이후 Suspense로 나눈 부분을 Streaming 하는 방식

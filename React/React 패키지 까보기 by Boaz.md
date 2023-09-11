@@ -107,3 +107,53 @@ setInterval(tick, 1000);
   - react element의 내용이 DOM에 반영되기 위해서는 먼저 VDOM에 추가되어야 하는데, 이를 위해 확장한 객체 → 컴포넌트의 상태, life cycle, hook이 관리됨
 
 ## Virtual DOM 이 자바스크립트 객체라고? render phase 와 commit phase 로 나누어서 동작 원리 살펴보기
+
+### VDOM
+
+- https://legacy.reactjs.org/docs/faq-internals.html
+- 프로그래밍 컨셉 - 메모리 상에 UI 관련된 정보를 띄우고, react-dom과 같은 라이브러리에 의해 실제 DOM과 sync를 맞춘다. (renderer 관여)
+- 이 과정이 재조정(reconciliation)이라고 부름(reconciler 관여)
+- 왜 가상 DOM을 사용하느냐 → 실제로 하면(mount → paint) 가상보다 비용이 더 큼
+  ![vDOM.png](../assets/42d30499413a.png)
+- https://goidle.github.io/react/in-depth-react-intro/
+- VDOM은 fiber node로 구성된 tree 형태(더블 버퍼링 구조)
+  - current
+    - DOM에 mount된 fiber
+  - workInProgress
+    - render phase에서 작업 중인 fiber
+    - commit phase를 지나면서 current tree가 됨
+- 구현 상세
+  - workInProgress tree는 current tree에서 자기 복제하여 만들어짐(서로 alternate로 참조)
+  - fiber는 첫 번째 자식만을 child로 참조, 나머지 자식들은 서로 sibling으로 참조, 모든 자식은 부모를 return으로 참조
+- 컴포넌트 리렌더링이라는 정의: 컴포넌트 호출 후 그 결과가 VDOM에 반영까지, DOM에 mount되어 paint 되는 과정은 정의에서 제외
+
+### React lifecycle
+
+- render phase
+  - VDOM 재조정(reconciliation)하는 단계
+    - react element, 즉 fiber node로 확장된 그 자바스크립트 객체가 추가, 수정, 삭제 → WORK를 scheduler(패키지)에 등록
+      - WORK: reconciler가 컴포넌트의 변경을 DOM에 적용하기 위해 수행하는 일
+    - reconciler가 담당(reconciler 설계가 stack → fiber로 바뀌면서 abort, stop, restart 즉 랜더링 우선순위 변경이 가능해짐 useTransation 등)
+- commit phase
+  - 재조정한 VDOM을 DOM에 적용하고 라이프사이클을 실행하는 단계
+    - 일관성을 위해 sync 실행 → 즉, DOM 조작 일괄 처리 후, 리액트가 콜스택을 비워준 다음 브라우저가 paint 시작
+
+## useState 가 코드로 정의된 곳은 어디일까? reconciler 까지 찾아가기!
+
+### Hook은 어디서 오는 걸까?
+
+- react 코어
+  - React.js ← ReactHooks.js ← ReactCurrentDispatcher.js → 해당 코드를 까봐도 hook에 대한 구체적인 코드 구현이 없음
+- react 코어는 react element에 대한 정보만 알고 있고 hook에 대한 코드 구현이 없음
+- react element는 fiber로 확장해야 hook을 포함하게 됨
+- reconciler가 fiber로 확장하고 즉, reconciler가 hook을 알고 있음? → reconciler → react 코어로 어떻게 전달?
+- react 코어는 hook을 사용하기 위해 외부에서 **주입** 받음(의존성 끊기 위해서 → 이곳 저곳에서 사용 가능하도록)
+  - react
+    - React.js ← ReactHooks.js ← ReactCurrentDispatcher.js ← ReactSharedInternals.js
+- react/ReactSharedInternals.js는 객체에 property로 외부 모듈을 할당 받음
+- **shared 는 모든 패키지가 공유하는 공통 패키지**
+  - **shared/ReactShareInternals.js는 react 코어 패키지에 연결된 출입구**
+
+## renderWithHooks 함수? useState 를 할당하는 과정 코드 까보기?!
+
+### 어떻게 useState export 하지?
