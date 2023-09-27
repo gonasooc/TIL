@@ -1,4 +1,12 @@
-### 객체에 for in, 혹은 배열에 for in 썼을 떄 정리
+### html 특정 영역을 PDF 파일로 저장
+
+[[JavaScript] 특정 영역 이미지를 PDF 파일로 저장](https://velog.io/@mnjjj__124/JavaScript-특정-영역-이미지를-PDF-파일로-저장)
+
+### pdf 크기 조절 관련 스크립트
+
+[html2canvas, jsPDF를 이용한 pdf 저장](https://desinging-new.tistory.com/entry/html2canvas-jsPDF를-이용한-pdf-저장)
+
+### 객체에 for in, 혹은 배열에 for in 썼을 때 정리
 
 [JavaScript 배열 및 객체, 반복문](https://velog.io/@jinyongp/JavaScript-배열-및-객체-반복문)
 
