@@ -249,10 +249,97 @@
 
 ## 에러, 로딩 페이지 만들기
 
-[날씨 데이터 조회하기](https://book.hajoeun.dev/friendly-next-js/next.js-2/undefined-5)
+[날씨 데이터 조회하기](https://book.hajoeun.dev/friendly-next-js/next.js-2/undefined-5#undefined-2)
 
 ## 날씨 데이터 조회하기 2
 
 [날씨 데이터 조회하기](https://book.hajoeun.dev/friendly-next-js/next.js-2/undefined-5)
 
 ## 날씨 데이터 재검증하기
+
+[날씨 데이터 조회하기](https://book.hajoeun.dev/friendly-next-js/next.js-2/undefined-5#undefined-3)
+
+- `app\api\revalidate\route.ts`
+  ```tsx
+  import { revalidateTag } from "next/cache";
+  import { NextRequest, NextResponse } from "next/server";
+
+  export async function POST(req: NextRequest) {
+    const tag = req.nextUrl.searchParams.get("tag");
+    if (!tag) throw new Error("태그는 필수입니다.");
+
+    revalidateTag(tag);
+    return NextResponse.json({ message: "재검증에 성공했습니다", tag });
+  }
+  ```
+- `components\RevalidateButton.tsx`
+  ```tsx
+  "use client";
+
+  type Props = {
+    tag: string;
+  };
+
+  const RevalidateButton = ({ tag }: Props) => {
+    const handleClick = async () => {
+      const res = await fetch("/api/revalidate?tag=" + tag, {
+        method: "POST",
+      });
+      console.log(res);
+    };
+
+    return (
+      <div>
+        <button onClick={handleClick}>캐시 비우기</button>
+      </div>
+    );
+  };
+
+  export default RevalidateButton;
+  ```
+
+## 메타데이터 다루기
+
+[메타데이터 다루기](https://book.hajoeun.dev/friendly-next-js/next.js-2/undefined-6)
+
+- 정적 메타데이터
+  ```tsx
+  // app\layout.tsx
+
+  import "./global.css";
+
+  import type { Metadata } from "next";
+  import { Inter } from "next/font/google";
+
+  const inter = Inter({ subsets: ["latin"] });
+
+  export const metadata: Metadata = {
+    title: "날씨 앱",
+    description: "날씨를 알려드립니다",
+  };
+
+  export default function RootLayout({
+    children,
+  }: {
+    children: React.ReactNode;
+  }) {
+    return (
+      <html lang="en">
+        <body className={inter.className}>{children}</body>
+      </html>
+    );
+  }
+  ```
+- 동적 메타데이터
+  ```tsx
+  export function generateMetadata({ params, searchParams }: Props) {
+    return {
+      title: `날씨 앱 - ${searchParams.name}`,
+      description: `${searchParams.name} 날씨를 알려드립니다`,
+    };
+  }
+  ```
+
+## 서비스 배포하기
+
+[서비스 배포하기](https://book.hajoeun.dev/friendly-next-js/next.js-2/undefined-7)

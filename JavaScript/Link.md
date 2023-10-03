@@ -1,3 +1,11 @@
+### 프론트엔드와 SOLID 원칙
+
+[프론트엔드와 SOLID 원칙 | 카카오엔터테인먼트 FE 기술블로그](https://fe-developers.kakaoent.com/2023/230330-frontend-solid/)
+
+### 비트맵 방식이 아닌 벡터 방식으로 작업 가능한지 체크
+
+[서비스 개발하다 오픈소스 기여한 썰 (1) : NHN Cloud Meetup](https://meetup.nhncloud.com/posts/323)
+
 ### html 특정 영역을 PDF 파일로 저장
 
 [[JavaScript] 특정 영역 이미지를 PDF 파일로 저장](https://velog.io/@mnjjj__124/JavaScript-특정-영역-이미지를-PDF-파일로-저장)
