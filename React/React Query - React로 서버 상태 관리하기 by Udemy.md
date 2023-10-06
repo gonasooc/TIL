@@ -497,3 +497,47 @@ export function PostDetail({ post }) {
   - query keys as dependency arrays
   - pagination and pre-fetching
   - `useMutation` for server side-effects
+
+# 섹션 3: "동적(JIT)" 데이터 로드를 위한 무한 쿼리
+
+## 무한 스크롤 입문
+
+- useInfiniteQuery
+  - Requires different API format than pagination
+  - Hence new project!
+  - Pagination
+    - track current page in component state
+    - new query updates page number
+  - `useInfiniteQuery` tracks next query
+    - next query is returned as part of the data
+
+## useInfiniteQuery 입문
+
+- Shape of `useInfiniteQuery` Data
+  - Shape of `data` different than `useQuery` → 데이터 프로퍼티의 형태가 다름, useQuery에서의 데이터는 단순히 쿼리 함수에서 반환되는 데이터, 반면 useInfiniteQuery에서 객체는 두 개의 프로퍼티를 갖고 있음
+  - Object with two properties:
+    - `pages`
+    - `pageParams` → 각 페이지의 매개변수가 기록되어 있음, 사용빈도가 낮음
+  - Every query has its own element in the `pages` array → 모든 쿼리는 페이지 배열에 고유한 요소를 가지고 있고, 그 요소는 해당 쿼리에 대한 데이터에 해당, 페이지 진행되면서 쿼리도 바뀜
+  - `pageParams` tracks the keys of queries that have been retrieved → pageParams은 검색된 쿼리의 키를 추적합니다.
+    - rarely used, won’t use here
+- `useInfiniteQuery` Syntax
+  - pageParam is a parameter passed to the queryFn
+    ```jsx
+    useInfiniteQuery(”sw-people”, ({ pageParam = defaultUrl }) ⇒ fetchUrl(pageParam))
+    ```
+  - Current value of `pageParam` is maintained by React Query
+- `useInfiniteQuery` options
+  - `getNextPageParam`: (`lastPage`, `allPages`)
+  - Updates `pageParam`
+  - Might use all of the pages of data (`allPages`)
+  - we will use just the `lastPage` of data (specifically the `next` property)
+- `useInfiniteQuery` Return Object Properties
+  - `fetchNextPage`
+    - function to call when the user needs more data → 사용자가 더 많은 데이터를 요청할 때
+  - `hasNextPage`
+    - Based on return value of `getNextPageParam` → getNextpageParam 함수의 밚솬 값을 기반으로 함, 마지막 쿼리의 데이터를 어떻게 사용할지 결정
+    - if `undefined`, no more data → hasNextPage가 false가 됨
+  - `isFetchingNextPage`
+    - For displaying a loading spinner
+    - We’ll see an example of when it’s useful to distinguish between `isFetching` and `isFetchingNextPage`
