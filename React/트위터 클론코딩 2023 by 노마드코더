@@ -1,0 +1,84 @@
+# [2023 UPDATE] INTRODUCTION
+
+## #0.2 What is Firebase
+
+- Firebase - 백엔드 서비스 서비스 혹은 앱 개발 플랫폼, No-SQL
+
+## \***\*#0.3 When Not To Use Firebase\*\***
+
+- 앱이 성장해서 커스텀해야 하는 상황에선 no-use ex) 특정 영역의 최적화 like Champagne Problems
+
+# [2023 UPDATE] SETUP
+
+## #1.0 Installation
+
+- `npm create vite@latest`
+- `npm i react-router-dom@6.14.2`
+- `npm i styled-reset`
+- `npm i styled-components@6.0.7`
+- `npm i @types/styled-components -D`
+
+## #1.1 Routing
+
+- 기본 routing과 styled-components 구조
+  ```tsx
+  import { createBrowserRouter, RouterProvider } from "react-router-dom";
+  import Layout from "./components/Layout";
+  import Home from "./routes/Home";
+  import Profile from "./routes/Profile";
+  import Login from "./routes/Login";
+  import CreateAccount from "./routes/CreateAccount";
+  import { createGlobalStyle } from "styled-components";
+  import reset from "styled-reset";
+
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Layout />,
+      children: [
+        {
+          path: "",
+          element: <Home />,
+        },
+        {
+          path: "profile",
+          element: <Profile />,
+        },
+      ],
+    },
+    {
+      path: "/login",
+      element: <Login />,
+    },
+    {
+      path: "create-account",
+      element: <CreateAccount />,
+    },
+  ]);
+
+  const GlobalStyles = createGlobalStyle`
+    ${reset};
+    * {
+      box-sizing: border-box;
+    }
+  
+    body {
+      background-color: black;
+      color: white;
+      // font-family: 
+    }
+  `;
+
+  function App() {
+    return (
+      <>
+        <GlobalStyles />
+        <RouterProvider router={router} />
+      </>
+    );
+  }
+
+  export default App;
+  ```
+
+## #1.2 LoadingScreen
