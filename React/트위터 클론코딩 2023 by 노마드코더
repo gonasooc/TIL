@@ -82,3 +82,255 @@
   ```
 
 ## #1.2 LoadingScreen
+
+- Firebase authentication → Firebase SDK + Firebase Server
+  - 쿠키, 토큰 등 담당
+- 로그인 시 완료할 때까지 LoadingScreen 노출 예시 코드
+  ```tsx
+  function App() {
+    const [isLoading, setIsLoading] = useState(true);
+    const init = async () => {
+      // wait for firebase
+      setIsLoading(false);
+    };
+
+    useEffect(() => {
+      init();
+    }, []);
+
+    return (
+      <>
+        <GlobalStyles />
+        {isLoading ? <LoadingScreen /> : <RouterProvider router={router} />}
+      </>
+    );
+  }
+
+  export default App;
+  ```
+
+## #1.3 Firebase Project
+
+- `npm install firebase@10.1.0`
+
+# [2023 UPDATE] AUTHENTICATION
+
+## #2.1 Forms and UI
+
+```tsx
+import styled from "styled-components";
+import { useState } from "react";
+
+const Wrapper = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 420px;
+  padding: 50px 0;
+`;
+const Title = styled.h1`
+  font-size: 42px;
+  margin-bottom: 50px;
+  text-align: center;
+`;
+
+const Form = styled.form`
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+`;
+const Input = styled.input`
+  padding: 10px 20px;
+  border-radius: 50px;
+  border: none;
+  width: 100%;
+  font-size: 16px;
+  &[type="submit"] {
+    cursor: pointer;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+`;
+
+const Error = styled.span`
+  font-weight: 600;
+  color: tomato;
+`;
+
+const CreateAccount = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { name, value },
+    } = e;
+    if (name === "name") {
+      setName(value);
+    } else if (name === "password") {
+      setPassword(value);
+    } else if (name === "email") {
+      setEmail(value);
+    }
+  };
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      // create an account
+      // set the name of the user
+      // redirect to the home page
+    } catch (e) {
+      // setError
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <Wrapper>
+      <Form onSubmit={onSubmit}>
+        <Title>Log into ✔</Title>
+        <Input
+          name="name"
+          value={name}
+          placeholder="Name"
+          type="text"
+          required
+          onChange={onChange}
+        />
+        <Input
+          name="email"
+          value={email}
+          placeholder="Email"
+          type="text"
+          required
+          onChange={onChange}
+        />
+        <Input
+          name="password"
+          value={password}
+          placeholder="Password"
+          type="password"
+          required
+          onChange={onChange}
+        />
+        <Input type="submit" value={isLoading ? "Loading" : "Create Account"} />
+      </Form>
+      {error !== "" ? <Error>{error}</Error> : null}
+    </Wrapper>
+  );
+};
+
+export default CreateAccount;
+```
+
+## #2.2 Create Account
+
+- 계정을 생성하고 바로 유저 정보 업데이트
+  ```tsx
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (isLoading || name === "" || email === "" || password === "") return;
+
+    try {
+      setIsLoading(true);
+      const credentials = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      console.log(credentials.user);
+      await updateProfile(credentials.user, {
+        displayName: name,
+      });
+      navigate("/");
+    } catch (e) {
+      // error
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  ```
+
+## #2.3 Protected Routes
+
+- `components\ProtectedRoute.tsx`
+  ```tsx
+  import React from "react";
+  import { auth } from "../firebase";
+  import { Navigate } from "react-router-dom";
+
+  const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+    const user = auth.currentUser;
+    if (user === null) {
+      return <Navigate to="/login" />;
+    }
+
+    return children;
+  };
+
+  export default ProtectedRoute;
+  ```
+- `App.tsx`
+  ```tsx
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: (
+        <ProtectedRoute>
+          <Layout />
+        </ProtectedRoute>
+      ),
+      children: [
+        {
+          path: "",
+          element: <Home />,
+        },
+        {
+          path: "profile",
+          element: <Profile />,
+        },
+      ],
+    },
+    {
+      path: "/login",
+      element: <Login />,
+    },
+    {
+      path: "/create-account",
+      element: <CreateAccount />,
+    },
+  ]);
+  ```
+
+## #2.4 Log In
+
+```tsx
+const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  setError("");
+  if (isLoading || email === "" || password === "") return;
+
+  try {
+    setIsLoading(true);
+    await signInWithEmailAndPassword(auth, email, password);
+    navigate("/");
+  } catch (e) {
+    if (e instanceof FirebaseError) {
+      setError(e.message);
+    }
+  } finally {
+    setIsLoading(false);
+  }
+};
+```
+
+# [2023 UPDATE] TWEETING
