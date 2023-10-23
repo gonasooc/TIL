@@ -41,15 +41,15 @@
 - 이때 전송받는 HTML 코드는 8비트의 데이터 형태로 전송되게 되는데, 이런 과정이 바이트 스트림
 - 바이트 → 문자로 변환 → 토큰화(토큰 검증) → 노드 생성 → **DOM 트리 생성**
   - 프로그래밍 언어의 문법에 맞게 작성된 텍스트 문서를 읽고 실행하기 위해 텍스트 문자열을 토큰으로 분해(토큰화) → 토큰에 문법적 의미와 구조를 반영해서 트리 구조의 자료 구조인 파스 트리를 생성
-  - 노드 생성 시 개별 text 뿐만 아니라 attribute, src, alt 등도 개별 노드로 생성, DOM 트리 생성 중에 img, link 태그를 만나면 해당 요소가 가지고 있는 asset 다운로드
+  - 노드 생성 시 개별 `text` 뿐만 아니라 `attribute`, `src`, `alt` 등도 개별 노드로 생성, DOM 트리 생성 중에 `img`, `link` 태그를 만나면 해당 요소가 가지고 있는 에셋 다운로드
 - CSS도 CSS 파서를 통해 동일한 과정을 거쳐서 **CSSOM 트리 생성**
 - DOM 트리와 CSSOM 트리를 합쳐서 **렌더 트리 생성**
   - 렌더 트리(Render Tree): 화면에 표시되어야 할 모든 노드의 컨텐츠, 스타일 정보를 포함하는 트리
   - `meta tag`, `display: none`은 포함되지 않음 → 웹 접근성 고려할 필요성 있음
 - **레이아웃(Layout) 단계(reflow)** - 렌더 트리(Render Tree) 배치
-  - position, left, top, width, height, font-size, border-width 등
+  - `position`, `left`, `top`, `width`, `height`, `font-size`, `border-width` 등
 - **페인트(Paint) 단계(repaint)** - 렌더 트리(Render Tree) 그리기, 모든 시각적인 요소가 픽셀 단위로 그려지는 단계
-  - background, box-shadow, border-radius, color 등
+  - `background`, `box-shadow`, `border-radius`, `color` 등
 - 마지막으로 **레이어 합성(Composite Layers) 단계**를 통해 브라우저는 웹페이지 출력
 
 ## CSS를 통한 브라우저 렌더링 최적화
@@ -59,12 +59,12 @@
 - **브라우저가 중간에 리플로우와 리페인트 작업을 다시 하는 건 부담스러운 작업**
 - 리플로우 - 리페인트 - 레이어 합성이 반드시 순차적으로 실행되는 것은 아님, 각각 변경사항에 따라 각각 실행하고 최종 레이어 합성(Composite Layers) 단계로 진행
   - 각 css property가 렌더링 엔진에 따라 어떤 단계를 실행하는지 확인 가능 → [https://csstriggers.com](https://csstriggers.com/)
-- **transform, opacity는 리플로우, 리페인트 생략**(GPU가 관여할 수 있는 속성 - DOM 트리를 변경하지 않도록 설계되어 있음 - 즉, 브라우저가 상대적으로 쾌적하게 렌더링할 수 있음)
+- **`transform`, `opacity`는 리플로우, 리페인트 생략**(GPU가 관여할 수 있는 속성 - DOM 트리를 변경하지 않도록 설계되어 있음 - 즉, 브라우저가 상대적으로 쾌적하게 렌더링할 수 있음)
 
 ### 최적화 예시
 
-- left, right, top, bottom property - 리플로우, 리페인트가 필요 → **trasform: translate(x, y) - 리플로우, 리페인트 생략, GPU 가속 활용**
-- trasform: translate(x, y) - 레이어 최적화 없음 → **trasform: translate3d(x, y, z) - 레이어 최적화 진행(브라우저는 해당 요소를 그래픽 레이어로 처리)**
+- `left`, `right`, `top`, `bottom` - 리플로우, 리페인트가 필요 → **`trasform: translate(x, y)` - 리플로우, 리페인트 생략, GPU 가속 활용**
+- `trasform: translate(x, y)` - 레이어 최적화 없음 → **`trasform: translate3d(x, y, z)` - 레이어 최적화 진행(브라우저는 해당 요소를 그래픽 레이어로 처리)**
 
 ### Graphics Layer(↔ Paint Layer)
 
