@@ -1,3 +1,7 @@
+### 마지막 커밋 수정
+
+[git commit 후 author, email을 수정하는 방법 - 코드도사](https://codedosa.com/1856)
+
 ### stash 명령어 체크, stash는 staging된 파일만 가능
 
 [생활코딩 git 06 - git stash, git stash apply, git stash pop · 초보몽키의 개발공부로그](https://wayhome25.github.io/git/2017/04/05/git-05-stash/)
