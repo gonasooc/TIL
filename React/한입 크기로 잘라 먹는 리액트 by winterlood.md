@@ -133,3 +133,11 @@ checkMood("good", sing, cry);
 
 
 ### 배열 내장함수
+
+- forEach, map, includes, indexOf, findIndex, find, filter, slice, concat, sort, join
+
+# JavaScript 응용
+
+## Truthy & Falsy
+
+- true가 아니어도 참으로 평가되는 요소, Truthy
