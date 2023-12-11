@@ -140,4 +140,120 @@ checkMood("good", sing, cry);
 
 ## Truthy & Falsy
 
-- true가 아니어도 참으로 평가되는 요소, Truthy
+- true가 아니어도 참으로 평가되는 요소, Truthy - ex) [], {}, 42, Infinity..
+- false가 아니어도 거짓으로 평가되는 요소, Falsy - null, undefined, 0, -0, NaN, “”
+
+    ```jsx
+    const getName = (person) => {
+      if (!person) {
+        return "객체가 아닙니다.";
+      }
+    };
+    
+    let person = null;
+    const name = getName(person);
+    console.log(name);
+    ```
+
+
+## 단락 회로 평가
+
+- 왼쪽에서 오른쪽으로 연산하게 되는 논리 연산자의 연산 순서를 이용하는 문법
+
+    ```jsx
+    console.log(true && true);
+    console.log(true || false);
+    console.log(!true);
+    ```
+
+    ```jsx
+    const getName = (person) => {
+      const name = person && person.name;
+      return name || "객체가 아닙니다";
+    };
+    
+    let person = { name: "최관수" };
+    const name = getName(person);
+    console.log(name);
+    ```
+
+
+## 비 구조화 할당(구조분해 할당)
+
+- 예시
+
+    ```jsx
+    let arr = ["one", "two", "three"];
+    
+    // let one = arr[0];
+    // let two = arr[1];
+    // let three = arr[2];
+    
+    let [one, two, three] = arr;
+    console.log(one, two, three);
+    ```
+
+- swap에도 활용할 수 있음
+
+    ```jsx
+    let a = 10;
+    let b = 20;
+    
+    [a, b] = [b, a];
+    console.log(a, b);
+    ```
+
+- 객체의 비 구조화 할당
+
+    ```jsx
+    let object = { one: "one", two: "two", three: "three" };
+    let { one, two, three } = object;
+    console.log(one, two, three);
+    ```
+
+- 이름을 바꿔서 할당 받을 수 있음
+
+    ```
+    let object = { one: "one", two: "two", three: "three" };
+    let { one: myName, two, three } = object;
+    console.log(myName, two, three);
+    ```
+
+
+## spread 연산자
+
+- 객체의 spread 연산자
+
+    ```jsx
+    const cookie = {
+      base: "cookie",
+      madeIn: "korea",
+    };
+    
+    const chocochipCookie = {
+      ...cookie,
+      toping: "chocechip",
+    };
+    
+    const blueberryCookie = {
+      ...cookie,
+      toping: "blueberry",
+    };
+    
+    const strawberryCookie = {
+      ...cookie,
+      toping: "strawberry",
+    };
+    
+    console.log(chocochipCookie);
+    ```
+
+- 배열의 spread 연산자
+
+    ```jsx
+    const noTopingCookies = ["촉촉한쿠키", "안촉촉한쿠키"];
+    const topingCookies = ["바나나쿠키", "블루베리쿠키", "딸기쿠키", "초코칩쿠키"];
+    
+    const allCookies = [...noTopingCookies, "함정쿠키", ...topingCookies];
+    console.log(allCookies);
+    ```
