@@ -10,9 +10,9 @@
 ### Date Types
 
 - Primitive Data Type
-  - Number, String, Undefined, Null, Boolean
+    - Number, String, Undefined, Null, Boolean
 - Non-Primitive Data Type
-  - Object, Array, Function
+    - Object, Array, Function
 - 자바스크립트는 자료형이 다른 경우 자동으로 형 변환을 수행하는 기능이 있음(Type Casting), **묵시적 형 변환**
 - 프로그래머가 parseInt 등을 사용해서 형 변환을 하는 경우 **명시적 형 변환**이라고 부름
 
@@ -113,8 +113,8 @@ checkMood("good", sing, cry);
 ## 반복문
 
 - 객체를 순회하는 방법
-  - Object.keys(object) → 객체의 key들을 배열로 반환
-  - Object.values(object) → 객체의 value들를 배열로 반환
+    - Object.keys(object) → 객체의 key들을 배열로 반환
+    - Object.values(object) → 객체의 value들를 배열로 반환
 
     ```jsx
     let person = {
@@ -256,4 +256,190 @@ checkMood("good", sing, cry);
     
     const allCookies = [...noTopingCookies, "함정쿠키", ...topingCookies];
     console.log(allCookies);
+    ```
+
+
+## 동기 & 비동기
+
+- 자바스크립트의 **싱글 스레드** 작업 수행 방식(**블로킹 방식**)
+    - 자바스크립트는 코드가 작성된 순서대로 작업을 처리함
+    - 이전 작업이 진행 중일 때는 다음 작업을 수행하지 않고 기다림
+    - 먼저 작성된 코드를 먼저 다 실행하고 나서 뒤에 작성된 코드를 실행한다.
+- 동기 처리 방식은 하나의 작업이 너무 오래 걸리게 되면 모든 작업이 오래 걸리게 되기 때문에 전반적인 흐름이 느려짐
+- 자바스크립트는 **싱글 스레드**이기 때문에 멀티 스레드가 될 순 없고, **논 블로킹 방식**으로 **비동기 실행 방식**을 통해 여러 개의 작업을 동시에 실행 → 콜백 함수를 통해 비동기 처리의 결과값을 이용해서 호출하게 됨
+- 비동기 방식 예시
+
+    ```jsx
+    function taskA() {
+      setTimeout(() => {
+        console.log("A TASK END");
+      }, 2000);
+    }
+    
+    taskA();
+    console.log("코드 끝");
+    ```
+
+    ```jsx
+    function taskA(a, b, cb) {
+      setTimeout(() => {
+        const res = a + b;
+        cb(res);
+      }, 3000);
+    }
+    
+    function taskB(a, cb) {
+      setTimeout(() => {
+        const res = a * 2;
+        cb(res);
+      }, 1000);
+    }
+    
+    function taskC(a, cb) {
+      setTimeout(() => {
+        const res = a * -1;
+        cb(res);
+      }, 2000);
+    }
+    
+    taskA(3, 4, (res) => {
+      console.log("A TASK", res);
+    });
+    
+    taskB(7, (res) => {
+      console.log("B TASK", res);
+    });
+    
+    taskC(7, (res) => {
+      console.log("C TASK", res);
+    });
+    
+    console.log("코드 끝");
+    ```
+
+
+## Promise
+
+- 비동기 작업이 가질 수 있는 3가지 상태
+    - Pending(대기) / Fulfilled(성공) / Rejected(실패)
+- 비동기 예시
+
+    ```jsx
+    function isPositive(number, resolve, reject) {
+      setTimeout(() => {
+        if (typeof number === "number") {
+          // 성공 resolve
+          resolve(number > 0 ? "양수" : "음수");
+        } else {
+          // 실패 reject
+          reject("주어진 값이 숫자형 값이 아닙니다.");
+        }
+      }, 2000);
+    }
+    
+    isPositive(
+      [],
+      (res) => {
+        console.log("성공적 수행: ", res);
+      },
+      (err) => {
+        console.log("실패하였음: ", err);
+      }
+    );
+    ```
+
+- Promise
+
+    ```jsx
+    function isPositive(number, resolve, reject) {
+      setTimeout(() => {
+        if (typeof number === "number") {
+          // 성공 resolve
+          resolve(number > 0 ? "양수" : "음수");
+        } else {
+          // 실패 reject
+          reject("주어진 값이 숫자형 값이 아닙니다.");
+        }
+      }, 2000);
+    }
+    
+    function isPositiveP(number) {
+      const executor = (resolve, reject) => {
+        setTimeout(() => {
+          if (typeof number === "number") {
+            // 성공 resolve
+            console.log(number);
+            resolve(number > 0 ? "양수" : "음수");
+          } else {
+            // 실패 reject
+            reject("주어진 값이 숫자형 값이 아닙니다.");
+          }
+        }, 2000);
+      };
+    
+      const asyncTask = new Promise(executor);
+      return asyncTask;
+    }
+    
+    const res = isPositiveP([]);
+    
+    res
+      .then((res) => {
+        console.log("작업 성공: ", res);
+      })
+      .catch((err) => {
+        console.log("작업 실패: ", err);
+      });
+    ```
+
+
+## async & await
+
+- async 붙이면 Promise를 반환하고, resolve의 값으로 함수 내부의 값을 반환
+
+    ```jsx
+    // async
+    
+    function hello() {
+      return "hello";
+    }
+    
+    async function helloAsync() {
+      return "hello Async";
+    }
+    
+    console.log(hello());
+    // console.log(helloAsync());
+    
+    const res = helloAsync();
+    
+    res
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    ```
+
+- await - 비동기를 동기적으로 수행(기다렸다가 수행)
+
+    ```jsx
+    function delay(ms) {
+      return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+      });
+    }
+    
+    async function helloAsync() {
+      await delay(3000);
+      return "hello async";
+    }
+    
+    async function main() {
+      const result = await helloAsync();
+      console.log(result);
+    }
+    
+    main();
     ```
