@@ -97,6 +97,41 @@
 
 ### 스프레드와 나머지 매개변수
 
+- 스프레드 - …스프레드 연산자를 사용해 배열을 결합합니다. 입력 배열이 동일한 타입이라면 출력 배열도 동일한 타입입니다. 두 배열을 결합하면 새 배열은 두 개의 원래 타입 중 어느 하나의 요소인 유니언 타입 배열로 이해하게 됩니다.
+
+    ```tsx
+    // 타입: string[]
+    const soldiers = ["Harriet Tubman", "Joan of Arc", "Khutulun"];
+    
+    // 타입: number[]
+    const soldierAges = [90, 19, 45];
+    
+    // 타입: (string | number)[]
+    const conjoined = [...soldiers, ...soldierAges];
+    ```
+
+- 나머지 매개변수 스프레드 - 나머지 매개변수 또한 타입 검사를 수행합니다. 인수로 사용되는 배열은 지정된 타입과 동일한 배열 타입을 가져야 합니다.
+
+    ```
+    function logWarries(greeting: string, ...names: string[]) {
+        for(const name of names) {
+            console.log(`${greeting}, ${name}!`);
+        }
+    }
+    
+    const warriors = ["Cathay Williams", "Lozen", "Nzinga"];
+    
+    logWarries("Hello", ...warriors);
+    
+    const birthYears = [1822, 1923, 2001];
+    
+    logWarries("Born in", ...birthYears);
+    // Argument of type 'number' is not assignable to parameter of type 'string'.
+    ```
+
+
+### 튜플
+
 ## 참고자료
 
 - 러닝 타입스크립트(조시 골드버그, 2023)
