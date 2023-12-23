@@ -523,3 +523,8 @@ checkMood("good", sing, cry);
 # 섹션 4. React.js 기초
 
 ## Create React App
+
+- React.js → Node 기반의 JavaScript UI 라이브러리
+- Webpack → 다수의 자바스크립트 파일을 하나의 파일로 합쳐주는 모듈 번들 라이브러리
+- Babel → JSX 등의 쉽고 직관적인 자바스크립트 문법을 사용할 수 있도록 해주는 라이브러리
+- es module / commonJS module
