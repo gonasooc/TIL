@@ -50,6 +50,7 @@ checkMood("good", sing, cry);
 
 - new 연산자와 생성자 함수보다는 객체 리터럴을 통해 주로 생성
 - `const`로 선언된 `person` 자체를 수정하는 게 아니라 `person` 객체 `property`의 `value`를 수정하는 건 오류가 나지 않음
+
   ```jsx
   const person = {
     name: "최관수",
@@ -59,7 +60,9 @@ checkMood("good", sing, cry);
   person.location = "한국";
   console.log(person["location"]);
   ```
+
 - `delete`를 통해 객체를 삭제할 수 있지만 실제 객체와 `property`와의 연결을 끊을 뿐 메모리 할당은 그대로 되고 있음, 메모리까지 지우고자 하면 `null`를 할당
+
   ```jsx
   const person = {
     name: "최관수",
@@ -71,8 +74,10 @@ checkMood("good", sing, cry);
 
   console.log(person);
   ```
+
 - 객체 안에 함수인 `property`는 메서드, 함수가 있는 `property`는 멤버라고 부름
 - this를 사용해서 객체 내에 다른 property를 바라보게 할 수 있음
+
   ```jsx
   const person = {
     name: "최관수",
@@ -84,7 +89,9 @@ checkMood("good", sing, cry);
 
   person.say();
   ```
+
 - property in object로 boolean 반환 가능
+
   ```jsx
   const person = {
     name: "최관수",
@@ -105,8 +112,10 @@ checkMood("good", sing, cry);
 ## 반복문
 
 - 객체를 순회하는 방법
+
   - Object.keys(object) → 객체의 key들을 배열로 반환
   - Object.values(object) → 객체의 value들를 배열로 반환
+
   ```jsx
   let person = {
     name: "최관수",
@@ -132,6 +141,7 @@ checkMood("good", sing, cry);
 
 - true가 아니어도 참으로 평가되는 요소, Truthy - ex) [], {}, 42, Infinity..
 - false가 아니어도 거짓으로 평가되는 요소, Falsy - null, undefined, 0, -0, NaN, “”
+
   ```jsx
   const getName = (person) => {
     if (!person) {
@@ -147,11 +157,13 @@ checkMood("good", sing, cry);
 ## 단락 회로 평가
 
 - 왼쪽에서 오른쪽으로 연산하게 되는 논리 연산자의 연산 순서를 이용하는 문법
+
   ```jsx
   console.log(true && true);
   console.log(true || false);
   console.log(!true);
   ```
+
   ```jsx
   const getName = (person) => {
     const name = person && person.name;
@@ -166,6 +178,7 @@ checkMood("good", sing, cry);
 ## 비 구조화 할당(구조분해 할당)
 
 - 예시
+
   ```jsx
   let arr = ["one", "two", "three"];
 
@@ -176,7 +189,9 @@ checkMood("good", sing, cry);
   let [one, two, three] = arr;
   console.log(one, two, three);
   ```
+
 - swap에도 활용할 수 있음
+
   ```jsx
   let a = 10;
   let b = 20;
@@ -184,6 +199,7 @@ checkMood("good", sing, cry);
   [a, b] = [b, a];
   console.log(a, b);
   ```
+
 - 객체의 비 구조화 할당
   ```jsx
   let object = { one: "one", two: "two", three: "three" };
@@ -200,6 +216,7 @@ checkMood("good", sing, cry);
 ## spread 연산자
 
 - 객체의 spread 연산자
+
   ```jsx
   const cookie = {
     base: "cookie",
@@ -223,7 +240,9 @@ checkMood("good", sing, cry);
 
   console.log(chocochipCookie);
   ```
+
 - 배열의 spread 연산자
+
   ```jsx
   const noTopingCookies = ["촉촉한쿠키", "안촉촉한쿠키"];
   const topingCookies = [
@@ -246,6 +265,7 @@ checkMood("good", sing, cry);
 - 동기 처리 방식은 하나의 작업이 너무 오래 걸리게 되면 모든 작업이 오래 걸리게 되기 때문에 전반적인 흐름이 느려짐
 - 자바스크립트는 **싱글 스레드**이기 때문에 멀티 스레드가 될 순 없고, **논 블로킹 방식**으로 **비동기 실행 방식**을 통해 여러 개의 작업을 동시에 실행 → 콜백 함수를 통해 비동기 처리의 결과값을 이용해서 호출하게 됨
 - 비동기 방식 예시
+
   ```jsx
   function taskA() {
     setTimeout(() => {
@@ -256,6 +276,7 @@ checkMood("good", sing, cry);
   taskA();
   console.log("코드 끝");
   ```
+
   ```jsx
   function taskA(a, b, cb) {
     setTimeout(() => {
@@ -298,6 +319,7 @@ checkMood("good", sing, cry);
 - 비동기 작업이 가질 수 있는 3가지 상태
   - Pending(대기) / Fulfilled(성공) / Rejected(실패)
 - 비동기 예시
+
   ```jsx
   function isPositive(number, resolve, reject) {
     setTimeout(() => {
@@ -321,7 +343,9 @@ checkMood("good", sing, cry);
     }
   );
   ```
+
 - Promise
+
   ```jsx
   function isPositive(number, resolve, reject) {
     setTimeout(() => {
@@ -367,6 +391,7 @@ checkMood("good", sing, cry);
 ## async & await
 
 - async 붙이면 Promise를 반환하고, resolve의 값으로 함수 내부의 값을 반환
+
   ```jsx
   // async
 
@@ -391,7 +416,9 @@ checkMood("good", sing, cry);
       console.log(err);
     });
   ```
+
 - await - 비동기를 동기적으로 수행(기다렸다가 수행)
+
   ```jsx
   function delay(ms) {
     return new Promise((resolve) => {
@@ -415,6 +442,7 @@ checkMood("good", sing, cry);
 ## API & fetch
 
 - 기본 예시
+
   ```jsx
   async function getData() {
     let rawResponse = await fetch("https://jsonplaceholder.typicode.com/posts");
@@ -435,6 +463,7 @@ checkMood("good", sing, cry);
 ## Node.js Hello World & Common JS
 
 - Node.js에서의 모듈 호출(Common.js 모듈 시스템)
+
   ```jsx
   // calc.js
 
@@ -452,6 +481,7 @@ checkMood("good", sing, cry);
     sub: sub,
   };
   ```
+
   ```jsx
   // index.js
 
@@ -510,6 +540,7 @@ checkMood("good", sing, cry);
 - node_modules - 외부 패키지의 보관소
 - package-lock.json - package.json은 Version Range Syntax를 통해 패키지 버전의 범위를 표기했다면, package-lock.json에서는 정확히 몇 버전인지 확인 가능
 - 사용 예시
+
   ```jsx
   var randomColor = require("randomcolor");
 
@@ -528,3 +559,211 @@ checkMood("good", sing, cry);
 - Webpack → 다수의 자바스크립트 파일을 하나의 파일로 합쳐주는 모듈 번들 라이브러리
 - Babel → JSX 등의 쉽고 직관적인 자바스크립트 문법을 사용할 수 있도록 해주는 라이브러리
 - es module / commonJS module
+
+# 섹션 5. React 기본 - 간단한 일기장 프로젝트
+
+## React에서 사용자 입력 처리하기
+
+- 별도의 state 나눌 필요 없이 하나의 state로 처리 가능
+
+  ```jsx
+  import React, { useState } from "react";
+
+  const DiaryEditor = () => {
+    const [state, setState] = useState({
+      author: "",
+      content: "",
+    });
+
+    return (
+      <div className="DiaryEditor">
+        <h2>오늘의 일기</h2>
+        <div>
+          <input
+            type="text"
+            value={state.author}
+            onChange={(e) => {
+              setState({
+                author: e.target.value,
+                content: state.content,
+              });
+            }}
+          />
+        </div>
+        <div>
+          <textarea
+            name=""
+            id=""
+            cols="30"
+            rows="10"
+            value={state.content}
+            onChange={(e) => {
+              setState({
+                author: state.author,
+                content: e.target.value,
+              });
+            }}
+          ></textarea>
+        </div>
+      </div>
+    );
+  };
+
+  export default DiaryEditor;
+  ```
+
+- spread operator를 통해서 하나의 함수로 이벤트 핸들 가능
+
+  ```jsx
+  import React, { useState } from "react";
+
+  const DiaryEditor = () => {
+    const [state, setState] = useState({
+      author: "",
+      content: "",
+      emotion: 1,
+    });
+
+    const handleChangeState = (e) => {
+      setState({
+        ...state,
+        [e.target.name]: e.target.value,
+      });
+    };
+
+    const handleSubmit = () => {
+      console.log(state);
+      alert("저장 완료");
+    };
+
+    return (
+      <div className="DiaryEditor">
+        <h2>오늘의 일기</h2>
+        <div>
+          <input
+            name="author"
+            type="text"
+            value={state.author}
+            onChange={handleChangeState}
+          />
+        </div>
+        <div>
+          <textarea
+            name="content"
+            id=""
+            cols="30"
+            rows="10"
+            value={state.content}
+            onChange={handleChangeState}
+          ></textarea>
+        </div>
+        <div>
+          <select
+            name="emotion"
+            id=""
+            value={state.emotion}
+            onChange={handleChangeState}
+          >
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+        <div>
+          <button onClick={handleSubmit}>일기 저장하기</button>
+        </div>
+      </div>
+    );
+  };
+
+  export default DiaryEditor;
+  ```
+
+## React에서 DOM 조작하기 - useRef
+
+- `handleSubmit`과 같이 `input`의 `value`를 담아서 보내는 이벤트 같은 경우 해당 `input`의 `value`를 체크해서 사용자 행동을 유도할 수 있는데, `alert()`은 사용자 경험상 좋지 않기에 `useRef`를 통해 해당 `element`에 `focus`하게 처리할 수 있음
+
+  ```jsx
+  import React, { useRef, useState } from "react";
+
+  const DiaryEditor = () => {
+    const authorInput = useRef();
+    const contentInput = useRef();
+    const [state, setState] = useState({
+      author: "",
+      content: "",
+      emotion: 1,
+    });
+
+    const handleChangeState = (e) => {
+      setState({
+        ...state,
+        [e.target.name]: e.target.value,
+      });
+    };
+
+    const handleSubmit = () => {
+      if (state.author.length < 1) {
+        authorInput.current.focus();
+        // alert("작성자를 최소 1글자 이상 입력해주세요");
+        return;
+      }
+
+      if (state.content < 5) {
+        contentInput.current.focus();
+        // alert("일기 본문은 최소 5글자 이상 입력해주세요");
+        return;
+      }
+
+      console.log(state);
+      alert("저장 완료");
+    };
+
+    return (
+      <div className="DiaryEditor">
+        <h2>오늘의 일기</h2>
+        <div>
+          <input
+            name="author"
+            type="text"
+            ref={authorInput}
+            value={state.author}
+            onChange={handleChangeState}
+          />
+        </div>
+        <div>
+          <textarea
+            ref={contentInput}
+            name="content"
+            id=""
+            cols="30"
+            rows="10"
+            value={state.content}
+            onChange={handleChangeState}
+          ></textarea>
+        </div>
+        <div>
+          <select
+            name="emotion"
+            id=""
+            value={state.emotion}
+            onChange={handleChangeState}
+          >
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+        <div>
+          <button onClick={handleSubmit}>일기 저장하기</button>
+        </div>
+      </div>
+    );
+  };
+
+  export default DiaryEditor;
+  ```
