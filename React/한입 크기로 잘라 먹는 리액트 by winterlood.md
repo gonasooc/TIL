@@ -954,4 +954,7 @@ checkMood("good", sing, cry);
   };
   ```
 
-## React에서 API 호출하기
+## 최적화 1 - useMemo
+
+- Memoization
+  - 이미 계산된 결과를 기억해뒀다가 동일한 계산을 시키면, 재연산 없이 기억해뒀던 데이터를 반환하는 방법
