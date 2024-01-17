@@ -41,3 +41,26 @@
 - IP 주소는 8bit씩 끊어서 표시!
 - IP 주소는 Network ID와 Host ID로 나뉨
 - 이 Network ID를 나타내는 게 서브넷마스크
+
+# 개발자 입장에서 Port번호 이해하기
+
+- 개발자 입장이 아니라 Port 번호는 상황이나 처한 업무에 따라서(계층에 따라서) Process, Service, Interface 등 식별에 대한 대상이 달라짐
+- 16bit - 0번 포트, 65535 포트 번호는 제외하고 사용(1~65534)
+- **Port 번호는 개발자 관점에서는 명백히 Process 식별자 -** 포트 번호는 Socket에 바인딩됨
+  - 네트워크 전문가 관점에서는 Service 식별자
+  - 네트워크 인프라 설치, 하드웨어 작업자의 관점에서는 Interface 식별자
+
+# Switch가 하는 일은 Switching 이다.
+
+- 인터넷은 라우터의 집합체
+- 각각의 라우터는 최적화된 경로를 결정 → 라우터는 L3 스위치의 일종
+- **패킷 단위의 데이터가 라우터에 도착하면 경로 선택 스위칭을 함 → 그 중 최적의 경로를 취하게 되는데, 라우팅 테이블에 근거해서 의사 결정을 함**
+
+# 네트워크 데이터 단위 정리 (매우 중요!)
+
+- **User모드, Application, Process, 즉 Socket 수준(File)에서는 Stream**
+  - Stream 데이터는 그 끝을 알 수 없는 일렬로 쭉 늘어진 데이터
+- **그걸 네트워크로 보낼 때는 자르기, 즉 Segmention이 일어나는데, 그 잘려진 조각을 Segment, 최대 크기가 정해져 있음(MSS - Maximum Segment Size)**
+- **TCP 단계에서는 Segment, 그걸 인터넷 환경, IP 단계에서는 전송 가능한 형태의 Packet**
+- Packet의 최대 크기는 1500 bytes (MTU - Maximum Transport Unit), 당연하게도 MSS(Maximum Segment Size)는 Packet의 최대 크기보다 작음
+- **Packet을 실어 나를 때는 다시 Frame으로 인캡슐레이션(Encapsulation)**
