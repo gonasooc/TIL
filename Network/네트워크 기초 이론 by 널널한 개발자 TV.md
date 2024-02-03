@@ -109,3 +109,16 @@
 - 인터넷은 Virtual Network이라고 볼 수 있음 → 논리적인 네트워크
 - 1-2계층처럼 하드웨어로 설명되는 부분을 LAN, 논리로 설명되는 네트워크가 WAN으로 구분 짓는 것도 도움이 될 수 있음
 - 그런 맥락에서 LAN은 MAC주소(48bit)를 기반으로 작동, 방송주소가 적용되는 부분도 LAN으로 볼 수 있고, WAN은 IP주소를 기반으로 작동
+
+# 패킷의 생성 원리와 캡슐화
+
+- Socket은 파일의 일종
+- Stream 데이터는 그 끝을 알 수 없는 일렬로 쭉 늘어진 데이터 - 그걸 네트워크로 보낼 때는 자르기, 즉 Segmention, 그 잘려진 조각을 Segment
+- Segment이 캡슐화되면 Packet, Packet이 캡슐화되면 Frame
+- Packet은 1500(MTU)인데, 다시 Header와 Payload로 나뉨
+- Header는 다시 L3(IP), L4(TCP)로 나뉨 → 특별한 이유가 없다면 보통 20 bytes
+- 즉, Payload는 1460 bytes
+- Header는 택배로 치면 송장 같은 정보
+- Payload를 들여보는 걸 DPI(ex) 도감청)
+- Segment는 내용물인데 캡슐화하면 Packet, Packet을 캡슐화하면 Frame인데 택배 트럭이 일종의 Frame
+- Segment는 L4, Packet은 L3, Frame는 L2 수준의 데이터 단위다, Packet의 Payload까지 뒤지면 DPI라고 함
