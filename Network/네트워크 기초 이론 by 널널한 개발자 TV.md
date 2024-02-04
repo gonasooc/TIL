@@ -122,3 +122,14 @@
 - Payload를 들여보는 걸 DPI(ex) 도감청)
 - Segment는 내용물인데 캡슐화하면 Packet, Packet을 캡슐화하면 Frame인데 택배 트럭이 일종의 Frame
 - Segment는 L4, Packet은 L3, Frame는 L2 수준의 데이터 단위다, Packet의 Payload까지 뒤지면 DPI라고 함
+
+# L2 스위치에 대해서
+
+- L2는 MAC 주소로 스위칭(48bit)
+- 네트워크는 결국 스위치의 집합체
+- L2 Access는 NIC와 직접적으로 연결되는 부분, Endpoint와 직접 만나는 스위치
+- L2 Access와 만나는 스위치는 L2 Distribution
+- 마지막으로 모이는 건 Router, 보통 이제 Router가 전체 PC의 Gateway 역할을 해줌
+- 랜선이 연결됐을 때 상향 연결이면 Uplink
+  - Link-up: 녹색(연결)
+  - Link-down: 연결이 끊김
