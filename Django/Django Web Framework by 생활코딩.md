@@ -36,4 +36,89 @@
 
 ## 장고 라우팅 - (URL conf)
 
+- 사용자가 지정한 경로를 누가 처리할 것인가 → 라우팅
 - project의 urls.py가 특정 app으로 위임하고, app 내의 urls.py가 view 안에 각각의 함수로 위임해서 작동하는 방식
+- `urlpatterns` 라는 리스트를 정의해야 함
+- myproject/urls.py
+  ```python
+  from django.contrib import admin
+  from django.urls import path, include
+
+  urlpatterns = [
+      path("admin/", admin.site.urls),
+      path('', include('myapp.urls'))
+  ]
+  ```
+- myapp/urls.py
+  ```python
+  from django.urls import path
+  from myapp import views
+
+  urlpatterns = [
+      path('', views.index),
+      path('create/', views.create),
+      path('read/<id>/', views.read)
+  ]
+  ```
+- views.py
+  ```python
+  from django.shortcuts import render, HttpResponse
+
+  def index(request):
+      return HttpResponse('Welcome!')
+
+  def create(request):
+      return HttpResponse('Create')
+
+  def read(request, id):
+      return HttpResponse('Read'+id)
+  ```
+
+## 장고를 쓰는 이유
+
+- Web Server like apache, nginx, IIS (**STATIC**)
+  - 웹페이지를 이미 생성해둬야 함
+  - 미리 준비된 페이지로 접근
+  - 이미 준비된 페이지를 호출하기 때문에 성능이 빠름, but 유지보수 불편
+- Web Application Server like django, flask, php, jsp, ROL (**DYNAMIC**)
+  - view.py
+  - 접근하는 순간 db에 접근해서 페이지를 만들어서 반환
+  - 웹서버에 비해 상당히 느림, but 유지보수가 편함
+
+## 장고 읽기 구현
+
+```python
+from django.shortcuts import render, HttpResponse
+
+topics = [
+    {'id': 1, 'title': 'routing', 'body': 'Routing is ...'},
+    {'id': 2, 'title': 'view', 'body': 'View is ...'},
+    {'id': 3, 'title': 'model', 'body': 'Model is ...'},
+]
+
+def index(request):
+    global topics
+    ol = ''
+    for topic in topics:
+        ol += f'<li><a href="/read/{topic["id"]}">{topic["title"]}</a></li>'
+    return HttpResponse(f'''
+    <html>
+    <body>
+        <h1>Django</h1>
+        <ol>
+            {ol}
+        </ol>
+        <h2>Welcome</h2>
+        Hello, Django
+    </body>
+    </html>
+    ''')
+
+def create(request):
+    return HttpResponse('Create')
+
+def read(request, id):
+    return HttpResponse('Read'+id)
+```
+
+## 장고 생성 기능 구현

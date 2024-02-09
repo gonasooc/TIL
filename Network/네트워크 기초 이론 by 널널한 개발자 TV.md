@@ -133,3 +133,19 @@
 - 랜선이 연결됐을 때 상향 연결이면 Uplink
   - Link-up: 녹색(연결)
   - Link-down: 연결이 끊김
+
+# IP헤더 형식과 의미 요약
+
+- IP Header format
+  ![IPv4_Packet-en.svg](../assets/2198e4fedd2b.svg)
+- IHL(Internet Header Length)
+- TOS(Type of Service)
+- TTL(Time to Live) - 인터넷이라는 네트워크는 라우터의 거대한 집합체, 라우터들이 패킷을 유통함 → 라우터가 패킷을 유통할 때마다 TTL이 1씩 감소, 최종적으로 0이 되면 그 패킷을 버림
+- Protocol
+- Header checksum - 전송 과정에 오류가 있는지 확인하는 checksum이 들어 있음
+- Soure address, Destination address - IP 주소
+- 네트워크 공부를 한다면 추후 필수적으로 사용하게 될 wireshark.org
+  - Filter를 잘 써야 함
+    - Capture
+    - Display
+  - 16진수 익숙해질 것, 정규표현식 잘 사용할 것
