@@ -319,3 +319,168 @@ Snapshots:   0 total
   });
   ```
   - async, await와 resolves 사용
+  # Jest 강좌 #4 테스트 전후 작업
+  ```jsx
+  const fn = require("./fn");
+
+  let num = 0;
+
+  // 테스트 전에 작업
+  // 전체 테스트 전에는 beforeAll
+  beforeEach(() => {
+    num = 0;
+  });
+
+  // 테스트 후에 작업
+  // 전체 테스트 후에는 afterAll
+  afterEach(() => {
+    num = 0;
+  });
+
+  test("0 더하기 1은 1이야.", () => {
+    num = fn.add(num, 1);
+    expect(num).toBe(1);
+  });
+
+  test("0 더하기 2은 2이야.", () => {
+    num = fn.add(num, 2);
+    expect(num).toBe(2);
+  });
+
+  test("0 더하기 3은 3이야.", () => {
+    num = fn.add(num, 3);
+    expect(num).toBe(3);
+  });
+
+  test("0 더하기 4은 4이야.", () => {
+    num = fn.add(num, 4);
+    expect(num).toBe(4);
+  });
+  ```
+  # Jest 강좌 #5 목 함수(Mock Functions)
+  - mock function - 테스트 하기 위해 흉내만 내는 함수
+  - 사용 목적: 작성해야 될 코드가 상당히 많아지는 경우, 혹은 네트워크 같은 외부 요인에 결과가 달라질 수 있는 경우, 동일한 코드가 동일한 결과를 내기 위해 목 함수를 사용
+    ```jsx
+    // mock function
+
+    const mockFn = jest.fn();
+
+    mockFn();
+    mockFn(1);
+
+    test("함수는 2번 호출됩니다.", () => {
+      expect(mockFn.mock.calls.length).toBe(2);
+    });
+
+    test("두 번째로 호출된 함수에 전달된 첫 번째 인수는 1입니다.", () => {
+      expect(mockFn.mock.calls[1][0]).toBe(1);
+    });
+    ```
+  - 별도의 함수 대신 목 함수를 이용
+    ```jsx
+    // mock function
+
+    const mockFn = jest.fn();
+
+    function forEachAdd1(arr) {
+      arr.forEach((num) => {
+        mockFn(num + 1);
+      });
+    }
+
+    forEachAdd1([10, 20, 30]);
+
+    test("함수 호출은 세 번 됩니다.", () => {
+      expect(mockFn.mock.calls.length).toBe(3);
+    });
+
+    test("전달된 값은 11, 21, 31 입니다.", () => {
+      expect(mockFn.mock.calls[0][0]).toBe(11);
+      expect(mockFn.mock.calls[1][0]).toBe(21);
+      expect(mockFn.mock.calls[2][0]).toBe(31);
+    });
+    ```
+  - results - return 값
+    ```jsx
+    // mock function
+
+    const mockFn = jest.fn((num) => num + 1);
+
+    mockFn(10);
+    mockFn(20);
+    mockFn(30);
+
+    test("10에서 1 증가", () => {
+      expect(mockFn.mock.results[0].value).toBe(11);
+    });
+
+    test("20에서 1 증가", () => {
+      expect(mockFn.mock.results[1].value).toBe(21);
+    });
+
+    test("30에서 1 증가", () => {
+      expect(mockFn.mock.results[2].value).toBe(31);
+    });
+    ```
+  - mockReturnValueOnce - 별도의 return 값을 지정
+    ```jsx
+    // mock function
+
+    const mockFn = jest.fn();
+
+    mockFn
+      .mockReturnValueOnce(true)
+      .mockReturnValueOnce(false)
+      .mockReturnValueOnce(true)
+      .mockReturnValueOnce(false)
+      .mockReturnValue(true);
+
+    const result = [1, 2, 3, 4, 5].filter((num) => mockFn(num));
+
+    test("홀수는 1, 3, 5", () => {
+      expect(result).toStrictEqual([1, 3, 5]);
+    });
+    ```
+  - mockResolvedValue - then을 이용해서 비동기 테스트
+    ```jsx
+    // mock function
+
+    const mockFn = jest.fn();
+
+    mockFn.mockResolvedValue({ name: "Mike" });
+
+    test("받아온 이름은 Mike", () => {
+      mockFn().then((res) => {
+        expect(res.name).toBe("Mike");
+      });
+    });
+    ```
+  - toBeCalled - 한번이라도 호출되면 true
+  - toBeCalledTimes - 정확한 호출 횟수
+  - toBeCalledWith - 인수로 어떤 값을 받았는지 체크
+  - lastCalledWith - 마지막으로 실행된 함수의 인수만 체크
+    ```jsx
+    // mock function
+
+    const mockFn = jest.fn();
+
+    mockFn(10, 20);
+    mockFn();
+    mockFn(30, 40);
+
+    test("한번 이상 호출?", () => {
+      expect(mockFn).toBeCalled();
+    });
+
+    test("정확히 세 번 호출?", () => {
+      expect(mockFn).toBeCalledTimes(3);
+    });
+
+    test("10이랑 20 전달 받은 함수가 있는가?", () => {
+      expect(mockFn).toBeCalledWith(10, 20);
+    });
+
+    test("마지막 함수는 30이랑 40 받았음?", () => {
+      expect(mockFn).lastCalledWith(30, 40);
+    });
+    ```
