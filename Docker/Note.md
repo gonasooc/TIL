@@ -1,1 +1,0 @@
-- docker는 'environment disparity'를 해결해줌 (ex) 윈도우에서 개발한 코드를 리눅스 서버에 올렸을 때)

@@ -1,36 +1,3 @@
-# 공식문서
-
-### 네이버
-
-[검색엔진 최적화의 목적](https://searchadvisor.naver.com/guide/seo-basic-intro)
-
-### 구글
-
-[SEO 기본 가이드: 기본사항 | Google 검색 센터 | 문서 | Google Developers](https://developers.google.com/search/docs/fundamentals/seo-starter-guide?hl=ko)
-
-### **robots.txt 관련**
-
-[robots.txt 설정하기](https://searchadvisor.naver.com/guide/seo-basic-robots)
-
-(예) 모든 검색엔진의 로봇에 대하여 접근 가능하게 설정
-
-```
-User-agent: *
-Allow: /
-```
-
-### **네이버 마크업 가이드**
-
-[콘텐츠 마크업](https://searchadvisor.naver.com/guide/markup-content)
-
-### **meta name=”robots” → 별도 선언하지 않으면 content=”index,follow”**
-
-[Defaults for robots meta tag](https://stackoverflow.com/questions/24165589/defaults-for-robots-meta-tag)
-
-### 네이버 **SEO 간단 체크**
-
-[[네이버: 로그인]](https://searchadvisor.naver.com/tools/sitecheck)
-
 # 구글 SEO 관련
 
 ## 인트로
@@ -57,26 +24,25 @@ Allow: /
 - SERP(Search Engine Result Page)
 - 전체 고객의 대부분은 첫 페이지에서 두 번째 페이지로 넘어가지 않음
 - SERP 올라가는 방법
-    1. 사이트 보안(ex) https)
-    2. 모바일 친화적
-    3. 페이지 스피드
+  1. 사이트 보안(ex) https)
+  2. 모바일 친화적
+  3. 페이지 스피드
 - 키워드 찾는 방법
-    - Google Keyword Planner
-    - 네이버 광고 센터
+  - Google Keyword Planner
+  - 네이버 광고 센터
 - 키워드 관련
-    - [keywordtool.io](http://keywordtool.io/)
-    - 대상 키워드를 먹기 위해선 의도 키워드를 사용해서 잡아 나가야 함
-    - GA나 구글 서치 콘솔을 통해서 유입된 키워드를 체크할 수 있음
-    - [https://ahrefs.com/](https://ahrefs.com/)
+  - [keywordtool.io](http://keywordtool.io/)
+  - 대상 키워드를 먹기 위해선 의도 키워드를 사용해서 잡아 나가야 함
+  - GA나 구글 서치 콘솔을 통해서 유입된 키워드를 체크할 수 있음
+  - https://ahrefs.com/
 - SEO 컨텐츠 작성할 때, 중요한 3가지
-    - 타이틀 태그
-        - 영문 기준 50~60자 정도
-        - 국문 기준 25~30자 정도
-    - 메타 태그
-        - 디스크립션은 크롤링에는 영향을 주지 않지만 클릭율에 영향을 줌
-    - 헤드 태그
-        - h1, h2, h3…
-    
+  - 타이틀 태그
+    - 영문 기준 50~60자 정도
+    - 국문 기준 25~30자 정도
+  - 메타 태그
+    - 디스크립션은 크롤링에는 영향을 주지 않지만 클릭율에 영향을 줌
+  - 헤드 태그
+    - h1, h2, h3…
 
 [구글 SEO 최적화하는 3가지 방법🤟 (검색엔진최적화) 광고비 없이 상위노출 해보자! #1](https://www.youtube.com/watch?v=5evFsqf7NHE)
 
@@ -85,13 +51,13 @@ Allow: /
 ### 키워드
 
 - 컨텐츠의 목표
-- [https://keywordtool.io/](https://keywordtool.io/) 으로 체크하고 키워드 선정
+- https://keywordtool.io/ 으로 체크하고 키워드 선정
 - 예컨대 Search Volume이 적은데 Competition, 경쟁력 지수가 너무 크다면 굳이 그 키워드에 힘을 쏟을 필요가 없음 → 반대로 Search Volume은 큰데 Competition이 낮다면 꿀키워드 → 그 기준을 잡는 것이 중요
 - 관련 키워드들도 같이 선정
 
 ### 경쟁사 분석
 
-- [https://ahrefs.com/](https://ahrefs.com/)
+- https://ahrefs.com/
 - DR(Domain Rating), Backlinks, Keywords들을 중점적으로 분석해서 큰 그림 잡기
 
 ### 컨텐츠 구성

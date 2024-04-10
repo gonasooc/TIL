@@ -38,3 +38,11 @@ line에서 사용
 - Shift + Alt + 위아래 방향키 → 코드를 복사하면서 이동
 
 ---
+
+### 작업하던 local 작업본과 해당 branch 그대로 들고 가서 새로운 branch 생성
+
+- 실수로 다른 branch에서 작업했을 때 유용
+
+```jsx
+git checkout -b new_branch old_branch
+```
