@@ -70,3 +70,153 @@ module.exports = {
 };
 
 ```
+
+### 페이지 라우팅 기본 및 리액트 컴포넌트와 JSX 기초 설명
+
+- 페이지 라우팅 - 도메인 끝 루트로 접근했을 때 pages/index.js로 접근
+- pages 폴더 안에 파일명은 소문자로 작성하는 컨벤션
+
+### 페이지 라우팅 구성 후 컴포넌트 분석
+
+- 파일 기반 라우팅 자동 설정
+
+### Link 컴포넌트를 이용한 페이지 이동
+
+- _app.js → 커스텀 앱 컴포넌트
+- 빌트인 컴포넌트 - Next.js에서 미리 구성된 컴포넌트
+
+### Link 컴포넌트 설명
+
+- <Link /> vs a tag - https://cracking-next.vercel.app/docs/page-router/navigating
+
+### 커스텀 앱(_app 파일) 컴포넌트 소개
+
+- _app 파일은 넥스트에서의 루트 컴포넌트를 의미
+- 페이지 이동 시 유지할 공통 레이아웃 구성, 페이지에 추가 데이터 구성, 전역 CSS 추가
+
+### layout 컴포넌트 생성 및 적용
+
+```jsx
+import Layout from '@/layouts/Layout';
+import '@/styles/globals.css';
+import Link from 'next/link';
+
+export default function App({ Component, pageProps }) {
+	return (
+		<Layout>
+			<Component {...pageProps} />
+		</Layout>
+	)
+}
+```
+
+### 백엔드 서버 구성
+
+- 별도의 backend 폴더 내에 구성을 갖추고 npm install 후 npm run dev 진행, 별도로 4000 포트로 서버를 띄워놓음
+
+## 실전 프로젝트 - Image 컴포넌트와 Next.js 스타일링 방법
+
+### 상품 목록 UI 구성 및 Image 컴포넌트 소개
+
+- Next.js의 <Image /> 컴포넌트의 경우 next.config.js 설정 파일 등에서 호출하는 cdn이나 별도의 주소를 통해 확인 가능한 protocol, hostname, port, pathname 등을 정의해줘야 함
+    
+    ```jsx
+    // next.config.js
+    
+    module.exports = {
+      images: {
+        remotePatterns: [
+          {
+            protocol: 'https',
+            hostname: 'assets.example.com',
+            port: '',
+            pathname: '/account123/**',
+          },
+        ],
+      },
+    }
+    ```
+    
+
+### Next.js의 CSS 스타일링 방법 - CSS Module
+
+- 해당 컴포넌트와 동일한 경로 내에 ComponentName.module.css 파일을 위치하고, 컴포넌트 내에서 호출
+
+```jsx
+...
+**import styles from './ProductList.module.css';**
+
+const ProductList = () => {
+	...
+
+  return (
+    <ul>
+    {
+      products && products.map((product) => {
+        return (
+          **<li key={product.id} className={styles.item}>
+						...**
+          </li>
+        )
+      })
+    }
+  </ul>
+  );
+};
+
+export default ProductList;
+```
+
+## 실전 프로젝트 - 동적 라우팅과 데이터 호출
+
+### getServerSideProps 소개
+
+```jsx
+import React from 'react';
+
+export default function ProductDetailPage({ message }) {
+  return (
+    <div>상세페이지 - {message}</div>
+  );
+};
+
+export async function getServerSideProps(context) {
+  console.log(context.params.productId);
+  return {
+    props: {message: '서버에서 보내준 메세지'},
+  }
+}
+```
+
+### getServerSideProps로 데이터 호출 및 화면에 표시
+
+- getServerSideProps는 페이지 컴포넌트를 그리기 전에 데이터를 받아오기 위한 데이터 호출 메서드
+
+```jsx
+import ProductHeader from '@/components/ProductHeader';
+import axios from 'axios';
+import React from 'react';
+
+export default function ProductDetailPage({ message, productInfo }) {
+  return (
+    <>
+      <ProductHeader title={'상품상세정보페이지'} />
+      <div>상세페이지 - {message}</div>
+      <p>{productInfo.name}</p>
+    </>
+  );
+};
+
+export async function getServerSideProps(context) {
+  const id = context.params.productId;
+  const response = await axios.get(`http://localhost:4000/products/${id}`);
+  response.data
+
+  return {
+    props: {
+      message: '서버에서 보내준 메세지',
+      productInfo: response.data
+    },
+  }
+}
+```
