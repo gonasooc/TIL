@@ -220,3 +220,19 @@ export async function getServerSideProps(context) {
   }
 }
 ```
+
+## 실전 프로젝트 - 클라이언트 레벨 데이터 호출 vs 서버 레벨 데이터 호출
+
+### getServerSideProps와 useEffect 데이터 호출 방식 차이점
+
+- 네트워크 탭을 통해 특정 페이지의 CSR, SSR 여부 확인 가능, Preview나 Response의 반환값 체크
+
+## 실전 프로젝트 - 상품 상세 페이지 구현
+
+### 이미지 성능 최적화
+
+```html
+<img alt="Refined Fresh Chicken" loading="lazy" width="250" height="250" decoding="async" data-nimg="1" style="color:transparent" srcset="/_next/image?url=https%3A%2F%2Fcdn.pixabay.com%2Fuser%2F2016%2F03%2F26%2F22-06-36-459_250x250.jpg&amp;w=256&amp;q=75 1x, /_next/image?url=https%3A%2F%2Fcdn.pixabay.com%2Fuser%2F2016%2F03%2F26%2F22-06-36-459_250x250.jpg&amp;w=640&amp;q=75 2x" src="/_next/image?url=https%3A%2F%2Fcdn.pixabay.com%2Fuser%2F2016%2F03%2F26%2F22-06-36-459_250x250.jpg&amp;w=640&amp;q=75">
+```
+
+## 실전 프로젝트 - 장바구니 페이지 구현
