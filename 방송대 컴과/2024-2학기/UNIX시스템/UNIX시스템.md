@@ -447,3 +447,52 @@
     - git checkout branch
 - 저장 공간 간 파일 비교
     - git diff
+
+    # 14강. 브랜치의 생성과 병합
+
+## 브랜치의 개요
+
+- git branch -v → 브랜치마다 상세한 정보 나열
+- git branch newBranchName → 주어진 인자로 브랜치를 생성하나 HEAD는 이동하지 않음
+- git checkout HEAD~ 는 별도의 옵션 없이 HEAD 이동, switch는 -d 옵션으로 이동
+
+## 브랜치 관리
+
+- git branch —merged → 현재 작업 브랜치 기준으로 병합된(도달 가능한) 브랜치 목록 표시
+- git branch —no-merged → 현재 작업 브랜치 기준으로 아직 병합되지 않은(도달 불가능한) 브랜치 목록 표시
+
+## 브랜치 병합
+
+- fast-forward 병합 → git merge childBranch
+- 3-way 병합
+- squash 병합
+
+## 브랜치 병합 충돌과 해결
+
+- 자동 3-way 병합을 할 수 없어서 충돌 발생하는 경우
+- 충돌이 일어난 파일은 ‘병합하지 않은 경로(unmerged path)’로 표시됨
+
+# 15강. 스태시와 버전 되돌리기
+
+## 스태시의 개요
+
+- 스태시 - 마지막 커밋 이후 변견된 작업 영역과 스테이지 영역을 임시 저장 가능
+- git stash apply - 스태지의 저장 목록에서 특정 항목을 불러와 작업 영역에 적용하여 복원
+- git stash drop은 별도 적용 없이 삭제, git stash clear는 모두 삭제
+
+## 스태시 활용
+
+- git stash branch branchName - 새로운 브랜치를 만들고 스태시 적용
+
+## 리셋
+
+- HEAD의 위치를 이전 특정 커밋으로 되돌리는 것, 버전을 과거로 완전히 되돌리는 것
+- git reset —hard commit → 모두 재설정
+- git reset [—mixed] commit → 작업 폴더는 그대로 남음
+- git reset —soft commit → 깃 저장소만 재설정
+
+## 리버트(revert)
+
+- 최근 커밋부터 차례로 이전 커밋을 취소할 때 사용, 커밋 이력은 남겨둔 채 ‘커밋 취소’를 의미하는 새로운 커밋을 생성
+- 한번에 한 커밋만 취소
+- 리버트의 —no-commit 옵션 → 범위 내의 여러 커밋을 취소할 때취소 커밋 한 개만 생성할 수 있음
