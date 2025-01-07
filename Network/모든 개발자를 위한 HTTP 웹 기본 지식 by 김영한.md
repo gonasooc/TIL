@@ -95,3 +95,67 @@
     - 무상태 프로토콜(스테이스리스), 비연결성
     - HTTP 메시지
     - 단순함, 확장 가능
+
+### 클라이언트 서버 구조
+
+- Request Response 구조
+
+### 무상태 프로토콜 - 스테이스리스(Stateless)
+
+- 상태 유지 - Stateful
+    - 서버가 클라이언트 이전 상태를 보존
+    - 항상 같은 서버가 유지되어야 함
+- 무상태 - Stateless
+    - 갑자기 클라이언트 요청에 증가해도 서버를 대거 투입 가능, 무상태는 응답 서버를 쉽게 바꿀 수 있음 → 무한한 서버 증설 가능
+    - 스케일 아웃 - 수평 확장 유리
+- Stateless 실무 한계
+    - 로그인한 사용자의 경우 로그인 했다는 상태를 서버에 유지
+    - 상태 유지는 최소한만 사용
+
+### 비 연결성(connectionless)
+
+- HTTP는 기본이 연결을 유지하지 않는 모델
+- 일반적으로 초 단위 이하의 빠른 속도로 응답, 웹 브라우저 환경에서는 연속해서 데이터를 호출하는 경우가 적음
+- 한계와 극복
+    - TCP/IP 연결을 새로 맺어야 함 - (사용자 입장에선) 3 way handshake 시간 추가
+    - 요청하면 수많은 자원이 함께 다운로드
+    - 현재는 HTTP 지속 연결(Persistent Connections)로 문제 해결
+    - HTTP/2, HTTP/3에서 더 많은 최적화
+- HTTP 초기 - 연결, 종료 낭비
+    - HTML, 자바스크립트, 이미지 등 각각의 요청에 마다 응답을 받고 종료하는 낭비
+- HTTP 지속 연결(Persistent Connections)
+    - 최초 연결 후 HTML, 자바스크립트, 이미지 응답이 다 끝날 때까지 지속 연결
+- 스테이스리스를 기억하자 - 서버 개발자들이 어려워하는 업무
+    - 같은 시간에 맞춰서 발생하는 대용량 트래픽
+
+### HTTP 메시지
+
+- HTTP 메시지 구조
+    - start-line 시작 라인
+    - header 헤더
+    - empty line 공백 라인 (CRLF)
+    - message body
+- 시작 라인 - 요청 메시지
+    - start-line = **request-line** / status-line
+    - request-line = method SP(공백) request-target SP HTTP-version CRLF(엔터)
+    - HTTP 메서드
+        - 종류: GET, POST, PUT, DELETE
+    - 요청 대상 - absolute-path[?query] e.g., /search?q=hello&hl=ko
+    - HTTP Version
+- 시작 라인 - 응답 메시지
+    - start-line = request-line / **status-line**
+    - status-line = HTTP-version SP status-code SP reason-phrase CRLF
+    - HTTP 버전
+    - HTTP 상태 코드
+        - 200: 성공
+        - 400: 클라이언트 요청 오류
+        - 500: 서버 내부 오류
+    - 이유 문구: 사람이 이해할 수 있는 짧은 상태 코드 설명 글
+- HTTP 헤더
+    - header-field = field-name: OWS field-value OWS (OWS: optional whitespace)
+    - HTTP 전송에 필요한 모든 부가정보 e.g., body의 내용, body의 크기, 압축, 인증 등..
+    - 표준 헤더가 너무 많음
+    - 필요 시 임의의 헤더 추가 가능
+- HTTP 메시지 바디
+    - 실제 전송할 데이터
+    - HTML 문서, 이미지, 영상, JSON 등 byte로 표현할 수 있는 모든 데이터 전송 가능
