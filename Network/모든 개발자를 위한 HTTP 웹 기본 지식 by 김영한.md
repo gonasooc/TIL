@@ -11,7 +11,7 @@
     - 비신뢰성 - 중간에 패킷이 사라지면?, 패킷이 순서대로 안오면?
     - 프로그램 구분 - 같은 IP를 사용하는 서버에서 통신하는 애플리케이션이 둘 이상이면?
     - 패킷 전달 순서 문제 발생 - e.g., 연관성 있는 두 개의 패킷에서 1번 패킷보다 2번 패킷이 먼저 도착할 수 있음
-- 이런 IP 프로토콜의 한계를 TCP/UDP를 통해 해결
+- 이런 인터넷 프로토콜의 한계를 TCP/UDP를 통해 해결
 
 ### TCP/UDP
 
@@ -70,7 +70,7 @@
     - DNS 서버 조회 및 포트 정보 체크
     - 웹 브라우저가 HTTP 메시지 생성(GET)
     
-    (TCP 3 handshake를 통해 가상 연결로 확인)
+    (TCP 3 way handshake를 통해 가상 연결로 확인)
     
     - SOCKET 라이브러리를 통해 전달
         - TCP/IP 연결(IP, PORT)
@@ -227,3 +227,23 @@ https://ko.wikipedia.org/wiki/HTTP
 - 캐시가능(Cacheable)
     - GET, HEAD, POST, PATCH (이론상) 캐시 가능
     - 실제로는 url만 가지고 설정하면 되는 GET이나 HEAD 정도만 캐시 가능, POST, PATCH는 body 내용까지 캐시 키로 고려해야 해서 구현이 쉽지 않음
+
+### 클라이언트에서 서버로 데이터 전송
+
+- 쿼리 파라미터를 통한 데이터 전송
+    - GET
+    - 주로 정렬 필터(검색어)
+- 메시지 바디를 통한 데이터 전송
+    - POST, PUT, PATCH
+    - 회원 가입, 상품 주문, 리소스 등록, 리소스 변경
+- 예시
+    - 정적 데이터 조회 - 쿼리 파라미터 미사용
+    - 동적 데이터 조회 - 쿼리 파라미터 사용
+    - HTTL Form 데이터 전송
+        - POST인 경우, 웹 브라우저가 알아서 Content-Type: application/x-www-form-urlencoded, body에 해당 입력 내용 삽입(key=value 형식으로)
+        - GET인 경우, 웹 브라우저가 쿼리 파라미터로 붙임, 단 save는 GET을 써서 안됨
+        - Content-Type: multipart/form-data로 보낸 경우 웹 브라우저가 알아서 Content-Type: multipart/form-data; boundary=——XXX 삽입, 주로 파일 업로드 같은 binary 데이터 보낼 때 사용
+            - Content-Type: application/json으로 고정하는 경우 binary 데이터 보내더라도 boundary 생성이 안 돼서 전송 불가능
+        - HTML Form 전송은 GET, POST만 지원
+
+### HTTP API 설계 예시
