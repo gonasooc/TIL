@@ -247,3 +247,103 @@ https://ko.wikipedia.org/wiki/HTTP
         - HTML Form 전송은 GET, POST만 지원
 
 ### HTTP API 설계 예시
+
+- URI는 리소스만 식별
+- 리소스와 해당 리소스를 대상으로 하는 행위를 분리
+    - 리소스: 회원
+    - 행위: 조회, 등록, 삭제, 변경
+- 회원 관리 시스템 - POST 기반 등록
+    - 회원 목록 /members → GET
+    - 회원 등록 /members → POST
+    - 회원 조회 /members/{id} → GET
+    - 회원 수정 /members/{id} → PATCH, PUT, POST
+        - 개념적으론 PATCH가 가장 적당, 다만 게시물 수정처럼 완전히 덮어 씌우는 경우는 PUT 사용 가능, 둘 다 애매하면 POST 사용 가능
+    - 회원 삭제 /members/{id} → DELETE
+- POST 신규 자원 등록 특징
+    - 클라이언트가 등록될 리소스 URI 몰라도 등록 가능
+    - 서버가 새로 등록된 리소스 URI를 생성해줌 e.g., Location: /members/100
+    - 컬렉션(Collection)
+        - 서버가 관리하는 리소스 디렉토리
+        - 서버가 리소스의 URI를 생성하고 관리
+        - 여기서 컬렉션은 /members
+- API 설계 - PUT 기반 등록
+    - 파일 목록 /files → GET
+    - 파일 조회 /files/{filename} → GET
+    - 파일 등록 /files/{filename} → PUT
+    - 파일 삭제 /files/{filename} → DELETE
+    - 파일 대량 등록 /files → POST
+- PUT - 신규 자원 등록 특징
+    - 클라이언트가 리소스 URI를 알고 있어야 등록 가능
+    - 클라이언트가 직접 리소스의 URI를 지정
+    - 스토어(Store)
+        - 클라이언트가 관리하는 리소스 저장소
+        - 클라이언트가 리소스의 URI를 알고 관리
+        - 여기서 스토어는 /files
+- 주로 사용하는 건 POST 기반의 등록(Collection)
+- HTML FORM 사용
+    - HTML FORM은 GET, POST만 지원
+    - 컨트롤 URI
+        - 제약 때문에 컨트롤 URI를 사용하여 동사로 된 리소스 경로 사용
+- https://restfulapi.net/resource-naming/
+
+### HTTP 상태코드 소개
+
+- 1xx (Informational): 요청이 수신되어 처리중
+- 2xx (Successful): 요청 정상 처리
+- 3xx (Redirection): 요청을 완료하려면 추가 행동이 필요
+- 4xx (Client Error): 클라이언트 오류, 잘못된 문법 등으로 서버가 요청을 수행할 수 없음
+- 5xx (Server Error): 서버 오류, 서버가 정상 요청을 처리하지 못함
+
+### 2xx - 성공
+
+- 200 OK - 요청 성공
+- 201 Created - 요청 성공해서 새로운 리소스가 생성됨
+    - 생성된 리소스는 응답의 Location 헤더 필드로 식별
+- 202 Accepted - 요청이 접수되었으나 처리가 완료되지 않음(사용 빈도 낮음)
+    - e.g., 요청 접수 후 1시간 뒤에 배치 프로세스가 수행
+- 204 No Content - 서버가 요청을 성공적으로 수행했지만, 응답 페이로드 본문에 보낼 데이터가 없음
+    - e.g., 웹 문서 편집기에서 save 버튼
+
+### 3xx - 리다이렉션
+
+- 리다이렉션 이해 - 웹 브라우저는 3xx 응답의 결과에 Location 헤더가 있으면, Location 위치로 자동 이동(리다이렉트)
+    - e.g., GET /old-page HTTP/1.1 요청을 보내면 서버가 인지하고 301에 Location 헤더 필드를 담아서 응답 → 자동 리다이렉트 후 GET/new-page HTTP/1.1 요청, 서버에서 200 내려줌
+    - 영구 리다이렉션 - 특정 리소스의 URI가 영구적으로 이동
+    - 일시 라디이렉션 - 일시적인 변경
+    - 특수 리다이렉션 - 결과 대신 캐시를 사용
+- 영구 리다이렉션 - 301, 308
+    - 원래의 URL을 사용X, 검색 엔진 등에서도 변경 인지
+    - 301 Moved Permanently
+        - 리다이렉트 시 요청 메서드가 GET으로 변하고, 본문이 제거될 수 있음(MAY)
+        - e.g., old-page에서 별도의 폼을 입력했다고 해도 GET으로 변하고, new-page에서도 body가 없어져서 다시 입력해야 함
+    - 308 Permanent Redirect
+        - 301과 기능은 같음
+        - 리다이렉트 시 요청 메서드와 본문 유지, 다만 대체로 페이지가 변경되면 보내야 되는 본문도 변하는 경우가 많아서 사용 빈도가 적음
+- 일시적인 리다이렉션 - 302, 307, 303
+    - 302 Found
+        - 리다이렉트 시 요청 메서드가 GET으로 변하고, 본문이 제거될 수 있음(MAY)
+    - 307 Temporary Redirect
+        - 302와 기능은 같음
+        - 리다이렉트 시 요청 메서드와 본문 유지(요청 메서드를 변경하면 안된다. MUST NOT)
+    - 303 See Other
+        - 302와 기능은 같음
+        - 리다이렉트 시 요청 메서드가 GET으로 변경
+- PRG: Post/Redirect/Get - 일시적인 리다이렉션
+    - POST로 주문 후에 새로고침으로 인한 중복 주문 방지
+    - POST로 주문 후에 주문 결과 화면을 GET 메서드로 리다이렉트
+    - 새로고침해도 결과 화면을 GET으로 조회
+    - 중복 주문 대신에 결과 화면만 GET으로 다시 요청
+- 기타 리다이렉션
+    - 300 Multiple Choices: 안 씀
+    - 304 Not Modified - 캐시를 목적으로 사용, 클라이언트에게 리소스가 수정되지 않았음을 알려줌, 304 응답은 메시지 바디를 포함하면 안됨(로컬 캐시를 사용해야 하므로)
+
+### 4xx - 클라이언트 오류, 5xx - 서버 오류
+
+- 4xx (Client Error) - 오류의 원인이 클라이언트에 있음, 이미 잘못된 요청으로 재시도가 실패함
+    - 400 Bad Request - 잘못된 요청으로 서버가 처리할 수 없음, 요청 구문, 메시지 등등 오류, 요청 파라미터가 잘못되거나 API 스펙과 맞지 않을 때
+    - 401 Unauthorized - 클라이언트가 해당 리소스에 대한 인증이 필요, 인증(Authentication)과 인가(Authorization) 모두 포함
+    - 403 Forbidden - 서버가 요청을 이해했지만 승인 거부, 인증 자격 증명은 있지만 접근 권한이 없음
+    - 404 Not Found - 요청 리소스가 서버에 없음, 또는 클라이언트가 권한이 부족한 리소스에 접근했을 때 아예 숨기고 싶으면 404를 내리기도 함
+- 5xx (Server Error) - 서버 문제로 오류 발생, 서버에 문제가 있기 때문에 재시도하면 성공할 수 있음
+    - 500 Internal Server Error - 서버 내부 문제로 오류 발생, 애매하면 500 오류
+    - 503 Service Unavailable - 서버가 일시적인 과부하 또는 예정 작업으로 잠시 요청을 처리할 수 없음
