@@ -399,3 +399,70 @@ https://ko.wikipedia.org/wiki/HTTP
         4. */*
 - 협상과 우선순위3 - Quality values(q)
     - 구체적인 것을 기준으로 미디어 타입을 맞춘다.
+
+### 전송 방식
+
+- 단순 전송 - Content-Length에 맞게 한번에 요청하고 한번에 받음
+    - Content-Length: 3423
+- 압축 전송 - gzip같은 걸로 압축해서 전송, 명시된 Content-Encoding을 확인하게 압축 해제
+    - Content-Encoding: gzip
+- 분할 전송 - 5바이트씩 쪼개서 보내거나 등, Content-Length는 보내면 안됨
+    - Transfer-Encoding: chunked
+- 범위 전송
+    - Content-Range: bytes 1001-2000 / 2000
+
+### 일반 정보
+
+- From - 유저 에이전트의 이메일 정보, 일반적으로 잘 사용되지 않음
+- Referer - 현재 요청된 페이지의 이전 웹 페이지 주소, 유입 경로 분석 가능, referrer의 오타
+- User-Agent - 클라이언트의 애플리케이션 정보(웹 브라우저 정보 등)
+- Server - 요청을 처리하는 ORIGIN 서버의 소프트웨어 정보
+    - 캐시 서버나 프록시가 아닌 진짜 요청을 받는 서버의 정보
+- Date - 메시지가 발생한 날짜와 시간, 응답에서 사용
+
+### 특별한 정보
+
+- Host - 요청한 호스트 정보(도메인), 필수값
+- Location - 페이지 리다이렉션
+    - 웹 브라우저는 3xx 응답 결과에 Location 헤더가 있으면 Location 위치로 자동 이동(리다이렉트)
+    - 201: Location 값은 요청에 의해 생성된 리소스 URI
+- Allow - 허용 가능한 HTTP 메서드
+    - e.g., GET, PUT만 가능한 API에 POST를 날리면 서버에서 405(Method Not Allowed) 에서 Allow: GET, PUT 과 같이 응답을 할 수 있음, 거의 사용되지 않음
+- Retry-After - 유저 에이전트가 다음 요청을 하기까지 기다려야 하는 시간
+    - 503(Service Unavailable)일 때 서비스 재개 가능 시점을 알려줄 수 있음
+    - Retry-After: Fri, 31 Dec 1999 23:59:59 GMT (날짜 표기)
+    - Retry-After: 120 (초단위 표기)
+    - 거의 사용되지 않음
+
+### 인증
+
+- Authorization - 클라이언트 인증 정보를 서버에 전달
+- WWW-Authenticate - 리소스 접근 시 필요한 인증 방법 정의, WWW-Authenticate 값을 보고 제대로 된 인증 정보를 만들라는 의미
+    - 401 Unauthorized 응답과 함께 사용
+    - WWW-Authenticate: Newauth realm=”apps”, type=1, title=”Login to \”apps\””, Basic realm=”simple”
+
+### 쿠키
+
+- 모든 요청에 쿠키 정보 자동 포함
+- 서버에서 쿠키 세팅하는 예시) set-cookie: sessionId=abcde1234; expires=Sat, 26-Dec-2020 00:00:00 GMT; path=/; domain=.google.com; Secure
+- 사용처 - 사용자 로그인 세션 관리, 광고 정보 트래킹
+- 쿠키 정보는 항상 서버에 전송됨 - 네트워크 트래픽 추가 유발, 최소한의 정보만 사용(세션 id, 인증 토큰), 서버에 전송하지 않고 클라이언트 내에서만 사용하고 싶으면 웹 스토리지 사용 가능
+- 민감 정보는 저장해선 안됨(주민번호 등 개인 정보)
+- 쿠키 - 생명주기 Expires, max-age
+    - Set-Cookie: expires=Sat, 26-Dec-2020 04:38:21 GMT - 만료일이 되면 쿠키 삭제
+    - Set-Cookie: max-age=3600 (3600초) - 0이나 음수로 지정하면 쿠키 삭제
+    - 세션 쿠키 - 만료 날짜를 생략하면 브라우저 종료 시 삭제
+    - 영속 쿠키 - 만료 날짜를 입력하면 해당 날짜까지 유지
+- 쿠키 - 도메인
+    - 명시: 명시한 문서 기준 도메인 + 서브 도메인 포함
+        - dev.example.org 접근 가능
+    - 생략: 현재 문서 기준 도메인만 적용
+        - dev.example.org 접근 불가
+- 쿠키 - 경로
+    - 예) path=/home
+    - 이 경로를 포함한 하위 경로 페이지만 쿠키 접근
+    - 일반적으로는 path=/ 루트로 지정
+- 쿠키 - 보안
+    - Secure - 쿠키는 http, https 구분하지 않지만 Secure 적용하면 https인 경우에만 전송
+    - HttpOnly - XSS 공격 방지, 자바스크립에서 접근 불가(document.cookie), HTTP 전송에만 사용
+    - SameSite - XSRF 공격 방지, 요청 도메인과 쿠키에 설정된 도메인이 같은 경우만 쿠키 전송
