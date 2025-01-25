@@ -466,3 +466,69 @@ https://ko.wikipedia.org/wiki/HTTP
     - Secure - 쿠키는 http, https 구분하지 않지만 Secure 적용하면 https인 경우에만 전송
     - HttpOnly - XSS 공격 방지, 자바스크립에서 접근 불가(document.cookie), HTTP 전송에만 사용
     - SameSite - XSRF 공격 방지, 요청 도메인과 쿠키에 설정된 도메인이 같은 경우만 쿠키 전송
+
+### 캐시 기본 동작
+
+- 서버에서 캐시 설정: cache-control: max-age=60 → 응답 결과를 캐시에 저장, 60초 유효
+- 재차 요청할 때 캐시를 조회하고 있으면 캐시에서 가져옴
+- 캐시 시간 초과 → 네트워크 다운로드 후 응답 결과를 다시 캐시에 저장
+
+### 검증 헤더와 조건부 요청 1
+
+- 캐시 유효 시간이 초과해서 서버에 다시 요청하면 다음 두 가지 상황이 나타남
+    - 데이터가 다른 경우 - 서버에서 기존 데이터를 변경
+    - 데이터가 여전히 같은 경우 - 서버에서 기존 데이터를 변경하지 않음
+- 캐시 시간 초과
+    - 캐시 시간이 초과되었더라도 캐시 데이터를 사용 가능, 다만 동일한 데이터인지 검증 필요
+- 검증 헤더 추가
+    - Last-Modified: 2020년 11월 10일 10:00:00
+    - Last-Modified 헤더를 통해 받은 데이터를 캐시할 때 캐시에 같이 기록
+    - 재차 http 요청을 보낼 때 if-modified-since 요청 헤더를 통해 조건부 요청 보냄
+    - 해당 값을 통해 서버에서 검증 가능
+    - 값이 동일하면 HTTP/1.1 304 Not Modified + 큰 용량의 body 정보 없이 header 정보만 response
+
+### 검증 헤더와 조건부 요청 2
+
+- If-Modified-Since를 통해 조건부 요청
+- Last-Modified, If-Modified Since 조건부 요청의 단점
+    - 1초 미만(0.x초) 단위로 캐시 조정이 불가능
+    - 날짜 기반의 로직이다 보니 실제 컨텐츠가 변경되지 않아도(A→B, B→A로 수정했다면) 캐시 유지 불가능
+    - 서버에서 캐시 메커니즘을 컨트롤할 수 있는 방법이 ETag
+- ETag, If-None-Match
+    - Entity Tag
+    - 서버에서 받은 ETag를 캐시에 If-None-Match에 저장함
+    - 진짜 단순하게 ETag가 같으면 유지, 다르면 다시 받기
+    - 클라이언트는 캐시 매커니즘을 알 수 없음, 클라이언트는 단순히 이 값을 서버에 제공
+
+### 캐시와 조건부 요청 헤더
+
+- Cache-Control
+    - Cache-Control: max-age - 캐시 유효 시간, 초 단위
+    - Cache-Control: no-cache - 데이터는 캐시해도 되지만, 항상 원(origin) 서버에 검증하고 사용
+    - Cache-Control: no-store - 데이터에 민감한 정보가 있으므로 저장하면 안됨(메모리에서 사용하고 최대한 빨리 삭제)
+- Pragma - 하위 호환
+- Expires - 캐시 만료일 지정, 현재는 더 유연한 Cache-Control: max-age 권장
+
+### 프록시 캐시
+
+- Cache-Control
+    - Cache-Control: public - 응답이 public 캐시에 저장 가능
+    - Cache-Control: private - 응답이 해당 사용자만을 위한 것임, private 캐시에 저장해야 함(기본값)
+    - Cache-Control: s-maxage - 프록시 캐시에만 적용되는 max-age
+    - Age: 60 (HTTP 헤더) - 오리진 서버에서 응답 후 프록시 캐시 내에 머무는 시간 설정
+
+### 캐시 무효화
+
+- Cache-Control: no-cache, no-store, must-revalidate
+- Pragma: no-cache - HTTP 1.0 하위 호환
+- Cache-Control: must-revalidate - 캐시 만료 후 최초 조회 시 원 서버에 검증해야 함
+- no-cache vs must-revalidate
+    - no-cache - 원 서버에 접근할 수 없는 경우 서버 설정에 따라서 캐시 데이터를 반환할 수 있음, 오류보다 오래된 데이터라도 보여주자
+    - must-revalidate - 원 서버에 접근할 수 없는 경우 항상 오류 발생, 매우 중요한 돈과 관련된 결과 등
+
+### 다음으로
+
+- HTTP 스펙
+    - RFC 2616 - 이건 구스펙을 하단 참고
+    - RFC 7230~7235 - 이걸로 모두 개정
+- HTTP 완벽가이드 도서
